@@ -59,4 +59,4 @@ jobs:
           app-name: 'nbaunderdogleague'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7985EE5EAD0741C4992523525E841E5E }}
-          package: .
+          startup-command: "pm2 serve build --no-daemon"
