@@ -11,3 +11,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.PageBody {
+  top: 120px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  display: flex;
+}
+
+.Header {
+  top: 75px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  display: flex;
+}
+
+.end {
+  position: absolute;
+  right: 50px;
+  top: 15px;
+}

@@ -3,11 +3,35 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import { useNavigate } from 'react-router-dom';
+import GetAuthInformation from '../../services/data/GetAuthInformation';
+
+export interface IUserInfo {
+  FirstName: string;
+  LastName: string; 
+}
 
 interface INavProps {};
 
 export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => {
   const navigate = useNavigate()
+
+  const [ userInfo, SetUserInfo ] = React.useState<IUserInfo>({FirstName: "", LastName: ""});
+
+  React.useEffect(() => {
+    GetAuthInformation().then((response: any) =>{
+      if (response?.data !== undefined) {
+        const data = response.data;
+        const respUserInfo: IUserInfo = {
+          FirstName: data[0].user_claims[9].val,
+          LastName: data[0].user_claims[10].val,
+        }
+
+        SetUserInfo(respUserInfo);
+      }
+    }).catch((reason: any) => {
+      console.log(reason);
+    });
+  }, []);
 
   return (
       <Navbar collapseOnSelect fixed='top' bg="light" expand="lg">
@@ -31,18 +55,10 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
                 >
                 Standings
               </Nav.Link>
-              {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
-              </NavDropdown> */}
             </Nav>
+            <div className="end">
+              <p>{userInfo.FirstName} {userInfo.LastName}</p>
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>

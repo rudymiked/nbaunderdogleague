@@ -9,14 +9,15 @@ import { Standings } from './Pages/Standings';
 export const App: React.FunctionComponent = () => {
   return (
     <div className="App">
-          <AppNav />
-          <main id="main" tabIndex={-1}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/standings" element={<Standings />} />
-            </Routes>
-          </main>
+      {/* <Header /> */}
+      <AppNav />
+      <main id="main" tabIndex={-1}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/standings" element={<Standings />} />
+        </Routes>
+      </main>
     </div>
   );
 }
