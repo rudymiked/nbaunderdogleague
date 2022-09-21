@@ -57,7 +57,7 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
               </Nav.Link>
             </Nav>
             <div className="end">
-              <p>{userInfo.FirstName} {userInfo.LastName}</p>
+              {/* <p>{userInfo.FirstName} {userInfo.LastName}</p> */}
             </div>
           </Navbar.Collapse>
         </Container>
