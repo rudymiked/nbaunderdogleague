@@ -17,6 +17,10 @@ module.exports = {
             use: 'ts-loader',
             // eslint-disable-next-line no-undef
             exclude: path.resolve(__dirname, '/node_modules')
+        },
+        {
+          test: /\.(png|jpe?g|gif|jp2|webp)$/,
+          loader: 'file-loader'
         }
       ]
     },
