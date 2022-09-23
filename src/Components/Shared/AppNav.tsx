@@ -51,19 +51,14 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav>
               <Nav.Link 
-                onClick={() => navigate("/")}
-              >
-                Home
-              </Nav.Link>
-              <Nav.Link 
                 onClick={() => navigate("/draft")}
                 >
                 Draft
               </Nav.Link>
               <Nav.Link 
-                onClick={() => navigate("/team")}
+                onClick={() => navigate("/teams")}
                 >
-                Team
+                Teams
               </Nav.Link>
               <Nav.Link 
                 onClick={() => navigate("/standings")}
