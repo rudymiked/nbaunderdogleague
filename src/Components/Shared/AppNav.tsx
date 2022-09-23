@@ -19,6 +19,7 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 
   React.useEffect(() => {
     GetAuthInformation().then((response: any) =>{
+      console.log(response);
       if (response?.data !== undefined) {
         const data = response.data;
         const respUserInfo: IUserInfo = {
