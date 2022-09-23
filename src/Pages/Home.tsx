@@ -9,7 +9,7 @@ export const Home: React.FunctionComponent = (props: IHomePageProps) => {
             <Card style={{padding: '10px'}}>
                 <Card.Title>{"Home"}</Card.Title>
                 <Card.Body>
-                    It's Basketball Season
+                    It's Basketball Season, bitch.
                 </Card.Body>
             </Card>
         </div>
