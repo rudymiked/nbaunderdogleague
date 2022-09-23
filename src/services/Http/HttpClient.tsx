@@ -1,8 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosRequestHeaders } from "axios";
 
-const USE_LOCAL_BACKEND = false;
-const BACKEND_ROOT_URL = USE_LOCAL_BACKEND ? "https://localhost:7161" : "https://nbaunderdogleagueapi.azurewebsites.net";
-
 export interface IHttpGETProps {
     url: string;
     token: any;
@@ -21,6 +18,8 @@ export interface IHttpClient {
     post<T>(parameters: IHttpPOSTProps): Promise<T>;
 }
 
+const apiURL = "https://nbaunderdogleagueapi.azurewebsites.net";
+
 export default class HttpClient implements IHttpClient {
     get<T>(parameters: IHttpGETProps): Promise<T> {
         return new Promise<T>((resolve, reject) => {
@@ -36,10 +35,9 @@ export default class HttpClient implements IHttpClient {
                 withCredentials: true,
             }
 
-            axios.get(BACKEND_ROOT_URL + url, options).then((response: any) => {
+            axios.get(apiURL + url, options).then((response: any) => {
                 resolve(response as T);
-            }).catch((reason: any) => {
-				console.error(reason);
+            }).catch((reason: any) =>{
             });
         });
     }
@@ -49,7 +47,7 @@ export default class HttpClient implements IHttpClient {
             const {url, token, params } = parameters;
 
             const axiosHeaders: AxiosRequestHeaders = {
-                token: "Bearer " + token,
+                token: "Bearer " + token
             }
 
             const options: AxiosRequestConfig = {
@@ -60,8 +58,7 @@ export default class HttpClient implements IHttpClient {
 
             axios.get(url, options).then((response: any) => {
                 resolve(response as T);
-            }).catch((reason: any) => {
-				console.error(reason);
+            }).catch((reason: any) =>{
             });
         });
     }
