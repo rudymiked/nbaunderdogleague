@@ -1,39 +1,37 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .PageBody {
-  top: 120px;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  display: flex;
+	top: 120px;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	display: flex;
 }
 
 .Header {
-  top: 75px;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  display: flex;
+	top: 75px;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	display: flex;
 }
 
 .end {
-  position: absolute;
-  right: 100px;
-  top: 15px;
+	position: absolute;
+	right: 100px;
+	top: 15px;
 }
 
 .navbar-orange {
-  background-color:#cf5c36;
+	background-color:#cf5c36;
 }
