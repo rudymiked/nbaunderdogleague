@@ -27,6 +27,7 @@ export const Standings: React.FunctionComponent<IStandingsPageProps> = (props: I
     React.useEffect(() => {
         GetStandingsData().then((response: any) => {
             if (response?.status === 200 && response?.data !== undefined) {
+                console.log(response);
                 const leagueData = response?.data.league.standard.teams;
                 const fetchedStandingsData: IStandings[] = [];
                 leagueData.forEach((team: any) =>{

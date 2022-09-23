@@ -2,8 +2,7 @@ import React from 'react';
 import './App.css';
 import { AppNav } from './Components/Shared/AppNav';
 import { Route, Routes } from 'react-router-dom';
-import { Home } from './Pages/Home';
-import { Team } from './Pages/Team';
+import { Teams } from './Pages/Teams';
 import { Standings } from './Pages/Standings';
 import { Draft } from './Pages/Draft';
 
@@ -14,8 +13,8 @@ export const App: React.FunctionComponent = () => {
       <AppNav />
       <main id="main" tabIndex={-1}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/team" element={<Team />} />
+          <Route path="/" element={<Standings />} />
+          <Route path="/teams" element={<Teams />} />
           <Route path="/standings" element={<Standings />} />
           <Route path="/draft" element={<Draft />} />
         </Routes>
