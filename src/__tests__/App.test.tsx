@@ -4,5 +4,5 @@ import { BrowserRouter } from 'react-router-dom';
 import App from '../App';
 
 test('App Loads', () => {
-  render(<BrowserRouter><App /></BrowserRouter>);
+	render(<BrowserRouter><App /></BrowserRouter>);
 });

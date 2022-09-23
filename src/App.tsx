@@ -8,18 +8,18 @@ import { Draft } from './Pages/Draft';
 
 export const App: React.FunctionComponent = () => {
   return (
-    <div className="App">
-      {/* <Header /> */}
-      <AppNav />
-      <main id="main" tabIndex={-1}>
-        <Routes>
-          <Route path="/" element={<Standings />} />
-          <Route path="/teams" element={<Teams />} />
-          <Route path="/standings" element={<Standings />} />
-          <Route path="/draft" element={<Draft />} />
-        </Routes>
-      </main>
-    </div>
+	<div className="App">
+		{/* <Header /> */}
+		<AppNav />
+		<main id="main" tabIndex={-1}>
+		<Routes>
+			<Route path="/" element={<Standings />} />
+			<Route path="/teams" element={<Teams />} />
+			<Route path="/standings" element={<Standings />} />
+			<Route path="/draft" element={<Draft />} />
+		</Routes>
+		</main>
+	</div>
   );
 }
 

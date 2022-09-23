@@ -7,13 +7,13 @@ import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+	document.getElementById('root') as HTMLElement
 );
 
 root.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+	<BrowserRouter>
+		<App />
+	</BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
