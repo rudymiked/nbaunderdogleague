@@ -37,9 +37,11 @@ export default class HttpClient implements IHttpClient {
 			}
 
 			axios.get(API_BASE_URL + url, options).then((response: any) => {
+				console.log(response);
 				resolve(response as T);
 			}).catch((reason: any) => {
 				console.error(reason);
+				reject(reason);
 			});
 		});
 	}
@@ -59,9 +61,11 @@ export default class HttpClient implements IHttpClient {
 			}
 
 			axios.get(url, options).then((response: any) => {
+				console.log(response);
 				resolve(response as T);
 			}).catch((reason: any) => {
 				console.error(reason);
+				reject(reason);
 			});
 		});
 	}
@@ -81,9 +85,11 @@ export default class HttpClient implements IHttpClient {
 			}
 
 			axios.get("https://localhost:7161" + url, options).then((response: any) => {
+				console.log(response);
 				resolve(response as T);
 			}).catch((reason: any) => {
 				console.error(reason);
+				reject(reason);
 			});
 		});
 	}

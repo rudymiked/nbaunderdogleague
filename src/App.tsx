@@ -14,9 +14,9 @@ export const App: React.FunctionComponent = () => {
 		<main id="main" tabIndex={-1}>
 		<Routes>
 			<Route path="/" element={<Standings />} />
+			<Route path="/draft" element={<Draft />} />
 			<Route path="/teams" element={<Teams />} />
 			<Route path="/standings" element={<Standings />} />
-			<Route path="/draft" element={<Draft />} />
 		</Routes>
 		</main>
 	</div>
