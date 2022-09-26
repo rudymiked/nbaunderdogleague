@@ -19,7 +19,6 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 
 	React.useEffect(() => {
 		GetAuthInformation().then((response: any) => {
-			console.log(response);
 			if (response?.data !== undefined) {
 				const data = response.data;
 				const respUserInfo: IUserInfo = {
@@ -30,7 +29,7 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 				SetUserInfo(respUserInfo);
 			}
 		}).catch((reason: any) => {
-			console.error(reason);
+			//
 		});
 	}, []);
 
@@ -51,23 +50,23 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 			<Navbar.Collapse id="responsive-navbar-nav">
 			<Nav>
 				<Nav.Link
-				onClick={() => navigate("/draft")}
+					onClick={() => navigate("/draft")}
 				>
 				Draft
 				</Nav.Link>
 				<Nav.Link
-				onClick={() => navigate("/teams")}
+					onClick={() => navigate("/teams")}
 				>
 				Teams
 				</Nav.Link>
 				<Nav.Link
-				onClick={() => navigate("/standings")}
+					onClick={() => navigate("/standings")}
 				>
 				Standings
 				</Nav.Link>
 			</Nav>
 			<div className="end">
-				{/* <p>{userInfo.FirstName} {userInfo.LastName}</p> */}
+				{<p>Hello, <b>{userInfo.FirstName} {userInfo.LastName}</b></p>}
 			</div>
 			</Navbar.Collapse>
 		</Container>

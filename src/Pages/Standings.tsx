@@ -1,45 +1,43 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
+import { Error } from '../Components/Error/Error';
 import { StandingsTable } from '../Components/Standings/StandingsTable';
 import GetStandingsData from '../services/data/GetStandingsData';
 
-export interface IStandings {
-	TeamId: number;
-	TeamCity: string;
-	TeamName: string;
-	TeamFullName: string;
-	Win: number;
-	Loss: number;
-	WinPct: number;
-	Playoffs: string;
+export interface IStandingData {
+	teamId: number;
+	teamCity: string;
+	teamName: string;
+	teamFullName: string;
+	win: number;
+	loss: number;
+	winPct: number;
+	playoffs: string;
 }
 
 interface IStandingsPageProps {}
 
-const somethingWentWrongText = "Something Went Wrong";
 const Title = "Standings";
 
 export const Standings: React.FunctionComponent<IStandingsPageProps> = (props: IStandingsPageProps) => {
-	const [data, SetData] = React.useState<IStandings[]>([]);
+	const [data, SetData] = React.useState<IStandingData[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
-	const [loadingError] = React.useState<string>(somethingWentWrongText);
 
 	React.useEffect(() => {
 		GetStandingsData().then((response: any) => {
 			if (response?.status === 200 && response?.data !== undefined) {
-				console.log(response);
 				const leagueData = response?.data.league.standard.teams;
-				const fetchedStandingsData: IStandings[] = [];
+				const fetchedStandingsData: IStandingData[] = [];
 				leagueData.forEach((team: any) => {
 					fetchedStandingsData.push({
-						TeamId: team.teamId,
-						TeamCity: team.teamSitesOnly.teamName,
-						TeamName: team.teamSitesOnly.teamNickname,
-						TeamFullName: team.teamSitesOnly.teamName + " " + team.teamSitesOnly.teamNickname,
-						Win: team.win,
-						Loss: team.loss,
-						WinPct: team.winPct,
-						Playoffs: team.clinchedPlayoffsCode,
+						teamId: team.teamId,
+						teamCity: team.teamSitesOnly.teamName,
+						teamName: team.teamSitesOnly.teamNickname,
+						teamFullName: team.teamSitesOnly.teamName + " " + team.teamSitesOnly.teamNickname,
+						win: team.win,
+						loss: team.loss,
+						winPct: team.winPct,
+						playoffs: team.clinchedPlayoffsCode,
 					})
 				});
 
@@ -51,16 +49,14 @@ export const Standings: React.FunctionComponent<IStandingsPageProps> = (props: I
 	}, []);
 
 	return (
-		<div className='PageBody'>
+		<div className='page-body'>
 			<Card style={{padding: '10px'}}>
 				<Card.Title>{Title}</Card.Title>
 				<Card.Body>
 					{!dataFailedToLoad ? (
 						<StandingsTable data={data} />
 					) : (
-						<div>
-							<p>{loadingError}</p>
-						</div>
+						<Error />
 					)}
 				</Card.Body>
 			</Card>

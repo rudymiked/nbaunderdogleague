@@ -1,0 +1,8 @@
+.side-panel {
+	width: 24%;
+	overflow: auto;
+}
+
+.side-panel .card-title {
+	padding: 10px;
+}

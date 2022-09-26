@@ -10,15 +10,14 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.PageBody {
-	top: 120px;
-	align-items: center;
+.page-body {
+	top: 80px;
 	justify-content: center;
 	position: relative;
 	display: flex;
 }
 
-.Header {
+.header {
 	top: 75px;
 	align-items: center;
 	justify-content: center;
