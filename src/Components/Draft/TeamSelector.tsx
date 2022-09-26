@@ -1,10 +1,14 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card, Dropdown } from 'react-bootstrap';
 import './TeamSelector.css';
-import { IStandingsTableProps, StandingsTable } from '../Standings/StandingsTable';
+import { StandingsTable } from '../Standings/StandingsTable';
 import { IStandingData } from '../../Pages/Standings';
 
-export const TeamSelector: React.FunctionComponent<IStandingsTableProps> = (props: IStandingsTableProps) => {
+export interface ITeamSelectorProps {
+	data: IStandingData[];
+}
+
+export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props: ITeamSelectorProps) => {
 	const [ selectedTeam, SetSelectedTeam ] = React.useState<IStandingData>({
 		teamId: 0,
 		teamCity: '',
@@ -17,7 +21,7 @@ export const TeamSelector: React.FunctionComponent<IStandingsTableProps> = (prop
 	});
 
 	const handleChange = (value: string) => {
-		const newSelectedTeam = props.data.find((team) => team.teamFullName === value);
+		const newSelectedTeam = props.data.find((team: IStandingData) => team.teamFullName === value);
 		SetSelectedTeam(newSelectedTeam);
 	};
 
@@ -33,13 +37,16 @@ export const TeamSelector: React.FunctionComponent<IStandingsTableProps> = (prop
 		<Card className='team-selector'>
 			<Card.Title className='card-title'>Draft a team</Card.Title>
 			<Card.Body>
-				<select name='team-select' className='team-select' onChange={(e) => handleChange(e.target.value)} defaultValue={0}>
-					<option disabled value={0}>Select a team...</option>
-					{props.data.map((option) => <option key={option.teamFullName} value={option.teamFullName}>{option.teamFullName}</option>)}
-				</select>
-				<button onClick={() => handleDraftClicked()}>
+				<Dropdown>
+				<Dropdown.Toggle id="dropdown-basic-button" title="Select a Team">Select a Team</Dropdown.Toggle>
+				<Dropdown.Menu>
+					{props.data.map((option: IStandingData) => <Dropdown.Item key={option.teamFullName} value={option.teamFullName}>{option.teamFullName}</Dropdown.Item>)}
+				</Dropdown.Menu>
+				</Dropdown>
+				<br />
+				<Button onClick={() => handleDraftClicked()}>
 					Draft!
-				</button>
+				</Button>
 				<hr/>
 				<StandingsTable data={props.data} />
 			</Card.Body>

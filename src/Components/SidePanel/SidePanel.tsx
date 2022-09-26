@@ -2,9 +2,13 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import './SidePanel.css';
 import BootstrapTable from 'react-bootstrap-table-next';
-import { IUserDataResponse } from '../../Pages/Draft';
+import { IUserData } from '../../Pages/Draft';
 
-export const SidePanel: React.FunctionComponent<IUserDataResponse> = (props: IUserDataResponse) => {
+export interface ISidePanelProps {
+	data: IUserData[];
+}
+
+export const SidePanel: React.FunctionComponent<ISidePanelProps> = (props: ISidePanelProps) => {
 	const columns = [
 		{
 			dataField: 'email',

@@ -1,6 +1,6 @@
 import React from 'react';
-import { TeamSelector } from '../Components/Draft/TeamSelector';
-import { SidePanel } from '../Components/SidePanel/SidePanel';
+import { ITeamSelectorProps, TeamSelector } from '../Components/Draft/TeamSelector';
+import { ISidePanelProps, SidePanel } from '../Components/SidePanel/SidePanel';
 import GetStandingsData from '../services/data/GetStandingsData';
 import GetUserData from '../services/data/GetUserData';
 import { IStandingData } from './Standings';
@@ -54,10 +54,18 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 		});
 	}, []);
 
+    const teamSelectorProps: ITeamSelectorProps = {
+        data: data
+    }
+
+    const sidePanelProps: ISidePanelProps = {
+        data: users
+    }
+
 	return (
 		<div className='page-body'>
-			<SidePanel data={ users } />
-			<TeamSelector data={ data } />
+			<SidePanel {...sidePanelProps} />
+			<TeamSelector {...teamSelectorProps} />
 		</div>
 	);
 }
