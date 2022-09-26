@@ -1,15 +1,19 @@
 import React from 'react';
 import { IStandingData } from "../../Pages/Standings";
-import BootstrapTable from 'react-bootstrap-table-next';
+import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 
 export interface IStandingsTableProps {
 	data: IStandingData[];
 }
 
 export const StandingsTable: React.FunctionComponent<IStandingsTableProps> = (props: IStandingsTableProps) => {
-	const columns = [
+	const columns: ColumnDescription[] = [
 		{
-			dataField: 'teamFullName',
+			dataField: 'governor',
+			text: 'Governor'
+		},
+		{
+			dataField: 'teamName',
 			text: 'Team'
 		},
 		{
@@ -19,6 +23,14 @@ export const StandingsTable: React.FunctionComponent<IStandingsTableProps> = (pr
 		{
 			dataField: 'loss',
 			text: 'Loss'
+		},
+		{
+			dataField: 'projectedWin',
+			text: 'Projected Wins'
+		},
+		{
+			dataField: 'projectedLoss',
+			text: 'Projected Losses'
 		}
 	];
 

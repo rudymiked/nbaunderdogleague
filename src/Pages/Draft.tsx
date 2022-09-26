@@ -3,7 +3,7 @@ import { ITeamSelectorProps, TeamSelector } from '../Components/Draft/TeamSelect
 import { ISidePanelProps, SidePanel } from '../Components/SidePanel/SidePanel';
 import GetStandingsData from '../services/data/GetStandingsData';
 import GetUserData from '../services/data/GetUserData';
-import { IStandingData } from './Standings';
+import { IStandingData, IStandingDataResponse } from './Standings';
 
 interface IDraftPageProps {}
 
@@ -30,27 +30,12 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 			//
 		});
 
-		GetStandingsData().then((response: any) => {
-			if (response?.status === 200 && response?.data !== undefined) {
-				const leagueData = response?.data.league.standard.teams;
-				const fetchedStandingsData: IStandingData[] = [];
-				leagueData.forEach((team: any) => {
-					fetchedStandingsData.push({
-						teamId: team.teamId,
-						teamCity: team.teamSitesOnly.teamName,
-						teamName: team.teamSitesOnly.teamNickname,
-						teamFullName: team.teamSitesOnly.teamName + " " + team.teamSitesOnly.teamNickname,
-						win: team.win,
-						loss: team.loss,
-						winPct: team.winPct,
-						playoffs: team.clinchedPlayoffsCode,
-					})
-				});
-
-				SetData(fetchedStandingsData);
+        GetStandingsData().then((response: IStandingDataResponse) => {
+			if (response?.data) {
+				SetData(response?.data);
 			}
 		}).catch((reason: any) => {
-			SetDataFailedToLoad(true); // TODO Use this to display an error
+			SetDataFailedToLoad(true);
 		});
 	}, []);
 

@@ -10,25 +10,25 @@ export interface ITeamSelectorProps {
 
 export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props: ITeamSelectorProps) => {
 	const [ selectedTeam, SetSelectedTeam ] = React.useState<IStandingData>({
-		teamId: 0,
-		teamCity: '',
-		teamName: '',
-		teamFullName: '',
+		governor: "",
+		teamName: "",
+		teamCity: "",
+		projectedWin: 0,
+		projectedLoss: 0,
 		win: 0,
 		loss: 0,
-		winPct: 0,
-		playoffs: ''
+		playoffs: ""
 	});
 
 	const handleChange = (value: string) => {
-		const newSelectedTeam = props.data.find((team: IStandingData) => team.teamFullName === value);
+		const newSelectedTeam = props.data.find((team: IStandingData) => team.teamName === value);
 		SetSelectedTeam(newSelectedTeam);
 	};
 
 	const handleDraftClicked = () => {
 		// TODO Make this have state so the value is actually correct. Having a default blank/disabled is kind of a workaround
-		if (selectedTeam.teamFullName !== '') {
-			console.log("Drafting: " + selectedTeam.teamFullName);
+		if (selectedTeam.teamName !== '') {
+			console.log("Drafting: " + selectedTeam.teamName);
 			// TODO Make an API call
 		}
 	};
@@ -40,7 +40,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 				<Dropdown>
 				<Dropdown.Toggle id="dropdown-basic-button" title="Select a Team">Select a Team</Dropdown.Toggle>
 				<Dropdown.Menu>
-					{props.data.map((option: IStandingData) => <Dropdown.Item key={option.teamFullName} value={option.teamFullName}>{option.teamFullName}</Dropdown.Item>)}
+					{props.data.map((option: IStandingData) => <Dropdown.Item key={option.teamName} value={option.teamName}>{option.teamName}</Dropdown.Item>)}
 				</Dropdown.Menu>
 				</Dropdown>
 				<br />

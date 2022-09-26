@@ -5,14 +5,18 @@ import { StandingsTable } from '../Components/Standings/StandingsTable';
 import GetStandingsData from '../services/data/GetStandingsData';
 
 export interface IStandingData {
-	teamId: number;
-	teamCity: string;
-	teamName: string;
-	teamFullName: string;
-	win: number;
-	loss: number;
-	winPct: number;
-	playoffs: string;
+    governor: string;
+    teamName: string;
+    teamCity: string;
+    projectedWin: number;
+    projectedLoss: number;
+    win: number;
+    loss: number;
+    playoffs: string;
+}
+
+export interface IStandingDataResponse {
+	data: IStandingData[];
 }
 
 interface IStandingsPageProps {}
@@ -24,24 +28,9 @@ export const Standings: React.FunctionComponent<IStandingsPageProps> = (props: I
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 
 	React.useEffect(() => {
-		GetStandingsData().then((response: any) => {
-			if (response?.status === 200 && response?.data !== undefined) {
-				const leagueData = response?.data.league.standard.teams;
-				const fetchedStandingsData: IStandingData[] = [];
-				leagueData.forEach((team: any) => {
-					fetchedStandingsData.push({
-						teamId: team.teamId,
-						teamCity: team.teamSitesOnly.teamName,
-						teamName: team.teamSitesOnly.teamNickname,
-						teamFullName: team.teamSitesOnly.teamName + " " + team.teamSitesOnly.teamNickname,
-						win: team.win,
-						loss: team.loss,
-						winPct: team.winPct,
-						playoffs: team.clinchedPlayoffsCode,
-					})
-				});
-
-				SetData(fetchedStandingsData);
+		GetStandingsData().then((response: IStandingDataResponse) => {
+			if (response?.data) {
+				SetData(response?.data);
 			}
 		}).catch((reason: any) => {
 			SetDataFailedToLoad(true);
