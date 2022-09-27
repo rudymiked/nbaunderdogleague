@@ -4,7 +4,7 @@ const GetLeagueStandingsData = () => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/Team/GetLeagueStandings",
+		url: "/api/League/GetLeagueStandings",
 		token: null,
 		params: {}
 	});
