@@ -43,7 +43,7 @@ export const LeagueStandings: React.FunctionComponent<IStandingsPageProps> = (pr
 
 	return (
 		<div className='page-body'>
-			<Card style={{padding: '10px'}}>
+			<Card>
 				<Card.Title>{Title}</Card.Title>
 				<Card.Body>
 					{!dataLoaded ? (
