@@ -21,18 +21,22 @@ export interface ILeagueStandingDataResponse {
 
 interface IStandingsPageProps {}
 
-const Title = "Standings";
+const Title = "League Standings";
+const loadingDataText: string = "Loading Data...";
 
-export const Standings: React.FunctionComponent<IStandingsPageProps> = (props: IStandingsPageProps) => {
+export const LeagueStandings: React.FunctionComponent<IStandingsPageProps> = (props: IStandingsPageProps) => {
 	const [data, SetData] = React.useState<ILeagueStandingData[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
+	const [ dataLoaded, SetDataLoaded ] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		GetLeagueStandingsData().then((response: ILeagueStandingDataResponse) => {
 			if (response?.data) {
+				SetDataLoaded(true);
 				SetData(response?.data);
 			}
 		}).catch((reason: any) => {
+			SetDataLoaded(true);
 			SetDataFailedToLoad(true);
 		});
 	}, []);
@@ -42,10 +46,15 @@ export const Standings: React.FunctionComponent<IStandingsPageProps> = (props: I
 			<Card style={{padding: '10px'}}>
 				<Card.Title>{Title}</Card.Title>
 				<Card.Body>
-					{!dataFailedToLoad ? (
-						<LeagueStandingsTable data={data} />
-					) : (
-						<Error />
+					{!dataLoaded ? (
+						<div>
+							<p>{loadingDataText}</p>
+						</div>
+					) : ( !dataFailedToLoad ? (
+							<LeagueStandingsTable data={data} />
+						) : (
+							<Error />
+						)
 					)}
 				</Card.Body>
 			</Card>
