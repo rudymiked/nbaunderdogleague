@@ -43,9 +43,9 @@ export const LeagueStandings: React.FunctionComponent<IStandingsPageProps> = (pr
 
 	return (
 		<div className='page-body'>
-			<Card>
+			{/* <Card>
 				<Card.Title>{Title}</Card.Title>
-				<Card.Body>
+				<Card.Body> */}
 					{!dataLoaded ? (
 						<div>
 							<p>{loadingDataText}</p>
@@ -56,8 +56,8 @@ export const LeagueStandings: React.FunctionComponent<IStandingsPageProps> = (pr
 							<Error />
 						)
 					)}
-				</Card.Body>
-			</Card>
+				{/* </Card.Body>
+			</Card> */}
 		</div>
 	);
 }
