@@ -7,7 +7,7 @@ import { Standings } from './Pages/Standings';
 import { Draft } from './Pages/Draft';
 
 export const App: React.FunctionComponent = () => {
-  return (
+	return (
 	<div className="App">
 		{/* <Header /> */}
 		<AppNav />
@@ -16,11 +16,11 @@ export const App: React.FunctionComponent = () => {
 			<Route path="/" element={<Standings />} />
 			<Route path="/teams" element={<Teams />} />
 			<Route path="/standings" element={<Standings />} />
-      <Route path="/draft" element={<Draft />} />
+			<Route path="/draft" element={<Draft />} />
 		</Routes>
 		</main>
 	</div>
-  );
+	);
 }
 
 export default App;
