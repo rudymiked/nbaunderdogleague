@@ -37,7 +37,6 @@ export default class HttpClient implements IHttpClient {
 			}
 
 			axios.get(API_BASE_URL + url, options).then((response: any) => {
-				console.log(response);
 				resolve(response as T);
 			}).catch((reason: any) => {
 				console.error(reason);
