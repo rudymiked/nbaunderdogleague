@@ -17,7 +17,8 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		projectedLoss: 0,
 		win: 0,
 		loss: 0,
-		playoffs: ""
+		playoffs: "",
+		score: 0.0,
 	});
 
 	const handleChange = (value: string) => {

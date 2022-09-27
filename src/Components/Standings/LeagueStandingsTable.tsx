@@ -9,6 +9,10 @@ export interface ILeagueStandingsTableProps {
 export const LeagueStandingsTable: React.FunctionComponent<ILeagueStandingsTableProps> = (props: ILeagueStandingsTableProps) => {
 	const columns: ColumnDescription[] = [
 		{
+			dataField: 'score',
+			text: 'Score'
+		},
+		{
 			dataField: 'governor',
 			text: 'Governor'
 		},
@@ -45,6 +49,6 @@ export const LeagueStandingsTable: React.FunctionComponent<ILeagueStandingsTable
 	rowEvents={ rowEvents }*/
 
 	return (
-		<BootstrapTable keyField='teamFullName' data={ props.data } columns={ columns } />
+		<BootstrapTable keyField='teamFullName' defaultSortDirection='desc' data={ props.data } columns={ columns } />
 	);
 }

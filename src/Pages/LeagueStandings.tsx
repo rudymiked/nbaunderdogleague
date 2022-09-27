@@ -12,6 +12,7 @@ export interface ILeagueStandingData {
     projectedLoss: number;
     win: number;
     loss: number;
+	score: number;
     playoffs: string;
 }
 
@@ -46,6 +47,7 @@ export const LeagueStandings: React.FunctionComponent<IStandingsPageProps> = (pr
 			{/* <Card>
 				<Card.Title>{Title}</Card.Title>
 				<Card.Body> */}
+				<h2>{Title}</h2>
 					{!dataLoaded ? (
 						<div>
 							<p>{loadingDataText}</p>
