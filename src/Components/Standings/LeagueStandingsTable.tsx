@@ -1,12 +1,12 @@
 import React from 'react';
-import { IStandingData } from "../../Pages/Standings";
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
+import { ILeagueStandingData } from '../../Pages/LeagueStandings';
 
-export interface IStandingsTableProps {
-	data: IStandingData[];
+export interface ILeagueStandingsTableProps {
+	data: ILeagueStandingData[];
 }
 
-export const StandingsTable: React.FunctionComponent<IStandingsTableProps> = (props: IStandingsTableProps) => {
+export const LeagueStandingsTable: React.FunctionComponent<ILeagueStandingsTableProps> = (props: ILeagueStandingsTableProps) => {
 	const columns: ColumnDescription[] = [
 		{
 			dataField: 'governor',

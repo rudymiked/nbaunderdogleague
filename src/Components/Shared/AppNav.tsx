@@ -15,7 +15,7 @@ interface INavProps {};
 export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => {
 	const navigate = useNavigate();
 
-	const [ userInfo, SetUserInfo ] = React.useState<IUserInfo>({FirstName: "", LastName: ""});
+	const [userInfo, SetUserInfo] = React.useState<IUserInfo>({FirstName: "", LastName: ""});
 
 	React.useEffect(() => {
 		GetAuthInformation().then((response: any) => {

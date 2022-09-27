@@ -3,7 +3,7 @@ import './App.css';
 import { AppNav } from './Components/Shared/AppNav';
 import { Route, Routes } from 'react-router-dom';
 import { Teams } from './Pages/Teams';
-import { Standings } from './Pages/Standings';
+import { Standings } from './Pages/LeagueStandings';
 import { Draft } from './Pages/Draft';
 
 export const App: React.FunctionComponent = () => {

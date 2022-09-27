@@ -1,13 +1,13 @@
 import { HttpService } from "../Http/HttpService";
 
-const GetStandingsData = () => {
+const GetLeagueStandingsData = () => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/Team/GetStandings",
+		url: "/api/Team/GetLeagueStandings",
 		token: null,
 		params: {}
 	});
 }
 
-export default GetStandingsData;
+export default GetLeagueStandingsData;

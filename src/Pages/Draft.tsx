@@ -1,9 +1,9 @@
 import React from 'react';
 import { ITeamSelectorProps, TeamSelector } from '../Components/Draft/TeamSelector';
 import { ISidePanelProps, SidePanel } from '../Components/SidePanel/SidePanel';
-import GetStandingsData from '../services/data/GetStandingsData';
+import GetStandingsData from '../services/data/GetLeagueStandingsData';
 import GetUserData from '../services/data/GetUserData';
-import { IStandingData, IStandingDataResponse } from './Standings';
+import { ILeagueStandingData, ILeagueStandingDataResponse } from './LeagueStandings';
 
 interface IDraftPageProps {}
 
@@ -17,8 +17,8 @@ export interface IUserDataResponse {
 }
 
 export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
-	const [ users, SetUsers ] = React.useState<IUserData[]>([{ email: "", team: "" }]);
-	const [data, SetData] = React.useState<IStandingData[]>([]);
+	const [users, SetUsers] = React.useState<IUserData[]>([]);
+	const [data, SetData] = React.useState<ILeagueStandingData[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 
 	React.useEffect(() => {
@@ -27,14 +27,15 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 				SetUsers(response.data);
 			}
 		}).catch((reason: any) => {
-			//
+			console.log(reason);
 		});
 
-        GetStandingsData().then((response: IStandingDataResponse) => {
+        GetStandingsData().then((response: ILeagueStandingDataResponse) => {
 			if (response?.data) {
 				SetData(response?.data);
 			}
 		}).catch((reason: any) => {
+            console.log(reason);
 			SetDataFailedToLoad(true);
 		});
 	}, []);

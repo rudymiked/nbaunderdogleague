@@ -1,15 +1,15 @@
 import React from 'react';
 import { Button, Card, Dropdown } from 'react-bootstrap';
 import './TeamSelector.css';
-import { StandingsTable } from '../Standings/StandingsTable';
-import { IStandingData } from '../../Pages/Standings';
+import { LeagueStandingsTable } from '../Standings/LeagueStandingsTable';
+import { ILeagueStandingData } from '../../Pages/LeagueStandings';
 
 export interface ITeamSelectorProps {
-	data: IStandingData[];
+	data: ILeagueStandingData[];
 }
 
 export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props: ITeamSelectorProps) => {
-	const [ selectedTeam, SetSelectedTeam ] = React.useState<IStandingData>({
+	const [ selectedTeam, SetSelectedTeam ] = React.useState<ILeagueStandingData>({
 		governor: "",
 		teamName: "",
 		teamCity: "",
@@ -21,7 +21,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 	});
 
 	const handleChange = (value: string) => {
-		const newSelectedTeam = props.data.find((team: IStandingData) => team.teamName === value);
+		const newSelectedTeam = props.data.find((team: ILeagueStandingData) => team.teamName === value);
 		SetSelectedTeam(newSelectedTeam);
 	};
 
@@ -40,7 +40,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 				<Dropdown>
 				<Dropdown.Toggle id="dropdown-basic-button" title="Select a Team">Select a Team</Dropdown.Toggle>
 				<Dropdown.Menu>
-					{props.data.map((option: IStandingData) => <Dropdown.Item key={option.teamName} value={option.teamName}>{option.teamName}</Dropdown.Item>)}
+					{props.data.map((option: ILeagueStandingData) => <Dropdown.Item key={option.teamName} value={option.teamName}>{option.teamName}</Dropdown.Item>)}
 				</Dropdown.Menu>
 				</Dropdown>
 				<br />
@@ -48,7 +48,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 					Draft!
 				</Button>
 				<hr/>
-				<StandingsTable data={props.data} />
+				<LeagueStandingsTable data={props.data} />
 			</Card.Body>
 		</Card>
 	);
