@@ -23,7 +23,7 @@ export const SidePanel: React.FunctionComponent<ISidePanelProps> = (props: ISide
 	return (
 		<Card className='side-panel'>
 			<Card.Title className='card-title'>Draft Progress</Card.Title>
-			<Card.Body>
+			<Card.Body style={{overflow: 'auto'}}>
 				<BootstrapTable keyField='email' data={ props.data } columns={ columns } />
 			</Card.Body>
 		</Card>

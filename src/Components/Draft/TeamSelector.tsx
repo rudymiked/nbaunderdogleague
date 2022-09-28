@@ -36,16 +36,6 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		}
 	];
 
-	// TODO Use this to make rows clickable. Accept lambda via props so it's only clickable on draft page?
-	/*const rowEvents = {
-		onClick: (e, row, rowIndex) => {
-			console.log(`clicked on row with index: ${rowIndex}`);
-		}
-	}
-
-	// Add to BootstrapTable
-	rowEvents={ rowEvents }*/
-
 	const onSelect = (row: any, isSelected: boolean) => {
 		SetSelectedTeam(row);
 	};
@@ -68,7 +58,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 	return (
 		<Card className='team-selector'>
 			<Card.Title className='card-title'>Draft a team</Card.Title>
-			<Card.Body>
+			<Card.Body style={{overflow: 'auto'}}>
 				<Button onClick={() => handleDraftClicked()} style={ {background: "#555555", borderColor:"#000000"} }>
 					Draft!
 				</Button>

@@ -4,6 +4,7 @@ import { ISidePanelProps, SidePanel } from '../Components/SidePanel/SidePanel';
 import GetStandingsData from '../services/data/GetLeagueStandingsData';
 import GetUserData from '../services/data/GetUserData';
 import { ILeagueStandingData, ILeagueStandingDataResponse } from './LeagueStandings';
+import { Error } from '../Components/Error/Error';
 
 interface IDraftPageProps {}
 
@@ -50,8 +51,15 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 
 	return (
 		<div className='page-body'>
-			<SidePanel {...sidePanelProps} />
-			<TeamSelector {...teamSelectorProps} />
+			{!dataFailedToLoad ? (
+				<>
+					<SidePanel {...sidePanelProps} />
+					<TeamSelector {...teamSelectorProps} />
+				</>
+			) : (
+				<Error />
+			)
+			}
 		</div>
 	);
 }

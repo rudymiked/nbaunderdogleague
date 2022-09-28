@@ -65,7 +65,7 @@ export const Teams: React.FC = (props: ITeamPageProps) => {
 		<div className='page-body'>
 			<Card style={{padding: '10px'}}>
 				<Card.Title>{Title}</Card.Title>
-				<Card.Body>
+				<Card.Body style={{overflow: 'auto'}}>
 					{!dataLoaded ? (
 						<div>
 							<p>{loadingDataText}</p>
