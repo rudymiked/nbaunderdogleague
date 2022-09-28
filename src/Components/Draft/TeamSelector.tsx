@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, Card, Dropdown } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import './TeamSelector.css';
-import { LeagueStandingsTable } from '../Standings/LeagueStandingsTable';
 import { ILeagueStandingData } from '../../Pages/LeagueStandings';
+import BootstrapTable, { ColumnDescription, SelectRowProps } from 'react-bootstrap-table-next';
 
 export interface ITeamSelectorProps {
 	data: ILeagueStandingData[];
@@ -21,10 +21,41 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		score: 0.0,
 	});
 
-	const handleChange = (value: string) => {
-		const newSelectedTeam = props.data.find((team: ILeagueStandingData) => team.teamName === value);
-		SetSelectedTeam(newSelectedTeam);
+	const columns: ColumnDescription[] = [
+		{
+			dataField: 'teamName',
+			text: 'Team'
+		},
+		{
+			dataField: 'projectedWin',
+			text: 'Projected Wins'
+		},
+		{
+			dataField: 'projectedLoss',
+			text: 'Projected Losses'
+		}
+	];
+
+	// TODO Use this to make rows clickable. Accept lambda via props so it's only clickable on draft page?
+	/*const rowEvents = {
+		onClick: (e, row, rowIndex) => {
+			console.log(`clicked on row with index: ${rowIndex}`);
+		}
+	}
+
+	// Add to BootstrapTable
+	rowEvents={ rowEvents }*/
+
+	const onSelect = (row: any, isSelected: boolean) => {
+		SetSelectedTeam(row);
 	};
+
+    const selectRow: SelectRowProps<any> = {
+        mode: 'radio',
+        clickToSelect: true,
+		onSelect: onSelect,
+        style: { background: '#cf5c36' },
+    };
 
 	const handleDraftClicked = () => {
 		// TODO Make this have state so the value is actually correct. Having a default blank/disabled is kind of a workaround
@@ -38,18 +69,20 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		<Card className='team-selector'>
 			<Card.Title className='card-title'>Draft a team</Card.Title>
 			<Card.Body>
-				<Dropdown>
-				<Dropdown.Toggle id="dropdown-basic-button" title="Select a Team">Select a Team</Dropdown.Toggle>
-				<Dropdown.Menu>
-					{props.data.map((option: ILeagueStandingData) => <Dropdown.Item key={option.teamName} value={option.teamName}>{option.teamName}</Dropdown.Item>)}
-				</Dropdown.Menu>
-				</Dropdown>
-				<br />
-				<Button onClick={() => handleDraftClicked()}>
+				<Button onClick={() => handleDraftClicked()} style={ {background: "#555555", borderColor:"#000000"} }>
 					Draft!
 				</Button>
-				<hr/>
-				<LeagueStandingsTable data={props.data} />
+				<br />
+				<br />
+				<p>Selected Team: <b>{selectedTeam.teamCity} {selectedTeam.teamName}</b></p>
+				<br />
+				<BootstrapTable
+					keyField='teamName'
+					selectRow={selectRow} 
+					sort={{ dataField: 'projectedWin', order: 'desc' }}
+					defaultSortDirection='desc'
+					data={ props.data }
+					columns={ columns } />
 			</Card.Body>
 		</Card>
 	);

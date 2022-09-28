@@ -28,7 +28,7 @@ const loadingDataText: string = "Loading Data...";
 export const LeagueStandings: React.FunctionComponent<IStandingsPageProps> = (props: IStandingsPageProps) => {
 	const [data, SetData] = React.useState<ILeagueStandingData[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
-	const [ dataLoaded, SetDataLoaded ] = React.useState<boolean>(false);
+	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		GetLeagueStandingsData().then((response: ILeagueStandingDataResponse) => {
@@ -44,10 +44,9 @@ export const LeagueStandings: React.FunctionComponent<IStandingsPageProps> = (pr
 
 	return (
 		<div className='page-body'>
-			{/* <Card>
-				<Card.Title>{Title}</Card.Title>
-				<Card.Body> */}
-				<h2>{Title}</h2>
+			<Card style={{padding: '10px'}}>
+				<Card.Title className='card-title'>{Title}</Card.Title>
+				<Card.Body>
 					{!dataLoaded ? (
 						<div>
 							<p>{loadingDataText}</p>
@@ -58,8 +57,8 @@ export const LeagueStandings: React.FunctionComponent<IStandingsPageProps> = (pr
 							<Error />
 						)
 					)}
-				{/* </Card.Body>
-			</Card> */}
+				</Card.Body>
+			</Card>
 		</div>
 	);
 }

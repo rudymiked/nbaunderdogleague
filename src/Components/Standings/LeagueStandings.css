@@ -1,0 +1,9 @@
+.league-standings {
+	width: 90%;
+	overflow: auto;
+    padding: 10px;
+}
+
+.league-standings .card-title {
+	padding: 10px;
+}

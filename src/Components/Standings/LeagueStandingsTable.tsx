@@ -49,6 +49,6 @@ export const LeagueStandingsTable: React.FunctionComponent<ILeagueStandingsTable
 	rowEvents={ rowEvents }*/
 
 	return (
-		<BootstrapTable keyField='teamFullName' defaultSortDirection='desc' data={ props.data } columns={ columns } />
+		<BootstrapTable keyField='score' defaultSortDirection='desc' data={ props.data } columns={ columns } />
 	);
 }
