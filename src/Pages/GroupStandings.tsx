@@ -1,10 +1,10 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Error } from '../Components/Error/Error';
-import { LeagueStandingsTable } from '../Components/Standings/LeagueStandingsTable';
-import GetLeagueStandingsData from '../services/data/GetLeagueStandingsData';
+import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable';
+import GetGroupStandingsData from '../services/data/GetGroupStandingsData';
 
-export interface ILeagueStandingData {
+export interface IGroupStandingsData {
     governor: string;
     teamName: string;
     teamCity: string;
@@ -16,22 +16,22 @@ export interface ILeagueStandingData {
     playoffs: string;
 }
 
-export interface ILeagueStandingDataResponse {
-	data: ILeagueStandingData[];
+export interface IGroupStandingsDataResponse {
+	data: IGroupStandingsData[];
 }
 
 interface IStandingsPageProps {}
 
-const Title = "League Standings";
+const Title = "Group Standings";
 const loadingDataText: string = "Loading Data...";
 
-export const LeagueStandings: React.FunctionComponent<IStandingsPageProps> = (props: IStandingsPageProps) => {
-	const [data, SetData] = React.useState<ILeagueStandingData[]>([]);
+export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (props: IStandingsPageProps) => {
+	const [data, SetData] = React.useState<IGroupStandingsData[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
-		GetLeagueStandingsData().then((response: ILeagueStandingDataResponse) => {
+		GetGroupStandingsData().then((response: IGroupStandingsDataResponse) => {
 			if (response?.data) {
 				SetDataLoaded(true);
 				SetData(response?.data);
@@ -52,7 +52,7 @@ export const LeagueStandings: React.FunctionComponent<IStandingsPageProps> = (pr
 							<p>{loadingDataText}</p>
 						</div>
 					) : ( !dataFailedToLoad ? (
-							<LeagueStandingsTable data={data} />
+							<GroupStandingsTable data={data} />
 						) : (
 							<Error />
 						)

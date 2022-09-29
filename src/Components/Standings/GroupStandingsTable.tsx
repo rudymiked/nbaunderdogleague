@@ -1,12 +1,12 @@
 import React from 'react';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
-import { ILeagueStandingData } from '../../Pages/LeagueStandings';
+import { IGroupStandingsData } from '../../Pages/GroupStandings';
 
-export interface ILeagueStandingsTableProps {
-	data: ILeagueStandingData[];
+export interface IGroupStandingsTableProps {
+	data: IGroupStandingsData[];
 }
 
-export const LeagueStandingsTable: React.FunctionComponent<ILeagueStandingsTableProps> = (props: ILeagueStandingsTableProps) => {
+export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTableProps> = (props: IGroupStandingsTableProps) => {
 	const columns: ColumnDescription[] = [
 		{
 			dataField: 'score',

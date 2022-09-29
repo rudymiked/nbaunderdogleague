@@ -1,15 +1,15 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import './TeamSelector.css';
-import { ILeagueStandingData } from '../../Pages/LeagueStandings';
+import { IGroupStandingsData } from '../../Pages/GroupStandings';
 import BootstrapTable, { ColumnDescription, SelectRowProps } from 'react-bootstrap-table-next';
 
 export interface ITeamSelectorProps {
-	data: ILeagueStandingData[];
+	data: IGroupStandingsData[];
 }
 
 export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props: ITeamSelectorProps) => {
-	const [ selectedTeam, SetSelectedTeam ] = React.useState<ILeagueStandingData>({
+	const [ selectedTeam, SetSelectedTeam ] = React.useState<IGroupStandingsData>({
 		governor: "",
 		teamName: "",
 		teamCity: "",
