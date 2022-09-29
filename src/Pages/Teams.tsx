@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import GetCurrentNBAStandings from '../services/data/GetCurrentNBAStandings';
 import { Error } from '../Components/Error/Error';
+import { Loading } from '../Components/Shared/Loading';
 
 interface ITeamPageProps {}
 
@@ -67,9 +68,7 @@ export const Teams: React.FC = (props: ITeamPageProps) => {
 				<Card.Title>{Title}</Card.Title>
 				<Card.Body style={{overflow: 'auto'}}>
 					{!dataLoaded ? (
-						<div>
-							<p>{loadingDataText}</p>
-						</div>
+						<Loading />
 					) : ( !dataFailedToLoad ? (
 							<BootstrapTable keyField='teamName' data={ team } columns={ columns } />
 						) : (

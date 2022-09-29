@@ -1,7 +1,6 @@
 import * as React from "react";
 import { AppActions, AppInitialState, AppReducer, IAppState } from "./AppReducer";
 
-
 interface IRootState {
     AppStore: IAppState;
 }

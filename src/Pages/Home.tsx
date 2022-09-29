@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Error } from '../Components/Error/Error';
+import { Loading } from '../Components/Shared/Loading';
 
 interface ITeamPageProps {}
 
 interface IGroupData {}
 
-const loadingDataText: string = "Loading Data...";
 const Title = "NBA Underdogs";
 
 export const Home: React.FC = (props: ITeamPageProps) => {
@@ -32,9 +32,7 @@ export const Home: React.FC = (props: ITeamPageProps) => {
 				<Card.Title>{Title}</Card.Title>
 				<Card.Body style={{overflow: 'auto'}}>
 					{!dataLoaded ? (
-						<div>
-							<p>{loadingDataText}</p>
-						</div>
+						<Loading />
 					) : ( !dataFailedToLoad ? (
                             <div>
                                 <p>Join a group!</p>

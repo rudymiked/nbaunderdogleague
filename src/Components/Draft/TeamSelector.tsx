@@ -1,25 +1,33 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import './TeamSelector.css';
-import { IGroupStandingsData } from '../../Pages/GroupStandings';
+import { IGroupStandingsData, IGroupStandingsDataResponse } from '../../Pages/GroupStandings';
 import BootstrapTable, { ColumnDescription, SelectRowProps } from 'react-bootstrap-table-next';
+import GetGroupStandingsData from '../../services/data/GetGroupStandingsData';
+import { Loading } from '../Shared/Loading';
+import { Error } from '../Error/Error';
 
-export interface ITeamSelectorProps {
-	data: IGroupStandingsData[];
-}
+export interface ITeamSelectorProps {}
 
 export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props: ITeamSelectorProps) => {
-	const [ selectedTeam, SetSelectedTeam ] = React.useState<IGroupStandingsData>({
-		governor: "",
-		teamName: "",
-		teamCity: "",
-		projectedWin: 0,
-		projectedLoss: 0,
-		win: 0,
-		loss: 0,
-		playoffs: "",
-		score: 0.0,
-	});
+	const [selectedTeam, SetSelectedTeam] = React.useState<IGroupStandingsData>();
+	const [data, SetData] = React.useState<IGroupStandingsData[]>([]);
+	const [dataLoaded, SetDataLoaded] = React.useState<Boolean>(false);
+	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
+
+	React.useEffect(() => {
+        GetGroupStandingsData().then((response: IGroupStandingsDataResponse) => {
+			if (response?.data) {
+				console.log(response.data);
+				SetDataLoaded(true);
+				SetData(response?.data);
+			}
+		}).catch((reason: any) => {
+            console.log(reason);
+			SetDataLoaded(true);
+			SetDataFailedToLoad(true);
+		});
+	}, []);
 
 	const columns: ColumnDescription[] = [
 		{
@@ -49,8 +57,8 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 
 	const handleDraftClicked = () => {
 		// TODO Make this have state so the value is actually correct. Having a default blank/disabled is kind of a workaround
-		if (selectedTeam.teamName !== '') {
-			console.log("Drafting: " + selectedTeam.teamName);
+		if (selectedTeam?.teamName !== '') {
+			console.log("Drafting: " + selectedTeam?.teamName);
 			// TODO Make an API call
 		}
 	};
@@ -64,15 +72,22 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 				</Button>
 				<br />
 				<br />
-				<p>Selected Team: <b>{selectedTeam.teamCity} {selectedTeam.teamName}</b></p>
+				<p>Selected Team: <b>{selectedTeam?.teamCity} {selectedTeam?.teamName}</b></p>
 				<br />
-				<BootstrapTable
-					keyField='teamName'
-					selectRow={selectRow} 
-					sort={{ dataField: 'projectedWin', order: 'desc' }}
-					defaultSortDirection='desc'
-					data={ props.data }
-					columns={ columns } />
+				{!dataLoaded ? (
+					<Loading />
+				) : ( !dataFailedToLoad ? (
+					<BootstrapTable
+						keyField='teamName'
+						selectRow={selectRow} 
+						sort={{ dataField: 'projectedWin', order: 'desc' }}
+						defaultSortDirection='desc'
+						data={ data }
+						columns={ columns } />
+					) : (
+						<Error />
+					)
+				)}
 			</Card.Body>
 		</Card>
 	);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Error } from '../Components/Error/Error';
+import { Loading } from '../Components/Shared/Loading';
 import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable';
 import GetGroupStandingsData from '../services/data/GetGroupStandingsData';
 
@@ -48,9 +49,7 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 				<Card.Title className='card-title'>{Title}</Card.Title>
 				<Card.Body style={{overflow: 'auto'}}>
 					{!dataLoaded ? (
-						<div>
-							<p>{loadingDataText}</p>
-						</div>
+						<Loading />
 					) : ( !dataFailedToLoad ? (
 							<GroupStandingsTable data={data} />
 						) : (

@@ -1,65 +1,14 @@
 import React from 'react';
-import { ITeamSelectorProps, TeamSelector } from '../Components/Draft/TeamSelector';
-import { ISidePanelProps, SidePanel } from '../Components/SidePanel/SidePanel';
-import GetStandingsData from '../services/data/GetGroupStandingsData';
-import GetUserData from '../services/data/GetUserData';
-import { Error } from '../Components/Error/Error';
-import { IGroupStandingsData, IGroupStandingsDataResponse } from './GroupStandings';
+import { TeamSelector } from '../Components/Draft/TeamSelector';
+import { SidePanel } from '../Components/SidePanel/SidePanel';
 
 interface IDraftPageProps {}
 
-export interface IUserData {
-	email: string;
-	team: string;
-}
-
-export interface IUserDataResponse {
-	data: IUserData[];
-}
-
 export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
-	const [users, SetUsers] = React.useState<IUserData[]>([]);
-	const [data, SetData] = React.useState<IGroupStandingsData[]>([]);
-	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
-
-	React.useEffect(() => {
-		GetUserData().then((response: IUserDataResponse) => {
-			if (response?.data) {
-				SetUsers(response.data);
-			}
-		}).catch((reason: any) => {
-			console.log(reason);
-		});
-
-        GetStandingsData().then((response: IGroupStandingsDataResponse) => {
-			if (response?.data) {
-				SetData(response?.data);
-			}
-		}).catch((reason: any) => {
-            console.log(reason);
-			SetDataFailedToLoad(true);
-		});
-	}, []);
-
-    const teamSelectorProps: ITeamSelectorProps = {
-        data: data
-    }
-
-    const sidePanelProps: ISidePanelProps = {
-        data: users
-    }
-
 	return (
 		<div className='page-body'>
-			{!dataFailedToLoad ? (
-				<>
-					<SidePanel {...sidePanelProps} />
-					<TeamSelector {...teamSelectorProps} />
-				</>
-			) : (
-				<Error />
-			)
-			}
+			<SidePanel />
+			<TeamSelector />
 		</div>
 	);
 }

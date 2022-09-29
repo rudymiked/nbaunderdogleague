@@ -2,13 +2,40 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import './SidePanel.css';
 import BootstrapTable from 'react-bootstrap-table-next';
-import { IUserData } from '../../Pages/Draft';
+import GetUserData from '../../services/data/GetUserData';
+import { Loading } from '../Shared/Loading';
+import { Error } from '../Error/Error';
 
-export interface ISidePanelProps {
+export interface ISidePanelProps {}
+
+export interface IUserData {
+	email: string;
+	team: string;
+}
+
+export interface IUserDataResponse {
 	data: IUserData[];
 }
 
 export const SidePanel: React.FunctionComponent<ISidePanelProps> = (props: ISidePanelProps) => {
+	const [users, SetUsers] = React.useState<IUserData[]>([]);
+	const [dataLoaded, SetDataLoaded] = React.useState<Boolean>(false);
+	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
+
+	React.useEffect(() => {
+		GetUserData("").then((response: IUserDataResponse) => {
+			if (response?.data) {
+				console.log(response.data);
+				SetDataLoaded(true);
+				SetUsers(response.data);
+			}
+		}).catch((reason: any) => {
+			SetDataLoaded(true);
+			SetDataFailedToLoad(true);
+			console.log(reason);
+		});
+	}, []);
+
 	const columns = [
 		{
 			dataField: 'email',
@@ -24,7 +51,17 @@ export const SidePanel: React.FunctionComponent<ISidePanelProps> = (props: ISide
 		<Card className='side-panel'>
 			<Card.Title className='card-title'>Draft Progress</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
-				<BootstrapTable keyField='email' data={ props.data } columns={ columns } />
+				{!dataLoaded ? (
+					<Loading />
+				) : ( !dataFailedToLoad ? (
+					<BootstrapTable 
+						keyField='email' 
+						data={users} 
+						columns={columns} />
+					) : (
+						<Error />
+					)
+				)}
 			</Card.Body>
 		</Card>
 	);
