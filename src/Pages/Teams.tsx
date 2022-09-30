@@ -19,7 +19,6 @@ interface ICurrentNBAStandingsResponse {
 	data: ICurrentNBAStandings[];
 }
 
-const loadingDataText: string = "Loading Data...";
 const Title = "Current NBA Standings";
 
 export const Teams: React.FC = (props: ITeamPageProps) => {
@@ -41,12 +40,12 @@ export const Teams: React.FC = (props: ITeamPageProps) => {
 
 	const columns: ColumnDescription[] = [
 		{
-			dataField: 'teamName',
-			text: 'Team'
-		},
-		{
 			dataField: 'teamCity',
 			text: 'City'
+		},
+		{
+			dataField: 'teamName',
+			text: 'Team'
 		},
 		{
 			dataField: 'win',

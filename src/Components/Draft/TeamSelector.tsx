@@ -1,24 +1,33 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import './TeamSelector.css';
-import { IGroupStandingsData, IGroupStandingsDataResponse } from '../../Pages/GroupStandings';
 import BootstrapTable, { ColumnDescription, SelectRowProps } from 'react-bootstrap-table-next';
-import GetGroupStandingsData from '../../services/data/GetGroupStandingsData';
 import { Loading } from '../Shared/Loading';
 import { Error } from '../Error/Error';
+import GetTeamsTable from '../../services/data/GetTeams';
+import { IEntity } from '../../App';
 
 export interface ITeamSelectorProps {}
 
+interface ITeamsTableData extends IEntity {
+	name: string;
+	city: string;
+	projectedWin: number;
+	projectedLoss: number;
+}
+interface ITeamsTableResponse {
+	data: ITeamsTableData[];
+}
+
 export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props: ITeamSelectorProps) => {
-	const [selectedTeam, SetSelectedTeam] = React.useState<IGroupStandingsData>();
-	const [data, SetData] = React.useState<IGroupStandingsData[]>([]);
+	const [selectedTeam, SetSelectedTeam] = React.useState<ITeamsTableData>();
+	const [data, SetData] = React.useState<ITeamsTableData[]>([]);
 	const [dataLoaded, SetDataLoaded] = React.useState<Boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 
 	React.useEffect(() => {
-        GetGroupStandingsData().then((response: IGroupStandingsDataResponse) => {
+        GetTeamsTable().then((response: ITeamsTableResponse) => {
 			if (response?.data) {
-				console.log(response.data);
 				SetDataLoaded(true);
 				SetData(response?.data);
 			}
@@ -31,7 +40,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 
 	const columns: ColumnDescription[] = [
 		{
-			dataField: 'teamName',
+			dataField: 'name',
 			text: 'Team'
 		},
 		{
@@ -57,8 +66,8 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 
 	const handleDraftClicked = () => {
 		// TODO Make this have state so the value is actually correct. Having a default blank/disabled is kind of a workaround
-		if (selectedTeam?.teamName !== '') {
-			console.log("Drafting: " + selectedTeam?.teamName);
+		if (selectedTeam?.name !== '') {
+			console.log("Drafting: " + selectedTeam?.name);
 			// TODO Make an API call
 		}
 	};
@@ -72,13 +81,13 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 				</Button>
 				<br />
 				<br />
-				<p>Selected Team: <b>{selectedTeam?.teamCity} {selectedTeam?.teamName}</b></p>
+				<p>Selected Team: <b>{selectedTeam?.city} {selectedTeam?.name}</b></p>
 				<br />
 				{!dataLoaded ? (
 					<Loading />
 				) : ( !dataFailedToLoad ? (
 					<BootstrapTable
-						keyField='teamName'
+						keyField='name'
 						selectRow={selectRow} 
 						sort={{ dataField: 'projectedWin', order: 'desc' }}
 						defaultSortDirection='desc'

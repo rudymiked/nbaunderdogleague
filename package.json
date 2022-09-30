@@ -16,6 +16,7 @@
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "file-loader": "^6.2.0",
+    "guid-typescript": "^1.0.9",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-bootstrap-table-next": "^4.0.3",

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import './SidePanel.css';
+import './DraftProgress.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import GetUserData from '../../services/data/GetUserData';
 import { Loading } from '../Shared/Loading';
 import { Error } from '../Error/Error';
 
-export interface ISidePanelProps {}
+export interface IDraftProgressProps {}
 
 export interface IUserData {
 	email: string;
@@ -17,23 +17,23 @@ export interface IUserDataResponse {
 	data: IUserData[];
 }
 
-export const SidePanel: React.FunctionComponent<ISidePanelProps> = (props: ISidePanelProps) => {
+export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (props: IDraftProgressProps) => {
 	const [users, SetUsers] = React.useState<IUserData[]>([]);
 	const [dataLoaded, SetDataLoaded] = React.useState<Boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 
 	React.useEffect(() => {
-		GetUserData("").then((response: IUserDataResponse) => {
-			if (response?.data) {
-				console.log(response.data);
+		// GetUserData("").then((response: IUserDataResponse) => {
+		// 	if (response?.data) {
+		// 		console.log(response.data);
 				SetDataLoaded(true);
-				SetUsers(response.data);
-			}
-		}).catch((reason: any) => {
-			SetDataLoaded(true);
-			SetDataFailedToLoad(true);
-			console.log(reason);
-		});
+		// 		SetUsers(response.data);
+		// 	}
+		// }).catch((reason: any) => {
+		// 	SetDataLoaded(true);
+		// 	SetDataFailedToLoad(true);
+		// 	console.log(reason);
+		// });
 	}, []);
 
 	const columns = [

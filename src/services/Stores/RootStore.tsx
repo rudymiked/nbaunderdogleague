@@ -23,14 +23,14 @@ const mainReducer = (rootState: IRootState, action: RootActions) => ({
     AppStore: AppReducer(rootState.AppStore, action as AppActions),
 });
 
-const RootProvider: React.FunctionComponent = ({ children } : any) => {
+const RootProvider: React.FunctionComponent<any> = ({ children } : any) => {
     const [state, dispatch] = React.useReducer(mainReducer, RootInitialState);
 
-    return(
+    return (
         <RootContext.Provider value={{state, dispatch}}>
             {children}
         </RootContext.Provider>
-    )
+    );
 }
 
-export {RootContext, RootProvider}
+export {RootContext, RootProvider};

@@ -1,14 +1,14 @@
 import { HttpService } from "../Http/HttpService";
 
-const GetGroups = () => {
+const GetAllGroups = () => {
 	const httpService = HttpService();
 	const year = new Date().getFullYear();
 
 	return httpService.get({
-		url: "/api/Group/GetGroups",
+		url: "/api/Group/GetAllGroupsByYear",
 		token: null,
-		params: { year }
+		params: { year: year }
 	});
 }
 
-export default GetGroups;
+export default GetAllGroups;
