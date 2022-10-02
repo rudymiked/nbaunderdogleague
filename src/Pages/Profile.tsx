@@ -1,13 +1,10 @@
 import { Guid } from 'guid-typescript';
 import React from 'react';
-import { Card, Stack } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { IEntity } from '../App';
-import { Error } from '../Components/Error/Error';
 import { YourGroups } from '../Components/Groups/YourGroups';
 import { CreateGroup } from '../Components/Groups/CreateGroup';
 import { JoinGroup } from '../Components/Groups/JoinGroup';
-import { Loading } from '../Components/Shared/Loading';
-import GetGroups from '../services/data/GetGroups';
 import { LoginEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
 
@@ -20,8 +17,12 @@ export interface IGroupData extends IEntity {
 	year: number;
 }
 
-export interface IGroupDataResponse {
+export interface IGroupDataArrayResponse {
 	data: IGroupData[];
+}
+
+export interface IGroupDataResponse {
+	data: IGroupData;
 }
 
 export const FailedLogin = "Logging in...";
@@ -31,24 +32,9 @@ export const somethingWentWrongText = "Something went wrong.";
 const cardStyle = {padding: '10px', width: '50vw', alignSelf: 'center'}
 
 export const Profile: React.FC = (props: ITeamPageProps) => {
-	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
-	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
-	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [cardTitle, SetCardTitle] = React.useState<string>("");
 
 	const { state } = React.useContext(RootContext);
-
-	React.useEffect(() => {
-		GetGroups().then((response: IGroupDataResponse) => {
-			if (response?.data) {
-				SetDataLoaded(true);
-				SetGroups(response.data);
-			}
-		}).catch((reason: any) => {
-			SetDataLoaded(true);
-			SetDataFailedToLoad(true);
-		});
-	}, []);
 
 	React.useEffect(() =>{
 		if (state.AppStore.Email !== "") {
@@ -62,9 +48,9 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 				<Card.Title>{cardTitle}</Card.Title>
 				<Card.Body style={{overflow: 'auto'}}>
 					{state.AppStore.LoginStatus === LoginEnum.Success ? (
-						!dataLoaded ? (
-							<Loading />
-						) : ( !dataFailedToLoad ? (
+						// !dataLoaded ? (
+						// 	<Loading />
+						// ) : ( !dataFailedToLoad ? (
 								<div>
 									<YourGroups />
 									<hr />
@@ -72,11 +58,12 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 									<hr />
 									<CreateGroup />
 								</div>
-							) : (
-								<Error />
-							)
-						)
-					) : (state.AppStore.LoginStatus === LoginEnum.Fail ? (
+						// 	) : (
+						// 		<Error />
+						// 	)
+						// )
+					) : (
+						state.AppStore.LoginStatus === LoginEnum.Fail ? (
 						<span>{FailedLogin}</span>
 						) : (
 							<span>{LoggingIn}</span>

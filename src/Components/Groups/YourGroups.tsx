@@ -1,6 +1,6 @@
 import React from 'react';
 import {  Dropdown } from 'react-bootstrap';
-import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pages/Profile';
+import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
 import GetAllUsersGroups from '../../services/data/GetAllUsersGroups';
 import { RootContext } from '../../services/Stores/RootStore';
 
@@ -16,7 +16,7 @@ export const YourGroups: React.FunctionComponent = () => {
 
 	React.useEffect(() => {
 		if (state.AppStore.Email !== "") {
-			GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataResponse) => {
+			GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
 					console.log(response.data);
 					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));

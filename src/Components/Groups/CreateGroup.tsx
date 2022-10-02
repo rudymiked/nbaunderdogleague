@@ -7,7 +7,7 @@ import { RootContext } from '../../services/Stores/RootStore';
 const blankGroupName = "Group name cannot be blank.";
 
 export const CreateGroup: React.FunctionComponent = () => {
-	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
+	const [newGroup, SetNewGroup] = React.useState<IGroupData>();
 	const [open, SetOpen] = React.useState<boolean>(false);
 	const [groupName, SetGroupName] = React.useState<string>("");
 	const [requestResult, SetRequestResult] = React.useState<string>("");
@@ -17,16 +17,18 @@ export const CreateGroup: React.FunctionComponent = () => {
 	const requestANewGroup = () => {
 		if (groupName !== "") {
 			CreateGroupAction(groupName, state.AppStore.Email).then((response: IGroupDataResponse) => {
-				if (response?.data) {
+				if (response?.data && response.data?.name !== "") {
 					console.log(response.data)
-					//SetGroups(response.data);
+					SetNewGroup(response.data);
 
-					//const groupSuccessMessage: string = "Group: " + response.data[0].name + " successfully created!";
+					const groupSuccessMessage: string = "Group: " + response.data.name + " successfully created!";
 
-					//SetRequestResult(groupSuccessMessage);
+					SetRequestResult(groupSuccessMessage);
+				} else {
+					SetRequestResult(somethingWentWrongText);
 				}
 			}).catch((reason: any) => {
-				SetRequestResult(somethingWentWrongText)
+				SetRequestResult(somethingWentWrongText);
 				console.log(reason);
 			});
 		} else {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Dropdown } from 'react-bootstrap';
-import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pages/Profile';
+import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
 import GetAllGroups from '../../services/data/GetGroups';
 import { RootContext } from '../../services/Stores/RootStore';
 
@@ -19,7 +19,7 @@ export const JoinGroup: React.FunctionComponent = () => {
 
 	React.useEffect(() => {
 		if (state.AppStore.Email !== "") {
-			GetAllGroups().then((response: IGroupDataResponse) => {
+			GetAllGroups(false, state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
 					console.log(response.data);
 					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));

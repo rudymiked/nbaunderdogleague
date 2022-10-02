@@ -31,6 +31,8 @@ export const Teams: React.FC = (props: ITeamPageProps) => {
 			if (response?.data) {
 				SetDataLoaded(true);
 				SetTeams(response.data);
+			} else {
+				console.log(response);
 			}
 		}).catch((reason: any) => {
 			SetDataLoaded(true);
