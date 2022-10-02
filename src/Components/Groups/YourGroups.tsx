@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Collapse, Dropdown } from 'react-bootstrap';
-import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pages/Home';
-import GetAllGroups from '../../services/data/GetGroups';
+import {  Dropdown } from 'react-bootstrap';
+import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pages/Profile';
+import GetAllUsersGroups from '../../services/data/GetAllUsersGroups';
 import { RootContext } from '../../services/Stores/RootStore';
 
 // choose one of your groups
@@ -17,7 +17,7 @@ export const YourGroups: React.FunctionComponent = () => {
 
 	React.useEffect(() => {
 		if (state.AppStore.Email !== "") {
-			GetAllGroups().then((response: IGroupDataResponse) => {
+			GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataResponse) => {
 				if (response?.data) {
 					console.log(response.data);
 					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
@@ -52,7 +52,7 @@ export const YourGroups: React.FunctionComponent = () => {
 				<div id="your-groups-collapse-text">
 				<Dropdown>
 					<Dropdown.Toggle variant="dark" id="groups-dropdown">
-						Your Groups
+						{yourGroupsText}
 					</Dropdown.Toggle>
 					<Dropdown.Menu>
 						{groups.filter((val) => val?.name !== "").map(group => (

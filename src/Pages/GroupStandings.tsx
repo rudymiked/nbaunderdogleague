@@ -1,6 +1,8 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { Error } from '../Components/Error/Error';
+import { YourGroups } from '../Components/Groups/YourGroups';
 import { Loading } from '../Components/Shared/Loading';
 import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable';
 import GetGroupStandingsData from '../services/data/GetGroupStandingsData';
@@ -35,6 +37,8 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 
 	const { state, dispatch } = React.useContext(RootContext);
 
+	const navigate = useNavigate();
+
 	React.useEffect(() => {
 		if (state.AppStore.GroupId !== "") {
 			SetNoGroup(false);
@@ -49,7 +53,7 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 			});
 		} else {
 			SetNoGroup(true);
-		}
+		}	
 	}, [state]);
 
 	return (
@@ -58,7 +62,11 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 				<Card.Title className='card-title'>{Title}</Card.Title>
 				<Card.Body style={{overflow: 'auto'}}>
 					{noGroup ? (
-						<span>{PleaseSelectGroup}</span>
+						<div>
+							<span>{PleaseSelectGroup}</span>
+							<br /><br />
+							<YourGroups />
+						</div>
 					) : (!dataLoaded ? (
 							<Loading />
 						) : (!dataFailedToLoad ? (
@@ -68,6 +76,16 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 							)
 						)
 					)}
+
+					<div>
+						<span>{"Don't see your group?"}</span>
+						<br /><br />
+						<Button
+							onClick={() => navigate("/profile")}
+							aria-controls="navigate-to-profile">
+							{"Join a Group"}
+						</Button>
+					</div>
 				</Card.Body>
 			</Card>
 		</div>

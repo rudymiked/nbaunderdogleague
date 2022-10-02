@@ -30,7 +30,7 @@ export const somethingWentWrongText = "Something went wrong.";
 
 const cardStyle = {padding: '10px', width: '50vw', alignSelf: 'center'}
 
-export const Home: React.FC = (props: ITeamPageProps) => {
+export const Profile: React.FC = (props: ITeamPageProps) => {
 	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);

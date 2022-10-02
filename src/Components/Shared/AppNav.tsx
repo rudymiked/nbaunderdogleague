@@ -74,7 +74,7 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 					<Nav.Link onClick={() => navigate("/draft")}>
 						Draft
 					</Nav.Link>
-					<Nav.Link onClick={() => navigate("/")}>
+					<Nav.Link onClick={() => navigate("/Profile")}>
 						{<b>{userInfo.FirstName} {userInfo.LastName}</b>}
 					</Nav.Link>
 				</Nav>

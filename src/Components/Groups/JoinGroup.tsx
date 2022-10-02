@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Dropdown } from 'react-bootstrap';
-import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pages/Home';
+import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pages/Profile';
 import GetAllGroups from '../../services/data/GetGroups';
 import { RootContext } from '../../services/Stores/RootStore';
 
