@@ -9,8 +9,7 @@ import { RootContext } from '../../services/Stores/RootStore';
 const yourGroupsText = "Your groups";
 
 export const YourGroups: React.FunctionComponent = () => {
-	const [groups, SetGroups] = React.useState<IGroupData[]>([])
-	const [open, SetOpen] = React.useState<boolean>(false);
+	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
 	const [requestResult, SetRequestResult] = React.useState<string>("");
 
 	const { state, dispatch } = React.useContext(RootContext);

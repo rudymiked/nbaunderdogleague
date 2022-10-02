@@ -58,78 +58,32 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 
 	return (
 		<div className='page-body'>
-			{/* <Stack gap={3}> */}
-				<Card style={cardStyle}>
-					<Card.Title>{cardTitle}</Card.Title>
-					<Card.Body style={{overflow: 'auto'}}>
-						{state.AppStore.LoginStatus === LoginEnum.Success ? (
-							!dataLoaded ? (
-								<Loading />
-							) : ( !dataFailedToLoad ? (
-									<div>
-										<YourGroups />
-										<hr />
-										<JoinGroup />
-										<hr />
-										<CreateGroup />
-									</div>
-								) : (
-									<Error />
-								)
-							)
-						) : (state.AppStore.LoginStatus === LoginEnum.Fail ? (
-							<span>{FailedLogin}</span>
+			<Card style={cardStyle}>
+				<Card.Title>{cardTitle}</Card.Title>
+				<Card.Body style={{overflow: 'auto'}}>
+					{state.AppStore.LoginStatus === LoginEnum.Success ? (
+						!dataLoaded ? (
+							<Loading />
+						) : ( !dataFailedToLoad ? (
+								<div>
+									<YourGroups />
+									<hr />
+									<JoinGroup />
+									<hr />
+									<CreateGroup />
+								</div>
 							) : (
-								<span>{LoggingIn}</span>
+								<Error />
 							)
-						)}
-					</Card.Body>
-				</Card>
-				{/* <Card style={cardStyle}>
-					<Card.Title>{"Join Group"}</Card.Title>
-					<Card.Body style={{overflow: 'auto'}}>
-						{state.AppStore.LoginStatus === LoginEnum.Success ? (
-							!dataLoaded ? (
-								<Loading />
-							) : ( !dataFailedToLoad ? (
-									<div>
-										<JoinGroup />
-									</div>
-								) : (
-									<Error />
-								)
-							)
-						) : (state.AppStore.LoginStatus === LoginEnum.Fail ? (
-							<span>{FailedLogin}</span>
-							) : (
-								<span>{LoggingIn}</span>
-							)
-						)}
-					</Card.Body>
-				</Card>
-				<Card style={cardStyle}>
-					<Card.Title>{"Create Group"}</Card.Title>
-					<Card.Body style={{overflow: 'auto'}}>
-						{state.AppStore.LoginStatus === LoginEnum.Success ? (
-							!dataLoaded ? (
-								<Loading />
-							) : ( !dataFailedToLoad ? (
-									<div>
-										<CreateGroup />
-									</div>
-								) : (
-									<Error />
-								)
-							)
-						) : (state.AppStore.LoginStatus === LoginEnum.Fail ? (
-							<span>{FailedLogin}</span>
-							) : (
-								<span>{LoggingIn}</span>
-							)
-						)}
-					</Card.Body>
-				</Card> */}
-			{/* </Stack> */}
+						)
+					) : (state.AppStore.LoginStatus === LoginEnum.Fail ? (
+						<span>{FailedLogin}</span>
+						) : (
+							<span>{LoggingIn}</span>
+						)
+					)}
+				</Card.Body>
+			</Card>
 		</div>
 	);
 }

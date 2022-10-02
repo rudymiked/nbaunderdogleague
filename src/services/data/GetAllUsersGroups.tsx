@@ -1,6 +1,6 @@
 import { HttpService } from "../Http/HttpService";
 
-const GetAllUsersGroups = (user: string) => {
+const GetAllUsersGroups = (email: string) => {
 	const httpService = HttpService();
 	const year = new Date().getFullYear();
 
@@ -8,7 +8,7 @@ const GetAllUsersGroups = (user: string) => {
 		url: "/api/Group/GetAllGroupsUserIsInByYear",
 		token: null,
 		params: { 
-			user: user,
+			email: email,
 			year: year 
 		}
 	});
