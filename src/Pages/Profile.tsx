@@ -25,7 +25,7 @@ export interface IGroupDataResponse {
 	data: IGroupData;
 }
 
-export const FailedLogin = "Logging in...";
+export const FailedLogin = "Could not log you in. Please close your browser and try again.";
 export const LoggingIn = "Logging in...";
 export const somethingWentWrongText = "Something went wrong.";
 
