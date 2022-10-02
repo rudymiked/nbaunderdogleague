@@ -17,9 +17,11 @@ export interface IHttpClient {
 	getExternal<T>(parameters: IHttpGETProps): Promise<T>;
 	getLocal<T>(parameters: IHttpGETProps): Promise<T>;
 	post<T>(parameters: IHttpPOSTProps): Promise<T>;
+	postWithParams<T>(parameters: IHttpPOSTProps): Promise<T>;
 }
 
 const API_BASE_URL = "https://nbaunderdogleagueapi.azurewebsites.net";
+const LOCAL_BASE_URL = "https://localhost:7161";
 
 export default class HttpClient implements IHttpClient {
 	get<T>(parameters: IHttpGETProps): Promise<T> {
@@ -36,7 +38,9 @@ export default class HttpClient implements IHttpClient {
 				withCredentials: true,
 			}
 
-			axios.get(API_BASE_URL + url, options).then((response: any) => {
+			axios
+			.get(API_BASE_URL + url, options)
+			.then((response: any) => {
 				resolve(response as T);
 			}).catch((reason: any) => {
 				console.error(reason);
@@ -59,8 +63,9 @@ export default class HttpClient implements IHttpClient {
 				withCredentials: true,
 			}
 
-			axios.get(url, options).then((response: any) => {
-				console.log(response);
+			axios
+			.get(url, options)
+			.then((response: any) => {
 				resolve(response as T);
 			}).catch((reason: any) => {
 				console.error(reason);
@@ -83,7 +88,9 @@ export default class HttpClient implements IHttpClient {
 				withCredentials: true,
 			}
 
-			axios.get("https://localhost:7161" + url, options).then((response: any) => {
+			axios
+			.get(LOCAL_BASE_URL + url, options)
+			.then((response: any) => {
 				console.log(response);
 				resolve(response as T);
 			}).catch((reason: any) => {
@@ -94,6 +101,75 @@ export default class HttpClient implements IHttpClient {
 	}
 
 	post<T>(parameters: IHttpPOSTProps): Promise<T> {
-		throw new Error("Method not implemented.");
+		return new Promise<T>((resolve, reject) => {
+			const {url, token, data } = parameters;
+
+			const axiosHeaders: AxiosRequestHeaders = {
+				token: "Bearer " + token
+			};
+
+			const options: AxiosRequestConfig = {
+				headers: token ?? axiosHeaders,
+				withCredentials: true,
+			};
+
+			axios
+			.post(API_BASE_URL + url, data, options)
+			.then((response: any) => {
+				resolve(response as T);
+			}).catch((reason: any) => {
+				console.error(reason);
+				reject(reason);
+			});
+		});
+	}
+
+	postLocal<T>(parameters: IHttpPOSTProps): Promise<T> {
+		return new Promise<T>((resolve, reject) => {
+			const {url, token, data } = parameters;
+
+			const axiosHeaders: AxiosRequestHeaders = {
+				token: "Bearer " + token
+			};
+
+			const options: AxiosRequestConfig = {
+				headers: token ?? axiosHeaders,
+				withCredentials: true,
+			};
+
+			axios
+			.post(LOCAL_BASE_URL + url, data, options)
+			.then((response: any) => {
+				resolve(response as T);
+			}).catch((reason: any) => {
+				console.error(reason);
+				reject(reason);
+			});
+		});
+	}
+
+	postWithParams<T>(parameters: IHttpPOSTProps): Promise<T> {
+		return new Promise<T>((resolve, reject) => {
+			const {url, token, data } = parameters;
+
+			const axiosHeaders: AxiosRequestHeaders = {
+				token: "Bearer " + token
+			};
+
+			const options: AxiosRequestConfig = {
+				headers: token ?? axiosHeaders,
+				params: data,
+				withCredentials: true,
+			};
+
+			axios
+			.post(API_BASE_URL + url, options)
+			.then((response: any) => {
+				resolve(response as T);
+			}).catch((reason: any) => {
+				console.error(reason);
+				reject(reason);
+			});
+		});
 	}
 }

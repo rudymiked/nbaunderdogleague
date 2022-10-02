@@ -76,7 +76,8 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		<Card className='team-selector'>
 			<Card.Title className='card-title'>Draft a team</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
-				<Button onClick={() => handleDraftClicked()} style={ {background: "#555555", borderColor:"#000000"} }>
+				{/* {background: "#555555", borderColor:"#000000"}  */}
+				<Button variant="danger" onClick={() => handleDraftClicked()}>
 					Draft!
 				</Button>
 				<br />
