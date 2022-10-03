@@ -8,6 +8,7 @@ export interface IAppState {
     Email: string;
     Token: string;
     GroupId: string;
+    GroupName: string;
     LoginStatus: LoginEnum;
 }
 
@@ -16,6 +17,7 @@ export const AppInitialState = {
     Email: "",
     Token: "",
     GroupId: "",
+    GroupName: "",
     LoginStatus: LoginEnum.Unknown,
 }
 
@@ -40,6 +42,7 @@ export type AppActions = |
 } | {
     type: AppActionEnum.UPDATE_GROUP,
     GroupId: string,
+    GroupName: string,
 } | {
     type: AppActionEnum.LOGIN_FAIL,
     LoginStatus: LoginEnum,
@@ -52,7 +55,7 @@ export const AppReducer = (state: IAppState, action: AppActions): IAppState => {
         case AppActionEnum.UPDATE_TOKEN:
             return {...state, Token: action.Token};
         case AppActionEnum.UPDATE_GROUP:
-            return {...state, GroupId: action.GroupId};
+            return {...state, GroupId: action.GroupId, GroupName: action.GroupName};
         case AppActionEnum.LOGIN_FAIL:
             return {...state, LoginStatus: action.LoginStatus};
         default:

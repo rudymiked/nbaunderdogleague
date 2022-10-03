@@ -82,7 +82,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 				</Button>
 				<br />
 				<br />
-				<p>Selected Team: <b>{selectedTeam?.city} {selectedTeam?.name}</b></p>
+				<p>Team: <b>{selectedTeam?.city} {selectedTeam?.name}</b></p>
 				<br />
 				{!dataLoaded ? (
 					<Loading />

@@ -2,17 +2,22 @@ import React from 'react';
 import {  Dropdown } from 'react-bootstrap';
 import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
 import GetAllUsersGroups from '../../services/data/GetAllUsersGroups';
+import { AppActionEnum } from '../../services/Stores/AppReducer';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';
 
 // choose one of your groups
 
 const yourGroupsText = "Your groups";
+const groupChangedText = "Group Changed!";
 
 export const YourGroups: React.FunctionComponent = () => {
 	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [requestResult, SetRequestResult] = React.useState<string>("");
+	const [dropdownText, SetDropdownText] = React.useState<string>(yourGroupsText);
+	const [selectedGroupId, SetSelectedGroupId] = React.useState<string>("");
+	const [showChangeDropdown, SetShowChangeDropdown] = React.useState<boolean>(false);
 
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -36,8 +41,17 @@ export const YourGroups: React.FunctionComponent = () => {
 		}
 	},[state]);
 
-	const selectAGroup = (e) => {
-		console.log(e);
+	const selectAGroup = (key: string, name: string) => {
+		SetSelectedGroupId(key);
+		SetDropdownText(name);
+
+		dispatch({
+			type: AppActionEnum.UPDATE_GROUP,
+			GroupId: key,
+			GroupName: name,
+		});
+
+		SetShowChangeDropdown(true);
 	};
 
 	return (
@@ -47,18 +61,21 @@ export const YourGroups: React.FunctionComponent = () => {
 					<div id="your-groups-collapse-text">
 					<Dropdown>
 						<Dropdown.Toggle variant="dark" id="groups-dropdown">
-							{yourGroupsText}
+							{dropdownText}
 						</Dropdown.Toggle>
 						<Dropdown.Menu>
 							{groups.filter((val) => val?.name !== "").map(group => (
 								<Dropdown.Item 
 									key={group.id.toString()} 
-									value={group.name}>
+									value={group.name}
+									onClick={() => selectAGroup(group.id.toString(), group.name)}>
 									{group.name}
 								</Dropdown.Item>
 							))}
 						</Dropdown.Menu>
 					</Dropdown>
+					<span hidden={!showChangeDropdown}>{groupChangedText}</span>
+					<hr />
 					</div>
 					) : (
 						<div>
@@ -71,7 +88,6 @@ export const YourGroups: React.FunctionComponent = () => {
 					</div>
 				)
 			}
-			{/* </Collapse> */}
 		</div>
 	);
 }

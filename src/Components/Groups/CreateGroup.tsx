@@ -18,7 +18,6 @@ export const CreateGroup: React.FunctionComponent = () => {
 		if (groupName !== "") {
 			CreateGroupAction(groupName, state.AppStore.Email).then((response: IGroupDataResponse) => {
 				if (response?.data && response.data?.name !== "") {
-					console.log(response.data)
 					SetNewGroup(response.data);
 
 					const groupSuccessMessage: string = "Group: " + response.data.name + " successfully created!";

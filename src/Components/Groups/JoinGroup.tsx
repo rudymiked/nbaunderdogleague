@@ -8,6 +8,7 @@ import { Loading } from '../Shared/Loading';
 // Join a group that someone else has created for this season
 
 const joinGroupText = "Join a group";
+const noGroupsText = "There aren't any groups to join.";
 
 export const JoinGroup: React.FunctionComponent = () => {
 	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
@@ -41,11 +42,10 @@ export const JoinGroup: React.FunctionComponent = () => {
 	const selectAGroup = (key: string, name: string) => {
 		SetSelectedGroupId(key);
 		SetDropdownText(name);
-		console.log(key);
 	};
 
 	const requestToJoinGroup = () => {
-		//call api to join group
+		// call api to join group
 	};
 
 	return (
@@ -68,10 +68,10 @@ export const JoinGroup: React.FunctionComponent = () => {
 								))}
 							</Dropdown.Menu>
 						</Dropdown>
+					<hr />
 					</div>
 				) : (
 					<div>
-						<span>You aren't in any groups, join or create one!</span>
 					</div>
 				)
 				) : (

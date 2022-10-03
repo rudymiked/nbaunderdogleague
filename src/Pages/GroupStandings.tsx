@@ -9,7 +9,7 @@ import GetAllUsersGroups from '../services/data/GetAllUsersGroups';
 import GetGroupStandingsData from '../services/data/GetGroupStandingsData';
 import { AppActionEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
-import { IGroupData, IGroupDataArrayResponse } from './Profile';
+import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from './Profile';
 
 export interface IGroupStandingsData {
     governor: string;
@@ -29,22 +29,21 @@ export interface IGroupStandingsDataResponse {
 
 interface IStandingsPageProps {}
 
-const Title = "Group Standings";
-const PleaseSelectGroup = "Please select a group.";
+const Title = " Standings";
 
 export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (props: IStandingsPageProps) => {
 	const [data, SetData] = React.useState<IGroupStandingsData[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
-	const [noGroup, SetNoGroup] = React.useState<boolean>(false);
+	const [noGroups, SetNoGroups] = React.useState<boolean>(false);
 	const [groupId, SetGroupId] = React.useState<string>("");
+	const [standingsTitle, SetStandingsTitle] = React.useState<string>(Title);
 
 	const { state, dispatch } = React.useContext(RootContext);
 
 	const navigate = useNavigate();
 
 	React.useEffect(() => {
-		console.log(state.AppStore);
 		if (state.AppStore.Email !== "") {
 			// user has logged in
 
@@ -59,34 +58,48 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 
 				GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 					if (response?.data) {
-						const firstGroupId: string = response.data.filter((group: IGroupData) => group.name && group.name !== "")[0]?.id.toString();
-						
-						dispatch({
-							type: AppActionEnum.UPDATE_GROUP,
-							GroupId: firstGroupId,
-						});
+						const data = response.data;
+						if (data.length > 0) {
+							const firstGroup: IGroupData = data.find((group: IGroupData) => group.name && group.name !== "")!;
+
+							if (firstGroup?.id.toString() !== "") {
+								dispatch({
+									type: AppActionEnum.UPDATE_GROUP,
+									GroupId: firstGroup.id!,
+									GroupName: firstGroup.name!,
+								});
+							} else {
+								console.log(somethingWentWrongText);
+							}
+						} else {
+							// user is not in any groups
+							SetNoGroups(true);
+						}
+
+						SetDataLoaded(true);
 					}
 					}).catch((reason) =>{
 						console.log(reason);
+						SetDataLoaded(true);
+						SetDataFailedToLoad(true);
 					});
 			} else {
-				console.log("new group");
+				// if group has already been loaded, but user chooses to change the group.
 				SetGroupId(state.AppStore.GroupId);
-				// group already chosen
 			}
-		} else {
-			SetNoGroup(true);
-		}	
+		}
 	}, [dispatch, state]);
 
 	React.useEffect(() => {
 		if (groupId !== "") {
-			SetNoGroup(false);
+			SetNoGroups(false);
+
 			GetGroupStandingsData(groupId).then((response: IGroupStandingsDataResponse) => {
 				if (response?.data) {
-					console.log(response.data);
 					SetDataLoaded(true);
 					SetData(response?.data);
+				} else {
+					// no standings data
 				}
 			}).catch((reason: any) => {
 				console.log(reason);
@@ -94,29 +107,32 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 				SetDataFailedToLoad(true);
 			});
 		}
-	},	[groupId])
+	},	[groupId]);
+
+	React.useEffect(() => {
+		// Set new page title
+		const groupName: string = state.AppStore.GroupName;
+		SetStandingsTitle(groupName + Title);
+	},[state.AppStore.GroupName])
 
 	return (
 		<div className='page-body'>
 			<Card style={{padding: '10px'}}>
-				<Card.Title className='card-title'>{Title}</Card.Title>
+				<Card.Title className='card-title'>{standingsTitle}</Card.Title>
 				<Card.Body style={{overflow: 'auto'}}>
-					{noGroup ? (
-						<div>
-							<span>{PleaseSelectGroup}</span>
-							<br /><br />
-							<YourGroups />
-						</div>
-					) : (!dataLoaded ? (
+					{!dataLoaded ? (
 							<Loading />
 						) : (!dataFailedToLoad ? (
-								<GroupStandingsTable data={data} />
+								<div hidden={noGroups}>
+									<YourGroups />
+									<GroupStandingsTable data={data} />
+								</div>
 							) : (
 								<Error />
 							)
 						)
-					)}
-
+					}
+					<hr />
 					<div>
 						<span>{"Don't see your group?"}</span>
 						<br /><br />

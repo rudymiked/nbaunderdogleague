@@ -53,9 +53,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 						// ) : ( !dataFailedToLoad ? (
 								<div>
 									<YourGroups />
-									<hr />
 									<JoinGroup />
-									<hr />
 									<CreateGroup />
 								</div>
 						// 	) : (
