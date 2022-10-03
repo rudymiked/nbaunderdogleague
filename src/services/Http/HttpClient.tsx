@@ -17,6 +17,7 @@ export interface IHttpClient {
 	getExternal<T>(parameters: IHttpGETProps): Promise<T>;
 	getLocal<T>(parameters: IHttpGETProps): Promise<T>;
 	post<T>(parameters: IHttpPOSTProps): Promise<T>;
+	postLocal<T>(parameters: IHttpPOSTProps): Promise<T>;
 	postWithParams<T>(parameters: IHttpPOSTProps): Promise<T>;
 }
 
@@ -111,6 +112,7 @@ export default class HttpClient implements IHttpClient {
 			const options: AxiosRequestConfig = {
 				headers: token ?? axiosHeaders,
 				withCredentials: true,
+				params: data,
 			};
 
 			axios
@@ -135,6 +137,7 @@ export default class HttpClient implements IHttpClient {
 			const options: AxiosRequestConfig = {
 				headers: token ?? axiosHeaders,
 				withCredentials: true,
+				params: data,
 			};
 
 			axios

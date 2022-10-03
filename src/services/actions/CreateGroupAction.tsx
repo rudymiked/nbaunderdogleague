@@ -8,9 +8,7 @@ const CreateGroupAction = (name: string, ownerEmail: string) => {
 		token: null,
 		data: {
 			name: name,
-			owner: ownerEmail,
-			id: null,
-			year: 2022,
+			ownerEmail: ownerEmail,
 		},
 	});
 }

@@ -22,7 +22,6 @@ export const JoinGroup: React.FunctionComponent = () => {
 		if (state.AppStore.Email !== "") {
 			GetAllGroups(false, state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
-					console.log(response.data);
 					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
 				} else {
 					SetRequestResult(somethingWentWrongText); 

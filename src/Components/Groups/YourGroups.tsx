@@ -20,12 +20,11 @@ export const YourGroups: React.FunctionComponent = () => {
 		if (state.AppStore.Email !== "") {
 			GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
-					console.log(response.data);
 					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
 				} else {
 					SetRequestResult(somethingWentWrongText); 
 				}
-				
+
 				SetDataLoaded(true);
 			}).catch((reason: any) => {
 				SetRequestResult(somethingWentWrongText);
