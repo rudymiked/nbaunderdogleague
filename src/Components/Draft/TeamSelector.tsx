@@ -6,6 +6,7 @@ import { Loading } from '../Shared/Loading';
 import { Error } from '../Error/Error';
 import GetTeamsTable from '../../services/data/GetTeams';
 import { IEntity } from '../../App';
+import { sortCaretFunc } from '../../Utils/Utils';
 
 export interface ITeamSelectorProps {}
 
@@ -41,15 +42,21 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 	const columns: ColumnDescription[] = [
 		{
 			dataField: 'name',
-			text: 'Team'
+			text: 'Team',
+			sort: true,
+			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'projectedWin',
-			text: 'Projected Wins'
+			text: 'Projected Wins',
+			sort: true,
+			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'projectedLoss',
-			text: 'Projected Losses'
+			text: 'Projected Losses',
+			sort: true,
+			sortCaret: sortCaretFunc,
 		}
 	];
 
@@ -82,12 +89,13 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 				</Button>
 				<br />
 				<br />
-				<p>Team: <b>{selectedTeam?.city} {selectedTeam?.name}</b></p>
+				<p><b>{selectedTeam?.city} {selectedTeam?.name}</b></p>
 				<br />
 				{!dataLoaded ? (
 					<Loading />
 				) : ( !dataFailedToLoad ? (
 					<BootstrapTable
+						bootstrap4
 						keyField='name'
 						selectRow={selectRow} 
 						sort={{ dataField: 'projectedWin', order: 'desc' }}

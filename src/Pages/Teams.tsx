@@ -4,6 +4,7 @@ import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import GetCurrentNBAStandings from '../services/data/GetCurrentNBAStandings';
 import { Error } from '../Components/Error/Error';
 import { Loading } from '../Components/Shared/Loading';
+import { sortCaretFunc } from '../Utils/Utils';
 
 interface ITeamPageProps {}
 
@@ -43,23 +44,33 @@ export const Teams: React.FC = (props: ITeamPageProps) => {
 	const columns: ColumnDescription[] = [
 		{
 			dataField: 'teamCity',
-			text: 'City'
+			text: 'City',
+			sort: true,
+			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'teamName',
-			text: 'Team'
+			text: 'Team',
+			sort: true,
+			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'win',
-			text: 'Wins'
+			text: 'Wins',
+			sort: true,
+			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'loss',
-			text: 'Loss'
+			text: 'Loss',
+			sort: true,
+			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'playoffs',
-			text: 'Playoffs'
+			text: 'Playoffs',
+			sort: true,
+			sortCaret: sortCaretFunc,
 		}
 	];
 

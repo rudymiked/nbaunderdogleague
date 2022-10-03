@@ -4,7 +4,8 @@ import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pa
 import CreateGroupAction from '../../services/actions/CreateGroupAction';
 import { RootContext } from '../../services/Stores/RootStore';
 
-const blankGroupName = "Group name cannot be blank.";
+const buttonText: string = "Create A Group";
+const blankGroupName: string = "Group name cannot be blank.";
 
 export const CreateGroup: React.FunctionComponent = () => {
 	const [newGroup, SetNewGroup] = React.useState<IGroupData>();
@@ -17,7 +18,7 @@ export const CreateGroup: React.FunctionComponent = () => {
 	const requestANewGroup = () => {
 		if (groupName !== "") {
 			CreateGroupAction(groupName, state.AppStore.Email).then((response: IGroupDataResponse) => {
-				if (response?.data && response.data?.name !== "") {
+				if (response?.data && response.data?.name !== null && response.data?.name !== "") {
 					SetNewGroup(response.data);
 
 					const groupSuccessMessage: string = "Group: " + response.data.name + " successfully created!";
@@ -37,7 +38,7 @@ export const CreateGroup: React.FunctionComponent = () => {
 
 	const updateGroupName = (e: any) => {
 		SetGroupName(e.target.value);
-	}
+	};
 
 	return (
 		<>
@@ -47,7 +48,7 @@ export const CreateGroup: React.FunctionComponent = () => {
 				aria-controls="create-a-group-collapse-text"
 				aria-expanded={open}
 			>
-			Create A Group
+				{buttonText}
 			</Button>
 			<br />
 			<br />
