@@ -33,7 +33,6 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 				SetData(response?.data);
 			}
 		}).catch((reason: any) => {
-            console.log(reason);
 			SetDataLoaded(true);
 			SetDataFailedToLoad(true);
 		});
@@ -97,7 +96,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 					<BootstrapTable
 						bootstrap4
 						keyField='name'
-						selectRow={selectRow} 
+						selectRow={selectRow}
 						sort={{ dataField: 'projectedWin', order: 'desc' }}
 						defaultSortDirection='desc'
 						data={ data }

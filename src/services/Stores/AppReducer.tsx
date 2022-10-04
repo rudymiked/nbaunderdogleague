@@ -50,7 +50,6 @@ export type AppActions = |
 };
 
 export const AppReducer = (state: IAppState, action: AppActions): IAppState => {
-	console.log(state);
     switch (action.type) {
         case AppActionEnum.LOGIN:
             return {...state, Name: action.Name, Email: action.Email, Token: action.Token, LoginStatus: action.LoginStatus};

@@ -37,32 +37,30 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 
 	const { state } = React.useContext(RootContext);
 
-	React.useEffect(() =>{
+	React.useEffect(() => {
 		if (state.AppStore.Email !== "") {
 			SetCardTitle("Welcome, " + state.AppStore.Name);
 		}
 	}, [state]);
 
 	return (
-		<div className='page-body'>
-			<Card style={cardStyle}>
-				<Card.Title>{cardTitle}</Card.Title>
-				<Card.Body style={{overflow: 'auto'}}>
-					{state.AppStore.LoginStatus === LoginEnum.Success ? (
-						<div>
-							<YourGroups />
-							<JoinGroup />
-							<CreateGroup />
-						</div>
+		<Card style={cardStyle}>
+			<Card.Title>{cardTitle}</Card.Title>
+			<Card.Body style={{overflow: 'auto'}}>
+				{state.AppStore.LoginStatus === LoginEnum.Success ? (
+					<div>
+						<YourGroups />
+						<JoinGroup />
+						<CreateGroup />
+					</div>
+				) : (
+					state.AppStore.LoginStatus === LoginEnum.Fail ? (
+					<span>{FailedLogin}</span>
 					) : (
-						state.AppStore.LoginStatus === LoginEnum.Fail ? (
-						<span>{FailedLogin}</span>
-						) : (
-							<span>{LoggingIn}</span>
-						)
-					)}
-				</Card.Body>
-			</Card>
-		</div>
+						<span>{LoggingIn}</span>
+					)
+				)}
+			</Card.Body>
+		</Card>
 	);
 }

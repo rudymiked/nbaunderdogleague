@@ -32,7 +32,6 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		// }).catch((reason: any) => {
 		// 	SetDataLoaded(true);
 		// 	SetDataFailedToLoad(true);
-		// 	console.log(reason);
 		// });
 	}, []);
 

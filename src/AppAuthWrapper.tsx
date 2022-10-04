@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Card } from 'react-bootstrap';
 import { Route, Routes } from 'react-router-dom';
 import { AppNav } from './Components/Shared/AppNav';
 import { Loading } from './Components/Shared/Loading';
@@ -7,7 +8,7 @@ import { GroupStandings } from './Pages/GroupStandings';
 import { Profile } from './Pages/Profile';
 import { Teams } from './Pages/Teams';
 import GetAuthInformation from './services/data/GetAuthInformation';
-import { AppActionEnum, IAppState, LoginEnum } from './services/Stores/AppReducer';
+import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
 import { RootContext } from './services/Stores/RootStore';
 
 interface IAuthProps {};
@@ -34,7 +35,6 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 				});
 			}
 		}).catch((reason: any) => {
-			console.log(reason);
 			dispatch({
 				type: AppActionEnum.LOGIN_FAIL,
 				LoginStatus: LoginEnum.Fail,
@@ -44,34 +44,45 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 
 	return (
 		<>
-			{state.AppStore.LoginStatus === LoginEnum.Success ? (
-				<>
-					<AppNav />
-					<main id="main" tabIndex={-1}>
-						<Routes>
-							<Route path="/" element={<GroupStandings />} />
-							<Route path="/teams" element={<Teams />} />
-							<Route path="/standings" element={<GroupStandings />} />
-							<Route path="/draft" element={<Draft />} />
-							<Route path="/profile" element={<Profile />} />
-						</Routes>
-					</main>
-				</>
-			) : (
-				<>
-					{state.AppStore.LoginStatus === LoginEnum.LoggingIn ? (
-						<>
-							<span>Please wait while we log you in...</span>
-							<br />
-							<Loading />
-						</>
-					) : (
-						<>
-							<span>There was an error while logging you in.</span>
-						</>
-					)}
-				</>
-			)}
+			<AppNav />
+			<main id="main" tabIndex={-1} className='page-body'>
+				{state.AppStore.LoginStatus === LoginEnum.Success ? (
+					<Routes>
+						<Route path="/" element={<GroupStandings />} />
+						<Route path="/teams" element={<Teams />} />
+						<Route path="/standings" element={<GroupStandings />} />
+						<Route path="/draft" element={<Draft />} />
+						<Route path="/profile" element={<Profile />} />
+					</Routes>
+				) : (
+					<>
+						{state.AppStore.LoginStatus === LoginEnum.LoggingIn ? (
+							<Card style={{padding: '10px'}}>
+								<Card.Title className='card-title'>Please wait while we log you in...</Card.Title>
+								<Card.Body>
+									<Loading />
+								</Card.Body>
+							</Card>
+						) : (
+							<Card style={{padding: '10px'}}>
+								<Card.Title className='card-title'>Login failed!</Card.Title>
+								<Card.Body>
+									<div>
+										<span>Bummer! Try pressing F12 and looking for clues in the browser console.</span>
+										<br />
+										<br />
+									</div>
+									<Button
+										href="/"
+										aria-controls="navigate-to-home">
+										{"Retry login"}
+									</Button>
+								</Card.Body>
+							</Card>
+						)}
+					</>
+				)}
+			</main>
 		</>
 	);
 }
