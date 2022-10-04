@@ -1,19 +1,24 @@
 import React from 'react';
 import { Button, Dropdown } from 'react-bootstrap';
 import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
+import JoinGroupAction from '../../services/actions/JoinGroupAction';
 import GetAllGroups from '../../services/data/GetGroups';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';
 
 // Join a group that someone else has created for this season
 
+export interface IJoinGroupResponse {
+	data: string;
+}
+
 const joinGroupText = "Join a group";
-const noGroupsText = "There aren't any groups to join.";
 
 export const JoinGroup: React.FunctionComponent = () => {
 	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [requestResult, SetRequestResult] = React.useState<string>("");
+	const [joinRequestResult, SetJoinRequestResult] = React.useState<string>("");
 	const [dropdownText, SetDropdownText] = React.useState<string>(joinGroupText);
 	const [selectedGroupId, SetSelectedGroupId] = React.useState<string>("");
 
@@ -45,7 +50,15 @@ export const JoinGroup: React.FunctionComponent = () => {
 	};
 
 	const requestToJoinGroup = () => {
-		// call api to join group
+		JoinGroupAction(selectedGroupId, state.AppStore.Email).then((response: IJoinGroupResponse) => {
+			if (response?.data !== undefined) {
+				console.log(response);
+				SetJoinRequestResult(response.data);
+			}
+		}).catch((reason: any) => {
+			console.log(reason);
+			SetJoinRequestResult(somethingWentWrongText);
+		});
 	};
 
 	return (
@@ -68,6 +81,22 @@ export const JoinGroup: React.FunctionComponent = () => {
 								))}
 							</Dropdown.Menu>
 						</Dropdown>
+						<br />
+			
+						{selectedGroupId !== "" && 
+							<>
+								<Button
+									onClick={() => {
+										SetJoinRequestResult("Requesting...");
+										requestToJoinGroup();
+									}}
+									aria-controls="join-a-group-request">
+									{"Request To Join Group"}
+								</Button>
+								<br />
+								<span>{joinRequestResult}</span>
+							</>
+						}
 					<hr />
 					</div>
 				) : (
@@ -80,16 +109,7 @@ export const JoinGroup: React.FunctionComponent = () => {
 				</div>
 				)
 			}
-			
-			<br />
-			
-			{selectedGroupId !== "" && 
-				<Button
-					onClick={() => requestToJoinGroup}
-					aria-controls="join-a-group-request">
-					{"Request To Join Group"}
-				</Button>
-			}
+			<span>{requestResult}</span>
 		</div>
 	);
 }

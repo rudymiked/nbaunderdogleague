@@ -88,6 +88,7 @@ export const YourGroups: React.FunctionComponent = () => {
 					</div>
 				)
 			}
+			<span>{requestResult}</span>
 		</div>
 	);
 }

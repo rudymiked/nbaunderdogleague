@@ -33,6 +33,7 @@ const cardStyle = {padding: '10px', width: '50vw', alignSelf: 'center'}
 
 export const Profile: React.FC = (props: ITeamPageProps) => {
 	const [cardTitle, SetCardTitle] = React.useState<string>("");
+	const [refresh, SetRefresh] = React.useState<number>(0);
 
 	const { state } = React.useContext(RootContext);
 
@@ -40,7 +41,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 		if (state.AppStore.Email !== "") {
 			SetCardTitle("Welcome, " + state.AppStore.Name);
 		}
-	}, [state])
+	}, [state]);
 
 	return (
 		<div className='page-body'>
@@ -48,18 +49,11 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 				<Card.Title>{cardTitle}</Card.Title>
 				<Card.Body style={{overflow: 'auto'}}>
 					{state.AppStore.LoginStatus === LoginEnum.Success ? (
-						// !dataLoaded ? (
-						// 	<Loading />
-						// ) : ( !dataFailedToLoad ? (
-								<div>
-									<YourGroups />
-									<JoinGroup />
-									<CreateGroup />
-								</div>
-						// 	) : (
-						// 		<Error />
-						// 	)
-						// )
+						<div>
+							<YourGroups />
+							<JoinGroup />
+							<CreateGroup />
+						</div>
 					) : (
 						state.AppStore.LoginStatus === LoginEnum.Fail ? (
 						<span>{FailedLogin}</span>
