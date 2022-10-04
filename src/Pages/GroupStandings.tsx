@@ -29,15 +29,12 @@ export interface IGroupStandingsDataResponse {
 
 interface IStandingsPageProps {}
 
-const Title = " Standings";
-
 export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (props: IStandingsPageProps) => {
 	const [data, SetData] = React.useState<IGroupStandingsData[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [noGroups, SetNoGroups] = React.useState<boolean>(false);
 	const [groupId, SetGroupId] = React.useState<string>("");
-	const [standingsTitle, SetStandingsTitle] = React.useState<string>(Title);
 
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -107,41 +104,33 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 		}
 	},	[groupId]);
 
-	React.useEffect(() => {
-		// Set new page title
-		const groupName: string = state.AppStore.GroupName;
-		SetStandingsTitle(groupName + Title);
-	}, [state.AppStore.GroupName])
-
 	return (
-		<div className='page-body'>
-			<Card style={{padding: '10px'}}>
-				<Card.Title className='card-title'>{standingsTitle}</Card.Title>
-				<Card.Body style={{overflow: 'auto'}}>
-					{!dataLoaded ? (
-							<Loading />
-						) : (!dataFailedToLoad ? (
-								<div hidden={noGroups}>
-									<YourGroups />
-									<GroupStandingsTable data={data} />
-								</div>
-							) : (
-								<Error />
-							)
+		<Card style={{padding: '10px'}}>
+			<Card.Title className='card-title'><b>{state.AppStore.GroupName}</b> Standings</Card.Title>
+			<Card.Body style={{overflow: 'auto'}}>
+				<div>
+					<span>{"Don't see your group?"}</span>
+					<br /><br />
+					<Button
+						onClick={() => navigate("/profile")}
+						aria-controls="navigate-to-profile">
+						{"Join a Group"}
+					</Button>
+				</div>
+				<hr />
+				{!dataLoaded ? (
+						<Loading />
+					) : (!dataFailedToLoad ? (
+							<div hidden={noGroups}>
+								<YourGroups />
+								<GroupStandingsTable data={data} />
+							</div>
+						) : (
+							<Error />
 						)
-					}
-					<hr />
-					<div>
-						<span>{"Don't see your group?"}</span>
-						<br /><br />
-						<Button
-							onClick={() => navigate("/profile")}
-							aria-controls="navigate-to-profile">
-							{"Join a Group"}
-						</Button>
-					</div>
-				</Card.Body>
-			</Card>
-		</div>
+					)
+				}
+			</Card.Body>
+		</Card>
 	);
 }

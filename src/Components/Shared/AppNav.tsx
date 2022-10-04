@@ -5,6 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import { useNavigate } from 'react-router-dom';
 import basketball from '../../images/basketball_black.png';
 import { RootContext } from '../../services/Stores/RootStore';
+import { LoginEnum } from '../../services/Stores/AppReducer';
 
 export interface IUserInfo {
 	FirstName: string;
@@ -22,6 +23,10 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 	const navigateAndCollapse = (path: string) => {
 		setExpanded(false);
 		navigate(path);
+	};
+
+	const disabledUntilLoggedIn = () => {
+		return state.AppStore.LoginStatus !== LoginEnum.Success ? 'disabled' : null;
 	};
 
 	return (
@@ -44,16 +49,16 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 				<Navbar.Toggle onClick={() => setExpanded(!expanded)} aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav>
-						<Nav.Link onClick={() => navigateAndCollapse("/standings")}>
+						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/standings")}>
 							Standings
 						</Nav.Link>
-						<Nav.Link onClick={() => navigateAndCollapse("/draft")}>
+						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/draft")}>
 							Draft
 						</Nav.Link>
-						<Nav.Link onClick={() => navigateAndCollapse("/teams")}>
+						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/teams")}>
 							NBA Data
 						</Nav.Link>
-						<Nav.Link onClick={() => navigateAndCollapse("/profile")}>
+						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/profile")}>
 							{<b>{state.AppStore.Name}</b>}
 						</Nav.Link>
 					</Nav>

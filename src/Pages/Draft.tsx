@@ -6,9 +6,9 @@ interface IDraftPageProps {}
 
 export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 	return (
-		<div className='page-body'>
+		<>
 			<DraftProgress />
 			<TeamSelector />
-		</div>
+		</>
 	);
 }
