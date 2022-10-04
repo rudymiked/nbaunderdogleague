@@ -40,7 +40,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 		if (state.AppStore.Email !== "") {
 			SetCardTitle("Welcome, " + state.AppStore.Name);
 		}
-	},[state])
+	}, [state])
 
 	return (
 		<div className='page-body'>

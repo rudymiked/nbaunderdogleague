@@ -4,7 +4,7 @@ import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pa
 import CreateGroupAction from '../../services/actions/CreateGroupAction';
 import { RootContext } from '../../services/Stores/RootStore';
 
-const buttonText: string = "Create A Group";
+const buttonText: string = "Create a Group";
 const blankGroupName: string = "Group name cannot be blank.";
 
 export const CreateGroup: React.FunctionComponent = () => {

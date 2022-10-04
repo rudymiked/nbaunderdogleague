@@ -113,7 +113,7 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 		// Set new page title
 		const groupName: string = state.AppStore.GroupName;
 		SetStandingsTitle(groupName + Title);
-	},[state.AppStore.GroupName])
+	}, [state.AppStore.GroupName])
 
 	return (
 		<div className='page-body'>

@@ -3,6 +3,7 @@ export enum LoginEnum {
     Fail,
     Unknown
 }
+
 export interface IAppState {
     Name: string;
     Email: string;
