@@ -68,7 +68,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 								<Card.Title className='card-title'>Login failed!</Card.Title>
 								<Card.Body>
 									<div>
-										<span>Bummer! Try pressing F12 and looking for clues in the browser console.</span>
+										<span>Bummer! Please contact the site admin.</span>
 										<br />
 										<br />
 									</div>
