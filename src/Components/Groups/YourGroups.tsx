@@ -34,7 +34,6 @@ export const YourGroups: React.FunctionComponent = () => {
 			}).catch((reason: any) => {
 				SetRequestResult(somethingWentWrongText);
 				SetDataLoaded(true);
-				console.log(reason);
 			});
 		} else {
 			// user not logged in

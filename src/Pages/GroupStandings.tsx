@@ -78,11 +78,10 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 
 						SetDataLoaded(true);
 					}
-					}).catch((reason) =>{
-						console.log(reason);
-						SetDataLoaded(true);
-						SetDataFailedToLoad(true);
-					});
+				}).catch((reason) => {
+					SetDataLoaded(true);
+					SetDataFailedToLoad(true);
+				});
 			} else {
 				// if group has already been loaded, but user chooses to change the group.
 				SetGroupId(state.AppStore.GroupId);
@@ -102,7 +101,6 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 					// no standings data
 				}
 			}).catch((reason: any) => {
-				console.log(reason);
 				SetDataLoaded(true);
 				SetDataFailedToLoad(true);
 			});

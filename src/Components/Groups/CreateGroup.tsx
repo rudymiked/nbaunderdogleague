@@ -29,7 +29,6 @@ export const CreateGroup: React.FunctionComponent = () => {
 				}
 			}).catch((reason: any) => {
 				SetRequestResult(somethingWentWrongText);
-				console.log(reason);
 			});
 		} else {
 			SetRequestResult(blankGroupName);

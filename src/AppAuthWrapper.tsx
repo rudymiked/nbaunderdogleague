@@ -34,7 +34,6 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 				});
 			}
 		}).catch((reason: any) => {
-			console.log(reason);
 			dispatch({
 				type: AppActionEnum.LOGIN_FAIL,
 				LoginStatus: LoginEnum.Fail,

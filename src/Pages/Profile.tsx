@@ -37,7 +37,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 
 	const { state } = React.useContext(RootContext);
 
-	React.useEffect(() =>{
+	React.useEffect(() => {
 		if (state.AppStore.Email !== "") {
 			SetCardTitle("Welcome, " + state.AppStore.Name);
 		}
