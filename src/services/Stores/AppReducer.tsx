@@ -1,7 +1,7 @@
 export enum LoginEnum {
+	LoggingIn,
     Success,
-    Fail,
-    Unknown
+    Fail
 }
 
 export interface IAppState {
@@ -19,7 +19,7 @@ export const AppInitialState = {
     Token: "",
     GroupId: "",
     GroupName: "",
-    LoginStatus: LoginEnum.Unknown,
+    LoginStatus: LoginEnum.LoggingIn,
 }
 
 export enum AppActionEnum {
@@ -50,6 +50,7 @@ export type AppActions = |
 };
 
 export const AppReducer = (state: IAppState, action: AppActions): IAppState => {
+	console.log(state);
     switch (action.type) {
         case AppActionEnum.LOGIN:
             return {...state, Name: action.Name, Email: action.Email, Token: action.Token, LoginStatus: action.LoginStatus};

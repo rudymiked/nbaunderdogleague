@@ -54,9 +54,9 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 				{!dataLoaded ? (
 					<Loading />
 				) : ( !dataFailedToLoad ? (
-					<BootstrapTable 
-						keyField='email' 
-						data={users} 
+					<BootstrapTable
+						keyField='email'
+						data={users}
 						columns={columns} />
 					) : (
 						<Error />
