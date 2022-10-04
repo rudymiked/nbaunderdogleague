@@ -18,8 +18,14 @@ interface INavProps {};
 
 export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => {
 	const [userInfo, SetUserInfo] = React.useState<IUserInfo>({FirstName: "", LastName: "", Email: ""});
+	const [expanded, setExpanded] = React.useState(false);
 	const { state, dispatch } = React.useContext(RootContext);
 	const navigate = useNavigate();
+
+	const navigateAndCollapse = (path: string) => {
+		setExpanded(false);
+		navigate(path);
+	};
 
 	React.useEffect(() => {
 		GetAuthInformation().then((response: any) => {
@@ -50,34 +56,38 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 	}, []);
 
 	return (
-		<Navbar collapseOnSelect fixed='top' className="navbar-orange" bg="" variant="light" expand="lg">
+		<Navbar expanded={expanded} fixed='top' className="navbar-orange" bg="" variant="light" expand="lg">
 			<Container>
 				<Navbar.Brand href="/">
-				<img
-					src={basketball}
-					width="30"
-					height="30"
-					className="d-inline-block align-top"
-					alt="logo"
-				/>
+					<div>
+						<img
+							src={basketball}
+							width="30"
+							height="30"
+							className="d-inline-block align-top"
+							alt="logo"
+						/>
+						<span className="navbar-title">
+							NBA Underdogs
+						</span>
+					</div>
 				</Navbar.Brand>
-				<Navbar.Brand href="/">NBA Underdogs</Navbar.Brand>
-				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+				<Navbar.Toggle onClick={() => setExpanded(!expanded)} aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
-				<Nav>
-					<Nav.Link onClick={() => navigate("/standings")}>
-						Standings
-					</Nav.Link>
-					<Nav.Link onClick={() => navigate("/teams")}>
-						Teams
-					</Nav.Link>
-					<Nav.Link onClick={() => navigate("/draft")}>
-						Draft
-					</Nav.Link>
-					<Nav.Link onClick={() => navigate("/Profile")}>
-						{<b>{userInfo.FirstName} {userInfo.LastName}</b>}
-					</Nav.Link>
-				</Nav>
+					<Nav>
+						<Nav.Link onClick={() => navigateAndCollapse("/standings")}>
+							Standings
+						</Nav.Link>
+						<Nav.Link onClick={() => navigateAndCollapse("/draft")}>
+							Draft
+						</Nav.Link>
+						<Nav.Link onClick={() => navigateAndCollapse("/teams")}>
+							NBA Data
+						</Nav.Link>
+						<Nav.Link onClick={() => navigateAndCollapse("/profile")}>
+							{<b>{userInfo.FirstName} {userInfo.LastName}</b>}
+						</Nav.Link>
+					</Nav>
 				</Navbar.Collapse>
 			</Container>
 		</Navbar>

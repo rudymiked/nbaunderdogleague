@@ -27,7 +27,7 @@ export const YourGroups: React.FunctionComponent = () => {
 				if (response?.data) {
 					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
 				} else {
-					SetRequestResult(somethingWentWrongText); 
+					SetRequestResult(somethingWentWrongText);
 				}
 
 				SetDataLoaded(true);
@@ -39,7 +39,7 @@ export const YourGroups: React.FunctionComponent = () => {
 		} else {
 			// user not logged in
 		}
-	},[state]);
+	}, [state]);
 
 	const selectAGroup = (key: string, name: string) => {
 		SetSelectedGroupId(key);
@@ -65,8 +65,8 @@ export const YourGroups: React.FunctionComponent = () => {
 						</Dropdown.Toggle>
 						<Dropdown.Menu>
 							{groups.filter((val) => val?.name !== "").map(group => (
-								<Dropdown.Item 
-									key={group.id.toString()} 
+								<Dropdown.Item
+									key={group.id.toString()}
 									value={group.name}
 									onClick={() => selectAGroup(group.id.toString(), group.name)}>
 									{group.name}
