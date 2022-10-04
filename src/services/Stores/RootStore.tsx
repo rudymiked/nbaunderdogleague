@@ -13,7 +13,7 @@ const RootInitialState: IRootState = {
 
 const RootContext = React.createContext<{
     state: IRootState;
-    dispatch: React.Dispatch<any>;
+    dispatch: React.Dispatch<any>; // TODO Give me a type
 }>({
     state: RootInitialState,
     dispatch: () => {},
