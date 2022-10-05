@@ -108,16 +108,6 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 		<Card style={{padding: '10px'}}>
 			<Card.Title className='card-title'><b>{state.AppStore.GroupName}</b> Standings</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
-				<div>
-					<span>{"Don't see your group?"}</span>
-					<br /><br />
-					<Button
-						onClick={() => navigate("/profile")}
-						aria-controls="navigate-to-profile">
-						{"Join a Group"}
-					</Button>
-				</div>
-				<hr />
 				{!dataLoaded ? (
 						<Loading />
 					) : (!dataFailedToLoad ? (
@@ -130,6 +120,16 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 						)
 					)
 				}
+				<hr />
+				<div>
+					<span>{"Don't see your group?"}</span>
+					<br /><br />
+					<Button
+						onClick={() => navigate("/profile")}
+						aria-controls="navigate-to-profile">
+						{"Join a Group"}
+					</Button>
+				</div>
 			</Card.Body>
 		</Card>
 	);
