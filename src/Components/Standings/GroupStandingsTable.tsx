@@ -54,6 +54,14 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 	];
 
 	return (
-		<BootstrapTable keyField='teamName' defaultSorted={[{dataField: 'name', order: 'desc' }]} data={ props.data } columns={ columns } />
+		<BootstrapTable 
+			keyField='teamName'
+			defaultSorted={[
+				{
+					dataField: 'name',
+					order: 'desc' 
+				}]}
+			data={ props.data } 
+			columns={ columns } />
 	);
 }

@@ -4,9 +4,10 @@ import './TeamSelector.css';
 import BootstrapTable, { ColumnDescription, SelectRowProps } from 'react-bootstrap-table-next';
 import { Loading } from '../Shared/Loading';
 import { Error } from '../Error/Error';
-import GetTeamsTable from '../../services/data/GetTeams';
 import { IEntity } from '../../App';
 import { sortCaretFunc } from '../../Utils/Utils';
+import { RootContext } from '../../services/Stores/RootStore';
+import GetAvailableTeamsToDraft from '../../services/data/GetAvailableTeamsToDraft';
 
 export interface ITeamSelectorProps {}
 
@@ -26,17 +27,21 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 	const [dataLoaded, SetDataLoaded] = React.useState<Boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 
+	const { state, dispatch } = React.useContext(RootContext);
+
 	React.useEffect(() => {
-        GetTeamsTable().then((response: ITeamsTableResponse) => {
-			if (response?.data) {
+		if (state.AppStore.GroupId !== "") {
+			GetAvailableTeamsToDraft(state.AppStore.GroupId).then((response: ITeamsTableResponse) => {
+				if (response?.data) {
+					SetDataLoaded(true);
+					SetData(response?.data);
+				}
+			}).catch((reason: any) => {
 				SetDataLoaded(true);
-				SetData(response?.data);
-			}
-		}).catch((reason: any) => {
-			SetDataLoaded(true);
-			SetDataFailedToLoad(true);
-		});
-	}, []);
+				SetDataFailedToLoad(true);
+			});
+		}
+	}, [state]);
 
 	const columns: ColumnDescription[] = [
 		{
@@ -80,15 +85,14 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 
 	return (
 		<Card className='team-selector'>
-			<Card.Title className='card-title'>Draft a team</Card.Title>
+			<Card.Title className='card-title'>{state.AppStore.GroupName} Draft</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
-				{/* {background: "#555555", borderColor:"#000000"}  */}
 				<Button variant="danger" onClick={() => handleDraftClicked()}>
 					Draft!
 				</Button>
 				<br />
 				<br />
-				<p><b>{selectedTeam?.city} {selectedTeam?.name}</b></p>
+				<p><b>{selectedTeam ? selectedTeam.city : "."} {selectedTeam?.name}</b></p>
 				<br />
 				{!dataLoaded ? (
 					<Loading />
@@ -97,8 +101,6 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 						bootstrap4
 						keyField='name'
 						selectRow={selectRow}
-						sort={{ dataField: 'projectedWin', order: 'desc' }}
-						defaultSortDirection='desc'
 						data={ data }
 						columns={ columns } />
 					) : (

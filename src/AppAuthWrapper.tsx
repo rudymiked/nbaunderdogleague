@@ -5,9 +5,10 @@ import { AppNav } from './Components/Shared/AppNav';
 import { Loading } from './Components/Shared/Loading';
 import { Draft } from './Pages/Draft';
 import { GroupStandings } from './Pages/GroupStandings';
-import { Profile } from './Pages/Profile';
+import { IGroupData, IGroupDataArrayResponse, Profile, somethingWentWrongText } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
 import { Teams } from './Pages/Teams';
+import GetAllUsersGroups from './services/data/GetAllUsersGroups';
 import GetAuthInformation from './services/data/GetAuthInformation';
 import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
 import { RootContext } from './services/Stores/RootStore';
@@ -18,10 +19,15 @@ const givenName: string = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims
 const surname: string = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname";
 
 export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuthProps) => {
+	const [authEmail, SetAuthEmail] = React.useState<string>("");
 	const { state, dispatch } = React.useContext(RootContext);
+	const [noGroups, SetNoGroups] = React.useState<boolean>(false);
+	const [groupId, SetGroupId] = React.useState<string>("");
 
 	React.useEffect(() => {
-		getAuthInfo();
+		if (authEmail === "") {
+			getAuthInfo();
+		}
 	}, [state]);
 
 	const getAuthInfo = () => {
@@ -54,6 +60,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 						LoginStatus: LoginEnum.Fail,
 					});
 				} else {
+					SetAuthEmail(email);
 					if (firstName === "") {
 						firstName = email;
 					}
@@ -65,6 +72,8 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 						Token: token,
 						LoginStatus: LoginEnum.Success,
 					});
+
+					updateGroup();
 				}
 			}
 		}).catch((reason: any) => {
@@ -74,6 +83,41 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 				LoginStatus: LoginEnum.Fail,
 			});
 		});
+	}
+
+	const updateGroup = () => {
+		if (state.AppStore.GroupId === "") {
+			// group ID has not been set
+			// need to load groups and set first index for standings
+			// also need to set group ID in context
+
+			GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
+				if (response?.data) {
+					const data = response.data;
+					if (data.length > 0) {
+						const firstGroup: IGroupData = data.find((group: IGroupData) => group.name && group.name !== "")!;
+
+						if (firstGroup?.id.toString() !== "") {
+							dispatch({
+								type: AppActionEnum.UPDATE_GROUP,
+								GroupId: firstGroup.id!,
+								GroupName: firstGroup.name!,
+							});
+						} else {
+							console.log(somethingWentWrongText);
+						}
+					} else {
+						// user is not in any groups
+						SetNoGroups(true);
+					}
+				}
+			}).catch((reason) => {
+				SetNoGroups(true);
+			});
+		} else {
+			// if group has already been loaded, but user chooses to change the group.
+			SetGroupId(state.AppStore.GroupId);
+		}
 	}
 
 	return (

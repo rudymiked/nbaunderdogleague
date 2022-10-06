@@ -41,6 +41,7 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 	const navigate = useNavigate();
 
 	React.useEffect(() => {
+		console.log(state);
 		if (state.AppStore.Email !== "") {
 			// user has logged in
 
@@ -48,43 +49,47 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 			// if so, show standings of first group queried.
 			// give option to switch groups
 
-			if (state.AppStore.GroupId === "") {
-				// group ID has not been set
-				// need to load groups and set first index for standings
-				// also need to set group ID in context
-
-				GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
-					if (response?.data) {
-						const data = response.data;
-						if (data.length > 0) {
-							const firstGroup: IGroupData = data.find((group: IGroupData) => group.name && group.name !== "")!;
-
-							if (firstGroup?.id.toString() !== "") {
-								dispatch({
-									type: AppActionEnum.UPDATE_GROUP,
-									GroupId: firstGroup.id!,
-									GroupName: firstGroup.name!,
-								});
-							} else {
-								console.log(somethingWentWrongText);
-							}
-						} else {
-							// user is not in any groups
-							SetNoGroups(true);
-						}
-
-						SetDataLoaded(true);
-					}
-				}).catch((reason) => {
-					SetDataLoaded(true);
-					SetDataFailedToLoad(true);
-				});
-			} else {
-				// if group has already been loaded, but user chooses to change the group.
-				SetGroupId(state.AppStore.GroupId);
-			}
+			updateGroup();
 		}
-	}, [dispatch, state]);
+	}, [state]);
+
+	const updateGroup = () => {
+		if (state.AppStore.GroupId === "") {
+			// group ID has not been set
+			// need to load groups and set first index for standings
+			// also need to set group ID in context
+
+			GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
+				if (response?.data) {
+					const data = response.data;
+					if (data.length > 0) {
+						const firstGroup: IGroupData = data.find((group: IGroupData) => group.name && group.name !== "")!;
+
+						if (firstGroup?.id.toString() !== "") {
+							dispatch({
+								type: AppActionEnum.UPDATE_GROUP,
+								GroupId: firstGroup.id!,
+								GroupName: firstGroup.name!,
+							});
+						} else {
+							console.log(somethingWentWrongText);
+						}
+					} else {
+						// user is not in any groups
+						SetNoGroups(true);
+					}
+
+					SetDataLoaded(true);
+				}
+			}).catch((reason) => {
+				SetDataLoaded(true);
+				SetDataFailedToLoad(true);
+			});
+		} else {
+			// if group has already been loaded, but user chooses to change the group.
+			SetGroupId(state.AppStore.GroupId);
+		}
+	}
 
 	React.useEffect(() => {
 		if (groupId !== "") {
