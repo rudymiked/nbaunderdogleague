@@ -15,6 +15,9 @@ import { RootContext } from './services/Stores/RootStore';
 
 interface IAuthProps {};
 
+const givenName: string = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname";
+const surname: string = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname";
+
 export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuthProps) => {
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -29,19 +32,48 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 				const data = response.data[0];
 				console.log(data);
 
+				const provider_name = data.provider_name;
+				console.log(provider_name);
 
-				const firstName = data.user_claims[9].val;
-				const lastName = data.user_claims[10].val;
-				const email = data.user_id;
-				const token = data.access_token;
+				let firstName: string = "";
+				let lastName: string = "";
 
-				dispatch({
-					type: AppActionEnum.LOGIN,
-					Name: firstName + " " + lastName,
-					Email: email,
-					Token: token,
-					LoginStatus: LoginEnum.Success,
-				});
+				for(const d of data?.user_claims) {
+					console.log(d);
+					if (d.typ === givenName) {
+						firstName = d.val;
+					}
+
+					if (d.typ === surname) {
+						lastName = d.val;
+					}
+				}
+
+				const email = data?.user_id!;
+				const token = data?.access_token!;
+
+				if (email === "") {
+					dispatch({
+						type: AppActionEnum.LOGIN_FAIL,
+						LoginStatus: LoginEnum.Fail,
+					});
+				} else {
+					if (firstName === "") {
+						firstName = email;
+					}
+					
+					console.log(firstName);
+					console.log(lastName);
+					console.log(email);
+
+					dispatch({
+						type: AppActionEnum.LOGIN,
+						Name: firstName + " " + lastName,
+						Email: email,
+						Token: token,
+						LoginStatus: LoginEnum.Success,
+					});
+				}
 			}
 		}).catch((reason: any) => {
 			console.log(reason);
