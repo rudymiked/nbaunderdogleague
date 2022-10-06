@@ -5,7 +5,6 @@ import { AppNav } from './Components/Shared/AppNav';
 import { Loading } from './Components/Shared/Loading';
 import { Draft } from './Pages/Draft';
 import { GroupStandings } from './Pages/GroupStandings';
-import { Login } from './Pages/Login';
 import { Profile } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
 import { Teams } from './Pages/Teams';
@@ -23,23 +22,20 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 
 	React.useEffect(() => {
 		getAuthInfo();
-	}, []);
+	}, [state]);
 
 	const getAuthInfo = () => {
 		GetAuthInformation().then((response: any) => {
 			if (response?.data !== undefined) {
-				
 				const data = response.data[0];
-				console.log(data);
 
 				const provider_name = data.provider_name;
-				console.log(provider_name);
+				console.log("logged in using: " + provider_name);
 
 				let firstName: string = "";
 				let lastName: string = "";
 
 				for(const d of data?.user_claims) {
-					console.log(d);
 					if (d.typ === givenName) {
 						firstName = d.val;
 					}
@@ -61,10 +57,6 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 					if (firstName === "") {
 						firstName = email;
 					}
-
-					console.log(firstName);
-					console.log(lastName);
-					console.log(email);
 
 					dispatch({
 						type: AppActionEnum.LOGIN,
@@ -96,37 +88,47 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 						<Route path="/draft" element={<Draft />} />
 						<Route path="/profile" element={<Profile />} />
 						<Route path="/publicPolicy" element={<PublicPolicy />} />
-						<Route path="/login" element={<Login />} />
 					</Routes>
-				) : (
-					<>
-						{state.AppStore.LoginStatus === LoginEnum.LoggingIn ? (
+				) : (state.AppStore.LoginStatus === LoginEnum.LoggingIn ? (
+						<Card style={{padding: '10px'}}>
+							<Card.Title className='card-title'>Please wait while we log you in...</Card.Title>
+							<Card.Body>
+								<Loading />
+							</Card.Body>
+						</Card>
+						) : ( //state.AppStore.LoginStatus === LoginEnum.NotLoggedIn ? (
 							<Card style={{padding: '10px'}}>
-								<Card.Title className='card-title'>Please wait while we log you in...</Card.Title>
-								<Card.Body>
-									<Loading />
-								</Card.Body>
-							</Card>
-						) : (
-							<Card style={{padding: '10px'}}>
-								<Card.Title className='card-title'>Login failed!</Card.Title>
+								<Card.Title className='card-title'>Please Login</Card.Title>
 								<Card.Body>
 									<div>
-										<span>Bummer! Please contact the site admin.</span>
+										<Button
+											href={"/.auth/login/google?post_login_redirect_uri=/standings"}
+											aria-controls="login-with-google">
+											{"Login with Google"}
+										</Button>
 										<br />
 										<br />
-										<a href="/.auth/login/facebook?post_login_redirect_uri=/index.html">Facebook Login</a>
-										<a href="/.auth/login/google?post_login_redirect_uri=/index.html">Google Login</a>
+										<Button
+											href={"/.auth/login/facebook?post_login_redirect_uri=/standings"}
+											aria-controls="login-with-facebook">
+											{"Login with Facebook"}
+										</Button>
 									</div>
-									<Button
-										onClick={getAuthInfo}
-										aria-controls="navigate-to-home">
-										{"Retry login"}
-									</Button>
 								</Card.Body>
 							</Card>
-						)}
-					</>
+						// ) : ( // log in failed
+						// 		<Card style={{padding: '10px'}}>
+						// 		<Card.Title className='card-title'>Login Failed!</Card.Title>
+						// 		<Card.Body>
+						// 			<Button
+						// 				onClick={getAuthInfo}
+						// 				aria-controls="navigate-to-home">
+						// 				{"Retry login"}
+						// 			</Button>
+						// 		</Card.Body>
+						// 	</Card>
+						// )
+					)
 				)}
 			</main>
 		</>

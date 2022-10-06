@@ -1,7 +1,7 @@
 export enum LoginEnum {
 	LoggingIn,
     Success,
-    Fail
+    Fail,
 }
 
 export interface IAppState {
