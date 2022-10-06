@@ -75,6 +75,8 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 										<span>Bummer! Please contact the site admin.</span>
 										<br />
 										<br />
+										<a href="/.auth/login/facebook">Facebook Login</a>
+										<a href="/.auth/login/google">Google Login</a>
 									</div>
 									<Button
 										href="/"
