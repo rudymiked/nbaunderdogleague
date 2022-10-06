@@ -61,7 +61,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 					if (firstName === "") {
 						firstName = email;
 					}
-					
+
 					console.log(firstName);
 					console.log(lastName);
 					console.log(email);
@@ -115,8 +115,8 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 										<span>Bummer! Please contact the site admin.</span>
 										<br />
 										<br />
-										<a href="/.auth/login/facebook">Facebook Login</a>
-										<a href="/.auth/login/google">Google Login</a>
+										<a href="/.auth/login/facebook?post_login_redirect_uri=/index.html">Facebook Login</a>
+										<a href="/.auth/login/google?post_login_redirect_uri=/index.html">Google Login</a>
 									</div>
 									<Button
 										onClick={getAuthInfo}
