@@ -5,6 +5,7 @@ import { AppNav } from './Components/Shared/AppNav';
 import { Loading } from './Components/Shared/Loading';
 import { Draft } from './Pages/Draft';
 import { GroupStandings } from './Pages/GroupStandings';
+import { Login } from './Pages/Login';
 import { Profile } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
 import { Teams } from './Pages/Teams';
@@ -55,6 +56,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 						<Route path="/draft" element={<Draft />} />
 						<Route path="/profile" element={<Profile />} />
 						<Route path="/publicPolicy" element={<PublicPolicy />} />
+						<Route path="/login" element={<Login />} />
 					</Routes>
 				) : (
 					<>
