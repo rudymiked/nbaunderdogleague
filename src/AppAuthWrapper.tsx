@@ -19,9 +19,16 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 	const { state, dispatch } = React.useContext(RootContext);
 
 	React.useEffect(() => {
+		getAuthInfo();
+	}, []);
+
+	const getAuthInfo = () => {
 		GetAuthInformation().then((response: any) => {
 			if (response?.data !== undefined) {
+				
 				const data = response.data[0];
+				console.log(data);
+
 
 				const firstName = data.user_claims[9].val;
 				const lastName = data.user_claims[10].val;
@@ -37,12 +44,13 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 				});
 			}
 		}).catch((reason: any) => {
+			console.log(reason);
 			dispatch({
 				type: AppActionEnum.LOGIN_FAIL,
 				LoginStatus: LoginEnum.Fail,
 			});
 		});
-	}, []);
+	}
 
 	return (
 		<>
@@ -79,7 +87,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 										<a href="/.auth/login/google">Google Login</a>
 									</div>
 									<Button
-										href="/"
+										onClick={getAuthInfo}
 										aria-controls="navigate-to-home">
 										{"Retry login"}
 									</Button>
