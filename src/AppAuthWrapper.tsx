@@ -6,6 +6,7 @@ import { Loading } from './Components/Shared/Loading';
 import { Draft } from './Pages/Draft';
 import { GroupStandings } from './Pages/GroupStandings';
 import { Profile } from './Pages/Profile';
+import { PublicPolicy } from './Pages/PublicPolicy';
 import { Teams } from './Pages/Teams';
 import GetAuthInformation from './services/data/GetAuthInformation';
 import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
@@ -53,6 +54,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 						<Route path="/standings" element={<GroupStandings />} />
 						<Route path="/draft" element={<Draft />} />
 						<Route path="/profile" element={<Profile />} />
+						<Route path="/publicPolicy" element={<PublicPolicy />} />
 					</Routes>
 				) : (
 					<>
