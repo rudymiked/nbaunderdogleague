@@ -72,6 +72,23 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	const [userDataLoaded, SetUserDataLoaded] = React.useState<Boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 	const [draftStartDateTime, SetDraftStartDateTime] = React.useState<string>("");
+	const [draftStartTime, SetDraftStartTime] = React.useState<number>(0);
+
+	// clock
+	const [currentDate, SetCurrentDate] = React.useState<Date>(new Date());
+
+	const refreshClock = () => {
+		SetCurrentDate(new Date());
+	}
+
+	React.useEffect(() => {
+		const timerId = setInterval(refreshClock, 1000);
+		return function cleanup() {
+			clearInterval(timerId);
+		}
+	}, [])
+
+	//
 
 	const [text, SetText] = React.useState<string>("");
 
@@ -95,10 +112,19 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	React.useEffect(() => {
 		if (draftDataLoaded && userDataLoaded) {
 			// combine user and draft data
-			console.log("calling combine data");
+			console.log("Updating Draft Progress");
 			combineUserAndDraftData();
 		}
 	}, [draftDataLoaded, userDataLoaded]);
+
+	React.useEffect(() => {
+		if (currentDate.getTime() > draftStartTime) {
+			if (currentDate.getMinutes() % 5 === 0 && currentDate.getSeconds() === 0) {
+				refreshDraft();
+				refreshUsers();
+			}
+		}
+	},[currentDate])
 
 	const updateFromDraft = (team: string) => {
 		const oldData: IDraftProgressData[] = draftProgress;
@@ -129,6 +155,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 			// first to draft, to collect draft start datetime
 			if (d.draftOrder === 1) {
 				SetDraftStartDateTime(new Date(d.userStartTime).toLocaleString());
+				SetDraftStartTime(new Date(d.userStartTime).getTime());
 			}
 
 			combinedData.push({
@@ -182,6 +209,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 
 	const refreshDraft = () => {
 		if (state.AppStore.GroupId !== "") {
+			SetDataFailedToLoad(false);
 			GetDraftData(state.AppStore.GroupId).then((response: IDraftDataResponse) => {
 				if (response?.data) {
 					const data = response?.data;
@@ -197,6 +225,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 
 	const refreshUsers = () => {
 		if (state.AppStore.GroupId !== "") {
+			SetUserDataLoaded(false);
 			GetUserData(state.AppStore.GroupId).then((response: IUserDataResponse) => {
 				if (response?.data) {
 					const data = response?.data;
