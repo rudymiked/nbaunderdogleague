@@ -44,6 +44,8 @@ export interface IDraftProgressData {
 	draftOrder: number;
 	userStartTime: string;
 	userEndTime: string;
+	userStartTimeMS: number;
+	userEndTimeMS: number;
 }
 
 export interface IUserDataResponse {
@@ -57,7 +59,9 @@ const defaultDraft: IDraftProgressData[] = [{
 	draftOrder: 1,
 	user: "",
 	userStartTime: "",
-	userEndTime: ""
+	userEndTime: "",
+	userStartTimeMS: 0,
+	userEndTimeMS: 0,
 }];
 
 export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (props: IDraftProgressProps) => {
@@ -108,7 +112,9 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 				draftOrder: d.draftOrder,
 				user: d.user,
 				userStartTime: d.userStartTime,
-				userEndTime: d.userEndTime
+				userEndTime: d.userEndTime,
+				userStartTimeMS: d.userStartTimeMS,
+				userEndTimeMS: d.userEndTimeMS,
 			});
 		}
 
@@ -133,6 +139,8 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 				draftOrder: d.draftOrder,
 				userStartTime: new Date(d.userStartTime).toLocaleTimeString(),
 				userEndTime: new Date(d.userEndTime).toLocaleTimeString(),
+				userStartTimeMS: new Date(d.userStartTime).getTime(), // collect time in milliseconds for later comparison
+				userEndTimeMS: new Date(d.userEndTime).getTime(),
 			});
 		});
 
@@ -225,6 +233,23 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		},
 	];
 
+	const rowStyle = (row: IDraftProgressData, rowIndex: number) => {
+		const style: React.CSSProperties = {};
+		
+		if (row.user === state.AppStore.Email.split("@")[0]) {
+			style.backgroundColor = '#c8e6c9';
+		}
+
+		const now: Date = new Date();
+
+		if (row.userStartTimeMS < now.getTime() && row.userEndTimeMS > now.getTime()) {
+			style.fontWeight = "bold";
+			style.backgroundColor = '#F78387';
+		}
+	  
+		return style;
+	  };
+
 	return (
 		<Card className='side-panel'>
 			<Card.Title className='card-title'>Draft Progress</Card.Title>
@@ -242,7 +267,8 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 								<BootstrapTable
 									keyField='draftOrder'
 									data={draftProgress}
-									columns={columns} />
+									columns={columns} 
+									rowStyle={rowStyle} />
 							</>
 							) : (
 								<Error />

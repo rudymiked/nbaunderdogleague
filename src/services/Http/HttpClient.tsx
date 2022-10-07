@@ -136,7 +136,6 @@ export default class HttpClient implements IHttpClient {
 			const options: AxiosRequestConfig = {
 				headers: token ?? axiosHeaders,
 				withCredentials: true,
-				params: data,
 			};
 
 			axios

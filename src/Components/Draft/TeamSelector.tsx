@@ -27,12 +27,14 @@ interface ITeamsTableResponse {
 }
 
 export const success = "Success";
+export const draftButtonText = "Draft!";
 
 export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props: ITeamSelectorProps) => {
 	const [selectedTeam, SetSelectedTeam] = React.useState<ITeamsTableData>();
 	const [data, SetData] = React.useState<ITeamsTableData[]>([]);
 	const [dataLoaded, SetDataLoaded] = React.useState<Boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
+	const [teamSelected, SetTeamSelected] = React.useState<Boolean>(false);
 	const [draftingResultText, SetDraftingResultText] = React.useState<string>("");
 
 	const { state, dispatch } = React.useContext(RootContext);
@@ -74,6 +76,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 
 	const onSelect = (row: any, isSelected: boolean) => {
 		SetSelectedTeam(row);
+		SetTeamSelected(true);
 	};
 
     const selectRow: SelectRowProps<any> = {
@@ -86,7 +89,6 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 	const handleDraftClicked = () => {
 		// TODO Make this have state so the value is actually correct. Having a default blank/disabled is kind of a workaround
 		if (selectedTeam?.name !== '') {
-			console.log("Drafting: " + selectedTeam?.name);
 			DraftTeamAction(state.AppStore.GroupId, state.AppStore.Email, selectedTeam.name).then((response: any) => {
 				if (response?.data) {
 					const data = response.data;
@@ -118,8 +120,11 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		<Card className='team-selector'>
 			<Card.Title className='card-title'>{state.AppStore.GroupName} Draft</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
-				<Button variant="danger" onClick={() => handleDraftClicked()}>
-					Draft!
+				<Button 
+					variant="danger" 
+					onClick={() => handleDraftClicked()} 
+					disabled={!teamSelected}>
+					{draftButtonText}
 				</Button>
 				<br />
 				<br />
