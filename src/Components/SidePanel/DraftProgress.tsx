@@ -13,7 +13,9 @@ import { LoginEnum, AppActionEnum } from '../../services/Stores/AppReducer';
 import GetAllUsersGroups from '../../services/data/GetAllUsersGroups';
 import { IGroupDataArrayResponse, somethingWentWrongText, IGroupData } from '../../Pages/Profile';
 
-export interface IDraftProgressProps {}
+export interface IDraftProgressProps {
+	userDrafted: IUserData;
+}
 
 export interface IDraftData  extends IEntity {
 	email: string;
@@ -48,52 +50,94 @@ export interface IUserDataResponse {
 	data: IUserData[];
 }
 
+const defaultDraft: IDraftProgressData[] = [{
+	team: "",
+	id: "",
+	groupId: Guid.createEmpty(),
+	draftOrder: 1,
+	user: "",
+	userStartTime: "",
+	userEndTime: ""
+}];
+
 export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (props: IDraftProgressProps) => {
 	const [draftData, SetDraftData] = React.useState<IDraftData[]>([]);
 	const [userData, SetUsers] = React.useState<IUserData[]>([]);
-	const [draftProgress, SetDraftProgress] = React.useState<IDraftProgressData[]>([]);
+	const [draftProgress, SetDraftProgress] = React.useState<IDraftProgressData[]>(defaultDraft);
 	const [draftDataLoaded, SetDraftDataLoaded] = React.useState<Boolean>(false);
 	const [userDataLoaded, SetUserDataLoaded] = React.useState<Boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 	const [draftStartDateTime, SetDraftStartDateTime] = React.useState<string>("");
+
+	const [text, SetText] = React.useState<string>("");
 
 	const { state, dispatch } = React.useContext(RootContext);
 
 	React.useEffect(() => {
 		if (state.AppStore.LoginStatus === LoginEnum.Success) {
 			updateGroup();
-			refershDraft();
+			refreshDraft();
 			refreshUsers();
 		}
 	}, [state]);
 
+
+	React.useEffect(() => {
+		if (props.userDrafted?.team !== "") {
+			updateFromDraft(props.userDrafted?.team);
+		}
+	}, [props]);
+
 	React.useEffect(() => {
 		if (draftDataLoaded && userDataLoaded) {
 			// combine user and draft data
-			const combinedData: IDraftProgressData[] = [];
-
-			draftData.forEach(d => {
-				const userInfo: IUserData = userData.filter((u: IUserData) => u.email === d.email)[0];
-
-				// first to draft, to collect draft start datetime
-				if (d.draftOrder === 1) {
-					SetDraftStartDateTime(new Date(d.userStartTime).toLocaleString());
-				}
-
-				combinedData.push({
-					user: d.email.split("@")[0],
-					team: userInfo.team,
-					id: d.id,
-					groupId: d.groupId,
-					draftOrder: d.draftOrder,
-					userStartTime: new Date(d.userStartTime).toLocaleTimeString(),
-					userEndTime: new Date(d.userEndTime).toLocaleTimeString(),
-				});
-			});
-
-			SetDraftProgress(combinedData);
+			console.log("calling combine data");
+			combineUserAndDraftData();
 		}
-	},[draftDataLoaded, userDataLoaded])
+	}, [draftDataLoaded, userDataLoaded]);
+
+	const updateFromDraft = (team: string) => {
+		const oldData: IDraftProgressData[] = draftProgress;
+		const updatedDraftProgress: IDraftProgressData[] = [];
+
+		for(const d of oldData) {
+			updatedDraftProgress.push({
+				team: props.userDrafted?.email.split("@")[0] === d.user ? props.userDrafted?.team : d.team,
+				id: d.id,
+				groupId: d.groupId,
+				draftOrder: d.draftOrder,
+				user: d.user,
+				userStartTime: d.userStartTime,
+				userEndTime: d.userEndTime
+			});
+		}
+
+		SetDraftProgress(updatedDraftProgress);
+	}
+
+	const combineUserAndDraftData = () => {
+		const combinedData: IDraftProgressData[] = [];
+
+		draftData.forEach(d => {
+			const userInfo: IUserData = userData.filter((u: IUserData) => u.email === d.email)[0];
+			// first to draft, to collect draft start datetime
+			if (d.draftOrder === 1) {
+				SetDraftStartDateTime(new Date(d.userStartTime).toLocaleString());
+			}
+
+			combinedData.push({
+				user: d.email.split("@")[0],
+				team: userInfo.team,
+				id: d.id,
+				groupId: d.groupId,
+				draftOrder: d.draftOrder,
+				userStartTime: new Date(d.userStartTime).toLocaleTimeString(),
+				userEndTime: new Date(d.userEndTime).toLocaleTimeString(),
+			});
+		});
+
+		SetDraftProgress(combinedData);
+	}
 
 	const updateGroup = () => {
 		if (state.AppStore.GroupId === "") {
@@ -128,7 +172,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		}
 	}
 
-	const refershDraft = () => {
+	const refreshDraft = () => {
 		if (state.AppStore.GroupId !== "") {
 			GetDraftData(state.AppStore.GroupId).then((response: IDraftDataResponse) => {
 				if (response?.data) {
@@ -194,6 +238,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 						) : ( !dataFailedToLoad ? (
 							<>
 								<p>Draft Start: {draftStartDateTime}</p>
+								<p><b>{text}</b></p>
 								<BootstrapTable
 									keyField='draftOrder'
 									data={draftProgress}

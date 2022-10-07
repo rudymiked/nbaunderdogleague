@@ -1,14 +1,16 @@
 import React from 'react';
 import { TeamSelector } from '../Components/Draft/TeamSelector';
-import { DraftProgress } from '../Components/SidePanel/DraftProgress';
+import { DraftProgress, IUserData } from '../Components/SidePanel/DraftProgress';
 
 interface IDraftPageProps {}
 
 export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
+	const [ userDrafted, SetUserDrafted ] = React.useState<IUserData>();
+	
 	return (
 		<>
-			<DraftProgress />
-			<TeamSelector />
+			<DraftProgress {...{userDrafted}} />
+			<TeamSelector {...{SetUserDrafted}}/>
 		</>
 	);
 }

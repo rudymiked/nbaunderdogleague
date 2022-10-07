@@ -16,7 +16,6 @@ export const YourGroups: React.FunctionComponent = () => {
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [requestResult, SetRequestResult] = React.useState<string>("");
 	const [dropdownText, SetDropdownText] = React.useState<string>(yourGroupsText);
-	const [selectedGroupId, SetSelectedGroupId] = React.useState<string>("");
 	const [showChangeDropdown, SetShowChangeDropdown] = React.useState<boolean>(false);
 
 	const { state, dispatch } = React.useContext(RootContext);
@@ -41,7 +40,6 @@ export const YourGroups: React.FunctionComponent = () => {
 	}, [state]);
 
 	const selectAGroup = (key: string, name: string) => {
-		SetSelectedGroupId(key);
 		SetDropdownText(name);
 
 		dispatch({

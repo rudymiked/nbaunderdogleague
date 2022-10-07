@@ -8,8 +8,13 @@ import { IEntity } from '../../App';
 import { sortCaretFunc } from '../../Utils/Utils';
 import { RootContext } from '../../services/Stores/RootStore';
 import GetAvailableTeamsToDraft from '../../services/data/GetAvailableTeamsToDraft';
+import DraftTeamAction from '../../services/actions/DraftTeamAction';
+import { IUserData } from '../SidePanel/DraftProgress';
+import { Guid } from 'guid-typescript';
 
-export interface ITeamSelectorProps {}
+export interface ITeamSelectorProps {
+	SetUserDrafted: React.Dispatch<React.SetStateAction<IUserData>>;
+}
 
 interface ITeamsTableData extends IEntity {
 	name: string;
@@ -21,11 +26,14 @@ interface ITeamsTableResponse {
 	data: ITeamsTableData[];
 }
 
+export const success = "Success";
+
 export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props: ITeamSelectorProps) => {
 	const [selectedTeam, SetSelectedTeam] = React.useState<ITeamsTableData>();
 	const [data, SetData] = React.useState<ITeamsTableData[]>([]);
 	const [dataLoaded, SetDataLoaded] = React.useState<Boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
+	const [draftingResultText, SetDraftingResultText] = React.useState<string>("");
 
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -79,7 +87,30 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		// TODO Make this have state so the value is actually correct. Having a default blank/disabled is kind of a workaround
 		if (selectedTeam?.name !== '') {
 			console.log("Drafting: " + selectedTeam?.name);
-			// TODO Make an API call
+			DraftTeamAction(state.AppStore.GroupId, state.AppStore.Email, selectedTeam.name).then((response: any) => {
+				if (response?.data) {
+					const data = response.data;
+					if (data === success) {
+						const user: IUserData = {
+							groupId: Guid.parse(state.AppStore.GroupId),
+							email: state.AppStore.Email,
+							team: selectedTeam.name,
+							partitionKey: state.AppStore.GroupId,
+							rowKey: state.AppStore.Email,
+							timestamp: new Date(),
+							eTag: "*",
+						}
+
+						props.SetUserDrafted(user);
+
+						SetDraftingResultText("Successfully drafted: " + selectedTeam.city + " " + selectedTeam.name);
+					} else {
+						SetDraftingResultText(data);	
+					}
+				}
+			}).catch((reason: any) => {
+				console.log(reason);
+			});
 		}
 	};
 
@@ -92,7 +123,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 				</Button>
 				<br />
 				<br />
-				<p><b>{selectedTeam ? selectedTeam.city : "."} {selectedTeam?.name}</b></p>
+				<p>{draftingResultText}</p>
 				<br />
 				{!dataLoaded ? (
 					<Loading />
@@ -100,7 +131,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 					<BootstrapTable
 						bootstrap4
 						keyField='name'
-						selectRow={selectRow}
+						selectRow={ selectRow }
 						data={ data }
 						columns={ columns } />
 					) : (

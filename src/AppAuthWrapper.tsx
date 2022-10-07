@@ -25,7 +25,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 	const [groupId, SetGroupId] = React.useState<string>("");
 
 	React.useEffect(() => {
-		if (authEmail === "") {
+		if (authEmail === "" && state.AppStore.LoginStatus !== LoginEnum.Fail) {
 			getAuthInfo();
 		}
 	}, [state]);
@@ -160,18 +160,6 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 									</div>
 								</Card.Body>
 							</Card>
-						// ) : ( // log in failed
-						// 		<Card style={{padding: '10px'}}>
-						// 		<Card.Title className='card-title'>Login Failed!</Card.Title>
-						// 		<Card.Body>
-						// 			<Button
-						// 				onClick={getAuthInfo}
-						// 				aria-controls="navigate-to-home">
-						// 				{"Retry login"}
-						// 			</Button>
-						// 		</Card.Body>
-						// 	</Card>
-						// )
 					)
 				)}
 			</main>

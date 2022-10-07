@@ -7,12 +7,6 @@ import basketball from '../../images/basketball_black.png';
 import { RootContext } from '../../services/Stores/RootStore';
 import { LoginEnum } from '../../services/Stores/AppReducer';
 
-export interface IUserInfo {
-	FirstName: string;
-	LastName: string;
-	Email: string;
-}
-
 interface INavProps {};
 
 export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => {
