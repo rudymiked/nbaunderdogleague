@@ -2,19 +2,23 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import './DraftProgress.css';
 import BootstrapTable from 'react-bootstrap-table-next';
-import GetUserData from '../../services/data/GetUserData';
-import { Loading } from '../Shared/Loading';
-import { Error } from '../Error/Error';
+import GetUserData from '../../../services/data/GetUserData';
+import { Loading } from '../../Shared/Loading';
+import { Error } from '../../Error/Error';
 import { Guid } from 'guid-typescript';
-import { IEntity } from '../../App';
-import GetDraftData from '../../services/data/GetDraftData';
-import { RootContext } from '../../services/Stores/RootStore';
-import { LoginEnum, AppActionEnum } from '../../services/Stores/AppReducer';
-import GetAllUsersGroups from '../../services/data/GetAllUsersGroups';
-import { IGroupDataArrayResponse, somethingWentWrongText, IGroupData } from '../../Pages/Profile';
+import { IEntity } from '../../../App';
+import GetDraftData from '../../../services/data/GetDraftData';
+import { RootContext } from '../../../services/Stores/RootStore';
+import { LoginEnum, AppActionEnum } from '../../../services/Stores/AppReducer';
+import GetAllUsersGroups from '../../../services/data/GetAllUsersGroups';
+import { IGroupDataArrayResponse, somethingWentWrongText, IGroupData } from '../../../Pages/Profile';
 
 export interface IDraftProgressProps {
 	userDrafted: IUserData;
+	currentDate: Date;
+	draftStartTime: number;
+	SetDraftStartTime: React.Dispatch<React.SetStateAction<Number>>;
+	SetDraftEndTime: React.Dispatch<React.SetStateAction<Number>>;
 }
 
 export interface IDraftData  extends IEntity {
@@ -72,25 +76,6 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	const [userDataLoaded, SetUserDataLoaded] = React.useState<Boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 	const [draftStartDateTime, SetDraftStartDateTime] = React.useState<string>("");
-	const [draftStartTime, SetDraftStartTime] = React.useState<number>(0);
-
-	// clock
-	const [currentDate, SetCurrentDate] = React.useState<Date>(new Date());
-
-	const refreshClock = () => {
-		SetCurrentDate(new Date());
-	}
-
-	React.useEffect(() => {
-		const timerId = setInterval(refreshClock, 1000);
-		return function cleanup() {
-			clearInterval(timerId);
-		}
-	}, [])
-
-	//
-
-	const [text, SetText] = React.useState<string>("");
 
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -107,7 +92,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		if (props.userDrafted?.team !== "") {
 			updateFromDraft(props.userDrafted?.team);
 		}
-	}, [props]);
+	}, [props.userDrafted?.team]);
 
 	React.useEffect(() => {
 		if (draftDataLoaded && userDataLoaded) {
@@ -118,13 +103,13 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	}, [draftDataLoaded, userDataLoaded]);
 
 	React.useEffect(() => {
-		if (currentDate.getTime() > draftStartTime) {
-			if (currentDate.getMinutes() % 5 === 0 && currentDate.getSeconds() === 0) {
+		if (props.currentDate.getTime() > props.draftStartTime) {
+			if (props.currentDate.getMinutes() % 5 === 0 && props.currentDate.getSeconds() === 0) {
 				refreshDraft();
 				refreshUsers();
 			}
 		}
-	},[currentDate])
+	},[props.currentDate]);
 
 	const updateFromDraft = (team: string) => {
 		const oldData: IDraftProgressData[] = draftProgress;
@@ -149,13 +134,14 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 
 	const combineUserAndDraftData = () => {
 		const combinedData: IDraftProgressData[] = [];
+		let draftEndTime: number = 0;
 
 		draftData.forEach(d => {
 			const userInfo: IUserData = userData.filter((u: IUserData) => u.email === d.email)[0];
 			// first to draft, to collect draft start datetime
 			if (d.draftOrder === 1) {
 				SetDraftStartDateTime(new Date(d.userStartTime).toLocaleString());
-				SetDraftStartTime(new Date(d.userStartTime).getTime());
+				props.SetDraftStartTime(new Date(d.userStartTime).getTime());
 			}
 
 			combinedData.push({
@@ -169,8 +155,11 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 				userStartTimeMS: new Date(d.userStartTime).getTime(), // collect time in milliseconds for later comparison
 				userEndTimeMS: new Date(d.userEndTime).getTime(),
 			});
+			
+			draftEndTime = Math.max(draftEndTime, new Date(d.userEndTime).getTime());
 		});
 
+		props.SetDraftEndTime(draftEndTime);
 		SetDraftProgress(combinedData);
 	}
 
@@ -291,8 +280,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 							<Loading />
 						) : ( !dataFailedToLoad ? (
 							<>
-								<p>Draft Start: {draftStartDateTime}</p>
-								<p><b>{text}</b></p>
+								<p>{props.currentDate.toLocaleTimeString()}</p>
 								<BootstrapTable
 									keyField='draftOrder'
 									data={draftProgress}

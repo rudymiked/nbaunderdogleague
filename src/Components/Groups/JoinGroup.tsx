@@ -52,7 +52,11 @@ export const JoinGroup: React.FunctionComponent = () => {
 		JoinGroupAction(selectedGroupId, state.AppStore.Email).then((response: IJoinGroupResponse) => {
 			if (response?.data !== undefined) {
 				console.log(response);
-				SetJoinRequestResult(response.data);
+				if (response?.data === "") {
+					SetJoinRequestResult(somethingWentWrongText);
+				} else {
+					SetJoinRequestResult(response.data);
+				}
 			}
 		}).catch((reason: any) => {
 			SetJoinRequestResult(somethingWentWrongText);

@@ -2,18 +2,21 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import './TeamSelector.css';
 import BootstrapTable, { ColumnDescription, SelectRowProps } from 'react-bootstrap-table-next';
-import { Loading } from '../Shared/Loading';
-import { Error } from '../Error/Error';
-import { IEntity } from '../../App';
-import { sortCaretFunc } from '../../Utils/Utils';
-import { RootContext } from '../../services/Stores/RootStore';
-import GetAvailableTeamsToDraft from '../../services/data/GetAvailableTeamsToDraft';
-import DraftTeamAction from '../../services/actions/DraftTeamAction';
-import { IUserData } from '../SidePanel/DraftProgress';
+import { Loading } from '../../Shared/Loading';
+import { Error } from '../../Error/Error';
+import { IEntity } from '../../../App';
+import { sortCaretFunc } from '../../../Utils/Utils';
+import { RootContext } from '../../../services/Stores/RootStore';
+import GetAvailableTeamsToDraft from '../../../services/data/GetAvailableTeamsToDraft';
+import DraftTeamAction from '../../../services/actions/DraftTeamAction';
 import { Guid } from 'guid-typescript';
+import { IUserData } from '../SidePanel/DraftProgress';
 
 export interface ITeamSelectorProps {
 	SetUserDrafted: React.Dispatch<React.SetStateAction<IUserData>>;
+	currentDate: Date;
+	draftStartTime: number;
+	draftEndTime: number;
 }
 
 interface ITeamsTableData extends IEntity {
@@ -40,18 +43,29 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 	const { state, dispatch } = React.useContext(RootContext);
 
 	React.useEffect(() => {
+		if (props.currentDate.getMinutes() % 5 === 0 && props.currentDate.getSeconds() === 0) {
+			getAvailableTeams();
+		}
+	}, [props.currentDate]);
+
+	React.useEffect(() => {
 		if (state.AppStore.GroupId !== "") {
-			GetAvailableTeamsToDraft(state.AppStore.GroupId).then((response: ITeamsTableResponse) => {
-				if (response?.data) {
-					SetDataLoaded(true);
-					SetData(response?.data);
-				}
-			}).catch((reason: any) => {
-				SetDataLoaded(true);
-				SetDataFailedToLoad(true);
-			});
+			getAvailableTeams();
 		}
 	}, [state]);
+
+	const getAvailableTeams = () => {
+		SetDataLoaded(false);
+		GetAvailableTeamsToDraft(state.AppStore.GroupId).then((response: ITeamsTableResponse) => {
+			if (response?.data) {
+				SetDataLoaded(true);
+				SetData(response?.data);
+			}
+		}).catch((reason: any) => {
+			SetDataLoaded(true);
+			SetDataFailedToLoad(true);
+		});
+	}
 
 	const columns: ColumnDescription[] = [
 		{
@@ -116,29 +130,45 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		}
 	};
 
+	const draftEnabled = (): boolean => {
+		if (props.currentDate.getTime() < props.draftStartTime || props.currentDate.getTime() > props.draftEndTime) {
+			return false;
+		}
+
+		if (!teamSelected) {
+			return false
+		}
+		
+		return true;
+	}
+
 	return (
 		<Card className='team-selector'>
 			<Card.Title className='card-title'>{state.AppStore.GroupName} Draft</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
-				<Button 
-					variant="danger" 
-					onClick={() => handleDraftClicked()} 
-					disabled={!teamSelected}>
-					{draftButtonText}
-				</Button>
-				<br />
-				<br />
-				<p>{draftingResultText}</p>
-				<br />
 				{!dataLoaded ? (
 					<Loading />
 				) : ( !dataFailedToLoad ? (
-					<BootstrapTable
-						bootstrap4
-						keyField='name'
-						selectRow={ selectRow }
-						data={ data }
-						columns={ columns } />
+					<>
+						<p>Start: {new Date(props.draftStartTime).toLocaleTimeString()}</p>
+						<p>Finish: {new Date(props.draftEndTime).toLocaleTimeString()}</p>
+						<Button 
+							variant="danger" 
+							onClick={() => handleDraftClicked()} 
+							disabled={!draftEnabled()}>
+							{draftButtonText}
+						</Button>
+						<br />
+						<br />
+						<p>{draftingResultText}</p>
+						<br />
+						<BootstrapTable
+							bootstrap4
+							keyField='name'
+							selectRow={ selectRow }
+							data={ data }
+							columns={ columns } />
+					</>
 					) : (
 						<Error />
 					)
