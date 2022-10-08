@@ -136,6 +136,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		}
 
 		if (!teamSelected) {
+			console.log("team not selected");
 			return false
 		}
 		

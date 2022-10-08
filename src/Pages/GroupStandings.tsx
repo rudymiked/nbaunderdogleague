@@ -97,8 +97,25 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 
 			GetGroupStandingsData(groupId).then((response: IGroupStandingsDataResponse) => {
 				if (response?.data) {
+					const data = response.data;
+					const newData: IGroupStandingsData[] = [];
+					
+					for (const d of data) { 
+						newData.push({
+							governor: d.governor.split("@")[0],
+							teamName: d.teamName,
+							teamCity: d.teamCity,
+							projectedWin: d.projectedWin,
+							projectedLoss: d.projectedLoss,
+							win: d.win,
+							loss: d.loss,
+							score: d.score,
+							playoffs: d.playoffs
+						})
+					}
+
 					SetDataLoaded(true);
-					SetData(response?.data);
+					SetData(newData);
 				} else {
 					// no standings data
 				}

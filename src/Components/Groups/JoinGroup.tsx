@@ -3,10 +3,15 @@ import { Button, Dropdown } from 'react-bootstrap';
 import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
 import JoinGroupAction from '../../services/actions/JoinGroupAction';
 import GetAllGroups from '../../services/data/GetGroups';
+import { AppActionEnum } from '../../services/Stores/AppReducer';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';
 
 // Join a group that someone else has created for this season
+
+interface IJoinGroupProps {
+
+}
 
 export interface IJoinGroupResponse {
 	data: string;
@@ -14,13 +19,15 @@ export interface IJoinGroupResponse {
 
 const joinGroupText = "Join a group";
 
-export const JoinGroup: React.FunctionComponent = () => {
+export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoinGroupProps) => {
 	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
+	const [requesting, SetRequesting] = React.useState<boolean>(false);
 	const [requestResult, SetRequestResult] = React.useState<string>("");
 	const [joinRequestResult, SetJoinRequestResult] = React.useState<string>("");
 	const [dropdownText, SetDropdownText] = React.useState<string>(joinGroupText);
 	const [selectedGroupId, SetSelectedGroupId] = React.useState<string>("");
+	const [selectedGroupName, SetSelectedGroupName] = React.useState<string>("");
 
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -45,17 +52,23 @@ export const JoinGroup: React.FunctionComponent = () => {
 
 	const selectAGroup = (key: string, name: string) => {
 		SetSelectedGroupId(key);
+		SetSelectedGroupName(name);
 		SetDropdownText(name);
 	};
 
 	const requestToJoinGroup = () => {
 		JoinGroupAction(selectedGroupId, state.AppStore.Email).then((response: IJoinGroupResponse) => {
 			if (response?.data !== undefined) {
-				console.log(response);
 				if (response?.data === "") {
 					SetJoinRequestResult(somethingWentWrongText);
 				} else {
-					SetJoinRequestResult(response.data);
+					SetJoinRequestResult(response.data + " Please navigate to the Draft to see your draft start time.");
+
+					dispatch({
+						type: AppActionEnum.UPDATE_GROUP,
+						GroupId: selectedGroupId,
+						GroupName: selectedGroupName,
+					});
 				}
 			}
 		}).catch((reason: any) => {
@@ -89,9 +102,12 @@ export const JoinGroup: React.FunctionComponent = () => {
 							<>
 								<Button
 									onClick={() => {
+										SetRequesting(true);
 										SetJoinRequestResult("Requesting...");
 										requestToJoinGroup();
+										SetRequesting(false);
 									}}
+									disabled={requesting}
 									aria-controls="join-a-group-request">
 									{"Request To Join Group"}
 								</Button>

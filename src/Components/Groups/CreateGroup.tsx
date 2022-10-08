@@ -70,6 +70,7 @@ export const CreateGroup: React.FunctionComponent = () => {
 					<span>{requestResult}</span>
 				</div>
 			</Collapse>
+			<hr />
 		</>
 	);
 }

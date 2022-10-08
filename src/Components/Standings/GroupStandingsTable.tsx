@@ -1,6 +1,7 @@
 import React from 'react';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import { IGroupStandingsData } from '../../Pages/GroupStandings';
+import { RootContext } from '../../services/Stores/RootStore';
 import { sortCaretFunc } from '../../Utils/Utils';
 
 export interface IGroupStandingsTableProps {
@@ -8,6 +9,8 @@ export interface IGroupStandingsTableProps {
 }
 
 export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTableProps> = (props: IGroupStandingsTableProps) => {
+	const { state, dispatch } = React.useContext(RootContext);
+
 	const columns: ColumnDescription[] = [
 		{
 			dataField: 'score',
@@ -53,6 +56,16 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 		}
 	];
 
+	const rowStyle = (row: IGroupStandingsData, rowIndex: number) => {
+		const style: React.CSSProperties = {};
+		
+		if (row.governor === state.AppStore.Email) {
+			style.backgroundColor = '#c8e6c9';
+		}
+		
+		return style;
+	};
+
 	return (
 		<BootstrapTable 
 			keyField='teamName'
@@ -62,6 +75,7 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 					order: 'desc' 
 				}]}
 			data={ props.data } 
-			columns={ columns } />
+			columns={ columns }
+			rowStyle={rowStyle} />
 	);
 }

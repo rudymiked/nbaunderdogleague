@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import './DraftProgress.css';
-import BootstrapTable from 'react-bootstrap-table-next';
+import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import GetUserData from '../../../services/data/GetUserData';
 import { Loading } from '../../Shared/Loading';
 import { Error } from '../../Error/Error';
@@ -228,7 +228,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		}
 	}
 
-	const columns = [
+	const columns: ColumnDescription[] = [
 		{
 			dataField: 'draftOrder',
 			text: 'Order'
@@ -264,9 +264,9 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 			style.fontWeight = "bold";
 			style.backgroundColor = '#F78387';
 		}
-	  
+		
 		return style;
-	  };
+	};
 
 	return (
 		<Card className='side-panel'>

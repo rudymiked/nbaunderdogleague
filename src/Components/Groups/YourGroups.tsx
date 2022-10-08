@@ -8,10 +8,14 @@ import { Loading } from '../Shared/Loading';
 
 // choose one of your groups
 
+interface IYourGroupsProps {
+
+}
+
 const yourGroupsText = "Your groups";
 const groupChangedText = "Group Changed!";
 
-export const YourGroups: React.FunctionComponent = () => {
+export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYourGroupsProps) => {
 	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [requestResult, SetRequestResult] = React.useState<string>("");

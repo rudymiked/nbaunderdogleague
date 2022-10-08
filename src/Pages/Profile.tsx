@@ -7,6 +7,7 @@ import { CreateGroup } from '../Components/Groups/CreateGroup';
 import { JoinGroup } from '../Components/Groups/JoinGroup';
 import { LoginEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
+import { SetupDraft } from '../Components/Draft/SetupDraft';
 
 interface ITeamPageProps {}
 
@@ -52,6 +53,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 						<YourGroups />
 						<JoinGroup />
 						<CreateGroup />
+						<SetupDraft />
 					</div>
 				) : (
 					state.AppStore.LoginStatus === LoginEnum.Fail ? (
