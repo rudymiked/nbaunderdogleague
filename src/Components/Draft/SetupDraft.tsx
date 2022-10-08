@@ -22,6 +22,7 @@ export interface ISetupDraftResults {
 }
 
 const chooseGroupText = "Choose Group";
+const adminEmail: string = "rudymiked@gmail.com";
 
 const hourOptions: number[] = [...Array(23).keys()];
 const minuteOptions: number[] = [];
@@ -45,10 +46,12 @@ export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISe
 	const { state, dispatch } = React.useContext(RootContext);
 
     React.useEffect(() => {
+        minuteOptions.length = 0; // reset
         for (let i: number = 0;i<=55;i = i + 5) {
             minuteOptions.push(i);
         }
 
+        windowOptions.length = 0;
         windowOptions.push(5);
         windowOptions.push(10);
     }, [])
@@ -58,9 +61,8 @@ export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISe
 			GetAllGroups(true, state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
                     const data = response.data;
-                    console.log(data);
                     SetRequestResult("");
-					SetOwnedGroups(data.filter((group: IGroupData) => group.name && group.name !== "" && group.owner === state.AppStore.Email));
+					SetOwnedGroups(data.filter((group: IGroupData) => group.name && group.name !== "" && (group.owner === state.AppStore.Email || state.AppStore.Email === adminEmail)));
 				} else {
 					SetRequestResult(somethingWentWrongText);
 				}
@@ -91,15 +93,14 @@ export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISe
 			if (response?.data !== undefined) {
                 SetRequestResult("");
                 const data = response?.data;
-
                 const draftResults: ISetupDraftResults[] = [];
                 
                 for(const d of data) {
                     draftResults.push({
                         draftOrder: d.draftOrder,
                         email: d.email,
-                        userStartTime: d.userStartTime.toDateString(),
-                        userEndTime: d.userEndTime.toString(),
+                        userStartTime: new Date(d.userStartTime).toDateString(),
+                        userEndTime: new Date(d.userEndTime).toString(),
                     });
                 }
 

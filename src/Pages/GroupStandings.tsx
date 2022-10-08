@@ -41,7 +41,6 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 	const navigate = useNavigate();
 
 	React.useEffect(() => {
-		console.log(state);
 		if (state.AppStore.Email !== "") {
 			// user has logged in
 

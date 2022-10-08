@@ -152,11 +152,11 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 										</Button>
 										<br />
 										<br />
-										<Button
+										{/* <Button
 											href={"/.auth/login/facebook?post_login_redirect_uri=/standings"}
 											aria-controls="login-with-facebook">
 											{"Login with Facebook"}
-										</Button>
+										</Button> */}
 									</div>
 								</Card.Body>
 							</Card>
