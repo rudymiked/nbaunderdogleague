@@ -5,7 +5,7 @@ import { Error } from '../Components/Error/Error';
 import { YourGroups } from '../Components/Profile/YourGroups';
 import { Loading } from '../Components/Shared/Loading';
 import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable';
-import GetAllUsersGroups from '../services/data/GetAllUsersGroups';
+import GetAllUsersGroups from '../services/data/GetAllGroupsUserIsInByYear';
 import GetGroupStandingsData from '../services/data/GetGroupStandingsData';
 import { AppActionEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
@@ -31,10 +31,11 @@ interface IStandingsPageProps {}
 
 export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (props: IStandingsPageProps) => {
 	const [data, SetData] = React.useState<IGroupStandingsData[]>([]);
-	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
+	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [noGroups, SetNoGroups] = React.useState<boolean>(false);
 	const [groupId, SetGroupId] = React.useState<string>("");
+	const [refresh, SetRefresh] = React.useState<number>(0);
 
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -53,7 +54,7 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 	}, [state]);
 
 	const updateGroup = () => {
-		if (state.AppStore.GroupId === "") {
+		if (state.AppStore.GroupId === "" && state.AppStore.Email !== "") {
 			// group ID has not been set
 			// need to load groups and set first index for standings
 			// also need to set group ID in context
@@ -133,7 +134,7 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 						<Loading />
 					) : (!dataFailedToLoad ? (
 							<div hidden={noGroups}>
-								<YourGroups />
+								<YourGroups {...{refresh, SetRefresh}} />
 								<GroupStandingsTable data={data} />
 							</div>
 						) : (

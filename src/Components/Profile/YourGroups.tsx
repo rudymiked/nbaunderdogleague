@@ -1,7 +1,7 @@
 import React from 'react';
 import {  Dropdown } from 'react-bootstrap';
 import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
-import GetAllUsersGroups from '../../services/data/GetAllUsersGroups';
+import GetAllGroupsUserIsInByYear from '../../services/data/GetAllGroupsUserIsInByYear';
 import { AppActionEnum } from '../../services/Stores/AppReducer';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';
@@ -9,24 +9,34 @@ import { Loading } from '../Shared/Loading';
 // choose one of your groups
 
 interface IYourGroupsProps {
-
+	refresh: number;
+	SetRefresh: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const yourGroupsText = "Your groups";
-const groupChangedText = "Group Changed!";
 
 export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYourGroupsProps) => {
 	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [requestResult, SetRequestResult] = React.useState<string>("");
 	const [dropdownText, SetDropdownText] = React.useState<string>(yourGroupsText);
-	const [showChangeDropdown, SetShowChangeDropdown] = React.useState<boolean>(false);
 
 	const { state, dispatch } = React.useContext(RootContext);
 
 	React.useEffect(() => {
+		console.log(state);
+		loadGroups();
+	}, [state]);
+
+	React.useEffect(() => {
+		loadGroups();
+	}, [props.refresh]);
+
+	const loadGroups = () => {
 		if (state.AppStore.Email !== "") {
-			GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
+			SetDataLoaded(false);
+			
+			GetAllGroupsUserIsInByYear(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
 					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
 				} else {
@@ -38,10 +48,8 @@ export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYo
 				SetRequestResult(somethingWentWrongText);
 				SetDataLoaded(true);
 			});
-		} else {
-			// user not logged in
 		}
-	}, [state]);
+	};
 
 	const selectAGroup = (key: string, name: string) => {
 		SetDropdownText(name);
@@ -51,8 +59,6 @@ export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYo
 			GroupId: key,
 			GroupName: name,
 		});
-
-		SetShowChangeDropdown(true);
 	};
 
 	return (
@@ -75,7 +81,6 @@ export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYo
 							))}
 						</Dropdown.Menu>
 					</Dropdown>
-					<span hidden={!showChangeDropdown}>{groupChangedText}</span>
 					</div>
 					) : (
 						<div>

@@ -10,15 +10,15 @@ import { IEntity } from '../../../App';
 import GetDraftData from '../../../services/data/GetDraftData';
 import { RootContext } from '../../../services/Stores/RootStore';
 import { LoginEnum, AppActionEnum } from '../../../services/Stores/AppReducer';
-import GetAllUsersGroups from '../../../services/data/GetAllUsersGroups';
+import GetAllGroupsUserIsInByYear from '../../../services/data/GetAllGroupsUserIsInByYear';
 import { IGroupDataArrayResponse, somethingWentWrongText, IGroupData } from '../../../Pages/Profile';
 
 export interface IDraftProgressProps {
 	userDrafted: IUserData;
 	currentDate: Date;
 	draftStartTime: number;
-	SetDraftStartTime: React.Dispatch<React.SetStateAction<Number>>;
-	SetDraftEndTime: React.Dispatch<React.SetStateAction<Number>>;
+	SetDraftStartTime: React.Dispatch<React.SetStateAction<number>>;
+	SetDraftEndTime: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface IDraftData  extends IEntity {
@@ -72,9 +72,9 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	const [draftData, SetDraftData] = React.useState<IDraftData[]>([]);
 	const [userData, SetUsers] = React.useState<IUserData[]>([]);
 	const [draftProgress, SetDraftProgress] = React.useState<IDraftProgressData[]>(defaultDraft);
-	const [draftDataLoaded, SetDraftDataLoaded] = React.useState<Boolean>(false);
-	const [userDataLoaded, SetUserDataLoaded] = React.useState<Boolean>(false);
-	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
+	const [draftDataLoaded, SetDraftDataLoaded] = React.useState<boolean>(false);
+	const [userDataLoaded, SetUserDataLoaded] = React.useState<boolean>(false);
+	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
 	const [draftStartDateTime, SetDraftStartDateTime] = React.useState<string>("");
 	const [nextUpRowIndex, SetNextUpRowIndex] = React.useState<number>(0);
 
@@ -165,12 +165,12 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	}
 
 	const updateGroup = () => {
-		if (state.AppStore.GroupId === "") {
+		if (state.AppStore.GroupId === "" && state.AppStore.Email !== "") {
 			// group ID has not been set
 			// need to load groups and set first index for standings
 			// also need to set group ID in context
 
-			GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
+			GetAllGroupsUserIsInByYear(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
 					const data = response.data;
 					if (data.length > 0) {

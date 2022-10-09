@@ -54,7 +54,7 @@ export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISe
         windowOptions.length = 0;
         windowOptions.push(5);
         windowOptions.push(10);
-    }, [])
+    }, []);
 
 	React.useEffect(() => {
 		if (state.AppStore.Email !== "") {

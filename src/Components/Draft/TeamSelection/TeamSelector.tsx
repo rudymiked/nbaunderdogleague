@@ -35,9 +35,9 @@ export const draftButtonText = "Draft!";
 export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props: ITeamSelectorProps) => {
 	const [selectedTeam, SetSelectedTeam] = React.useState<ITeamsTableData>();
 	const [data, SetData] = React.useState<ITeamsTableData[]>([]);
-	const [dataLoaded, SetDataLoaded] = React.useState<Boolean>(false);
-	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
-	const [teamSelected, SetTeamSelected] = React.useState<Boolean>(false);
+	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
+	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
+	const [teamSelected, SetTeamSelected] = React.useState<boolean>(false);
 	const [draftingResultText, SetDraftingResultText] = React.useState<string>("");
 
 	const { state, dispatch } = React.useContext(RootContext);

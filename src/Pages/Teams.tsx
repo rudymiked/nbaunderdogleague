@@ -24,7 +24,7 @@ const Title = "Current NBA Standings";
 
 export const Teams: React.FC = (props: ITeamPageProps) => {
 	const [team, SetTeams] = React.useState<ICurrentNBAStandings[]>([]);
-	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
+	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 
 	React.useEffect(() => {

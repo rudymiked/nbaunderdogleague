@@ -4,10 +4,15 @@ import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pa
 import CreateGroupAction from '../../services/actions/CreateGroupAction';
 import { RootContext } from '../../services/Stores/RootStore';
 
+interface ICreateGroupProps {
+	refresh: number;
+	SetRefresh: React.Dispatch<React.SetStateAction<number>>;
+}
+
 const buttonText: string = "Create a Group";
 const blankGroupName: string = "Group name cannot be blank.";
 
-export const CreateGroup: React.FunctionComponent = () => {
+export const CreateGroup: React.FunctionComponent<ICreateGroupProps> = (props: ICreateGroupProps) => {
 	const [newGroup, SetNewGroup] = React.useState<IGroupData>();
 	const [open, SetOpen] = React.useState<boolean>(false);
 	const [groupName, SetGroupName] = React.useState<string>("");
@@ -20,9 +25,11 @@ export const CreateGroup: React.FunctionComponent = () => {
 			CreateGroupAction(groupName, state.AppStore.Email).then((response: IGroupDataResponse) => {
 				if (response?.data && response.data?.name !== null && response.data?.name !== "") {
 					SetNewGroup(response.data);
-
+					
 					const groupSuccessMessage: string = "Group: " + response.data.name + " successfully created!";
-
+					
+					props.SetRefresh((refresh: number) => refresh + 1);
+					
 					SetRequestResult(groupSuccessMessage);
 				} else {
 					SetRequestResult(somethingWentWrongText);
@@ -38,6 +45,10 @@ export const CreateGroup: React.FunctionComponent = () => {
 	const updateGroupName = (e: any) => {
 		SetGroupName(e.target.value);
 	};
+
+	React.useEffect(() => {
+		console.log(props.refresh);
+	}, [props.refresh]);
 
 	return (
 		<div style={{padding: "10px", display:"block"}}>

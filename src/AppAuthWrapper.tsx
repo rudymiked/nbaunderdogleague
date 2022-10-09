@@ -8,7 +8,7 @@ import { GroupStandings } from './Pages/GroupStandings';
 import { IGroupData, IGroupDataArrayResponse, Profile, somethingWentWrongText } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
 import { Teams } from './Pages/Teams';
-import GetAllUsersGroups from './services/data/GetAllUsersGroups';
+import GetAllGroupsUserIsInByYear from './services/data/GetAllGroupsUserIsInByYear';
 import GetAuthInformation from './services/data/GetAuthInformation';
 import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
 import { RootContext } from './services/Stores/RootStore';
@@ -86,12 +86,12 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 	}
 
 	const updateGroup = () => {
-		if (state.AppStore.GroupId === "") {
+		if (state.AppStore.GroupId === "" && state.AppStore.Email !== "") {
 			// group ID has not been set
 			// need to load groups and set first index for standings
 			// also need to set group ID in context
 
-			GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
+			GetAllGroupsUserIsInByYear(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
 					const data = response.data;
 					if (data.length > 0) {
@@ -140,7 +140,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 								<Loading />
 							</Card.Body>
 						</Card>
-						) : ( //state.AppStore.LoginStatus === LoginEnum.NotLoggedIn ? (
+						) : (
 							<Card style={{padding: '10px'}}>
 								<Card.Title className='card-title'>Please Login</Card.Title>
 								<Card.Body>

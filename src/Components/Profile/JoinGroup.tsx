@@ -10,7 +10,8 @@ import { Loading } from '../Shared/Loading';
 // Join a group that someone else has created for this season
 
 interface IJoinGroupProps {
-
+	refresh: number;
+	SetRefresh: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface IJoinGroupResponse {
@@ -32,7 +33,18 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	const { state, dispatch } = React.useContext(RootContext);
 
 	React.useEffect(() => {
+		console.log(state);
+		loadGroups();
+	}, [state]);
+
+	React.useEffect(() => {
+		loadGroups();
+	}, [props.refresh]);
+
+	const loadGroups = () => {
 		if (state.AppStore.Email !== "") {
+			SetDataLoaded(false);
+
 			GetAllGroups(false, state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
 					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
@@ -48,7 +60,7 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 		} else {
 			// user not logged in
 		}
-	}, [state]);
+	};
 
 	const selectAGroup = (key: string, name: string) => {
 		SetSelectedGroupId(key);
@@ -117,15 +129,10 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 						}
 					</div>
 				) : (
-					<div>
-						<p>No more groups to join!</p>
-					</div>
+				<div>
+					<Loading />
+				</div>
 				)
-				// ) : (
-				// <div>
-				// 	<Loading />
-				// </div>
-				// )
 			}
 			<span>{requestResult}</span>
 		</div>

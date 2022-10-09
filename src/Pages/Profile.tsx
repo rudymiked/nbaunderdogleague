@@ -9,6 +9,7 @@ import { LoginEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
 import { SetupDraft } from '../Components/Profile/SetupDraft';
 import { Container, Row, Col } from 'react-bootstrap';
+import { UserInformation } from '../Components/Profile/UserInformation';
 
 interface ITeamPageProps {}
 
@@ -45,6 +46,10 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 		}
 	}, [state]);
 
+	React.useEffect(() => {
+		console.log(refresh);
+	}, [refresh])
+
 	return (
 		<Card style={cardStyle}>
 			<Card.Title>{cardTitle}</Card.Title>
@@ -52,15 +57,20 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 				{state.AppStore.LoginStatus === LoginEnum.Success ? (
 					<Container>
 						<Row>
+							<Col>
+								{/* <UserInformation /> */}
+							</Col>
+						</Row>
+						<Row>
 							<h4>Groups</h4>
 							<Col>
-								<YourGroups />
+								<YourGroups {...{refresh, SetRefresh}} />
 							</Col>
 							<Col>
-								<JoinGroup />
+								<JoinGroup {...{refresh, SetRefresh}} />
 							</Col>
 							<Col>
-								<CreateGroup />
+								<CreateGroup {...{refresh, SetRefresh}} />
 							</Col>
 						</Row>
 						<hr />
