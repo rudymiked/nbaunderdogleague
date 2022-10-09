@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, Dropdown, Stack, ToggleButton } from 'react-bootstrap';
+import { Button, Container, Dropdown, Row, Col, ToggleButton } from 'react-bootstrap';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
 import SetupDraftAction from '../../services/actions/SetupDraftAction';
 import GetAllGroups from '../../services/data/GetGroups';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';
-import { IDraftData, IDraftDataResponse } from './SidePanel/DraftProgress';
+import { IDraftDataResponse } from './SidePanel/DraftProgress';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -24,7 +24,7 @@ export interface ISetupDraftResults {
 const chooseGroupText = "Choose Group";
 const adminEmail: string = "rudymiked@gmail.com";
 
-const hourOptions: number[] = [...Array(23).keys()];
+const hourOptions: number[] = [...Array(24).keys()];
 const minuteOptions: number[] = [];
 const windowOptions: number[] = [];
 
@@ -157,81 +157,83 @@ export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISe
 						{selectedGroupId !== "" &&
 							<>
                                 <p><b>Settings</b></p>
-                                <Stack gap={3} direction="horizontal">
-                                    <div className='mx-auto'>
-                                        <p>Draft Date</p>
-                                        <DatePicker 
-                                            selected={draftDate} 
-                                            onChange={(date: Date) => SetDraftDate(date)} />
-                                    </div>
-                                    <div className='mx-auto'>
-                                        <p>Start Hour</p>
-                                        <Dropdown>
-                                            <Dropdown.Toggle id="groups-dropdown">
-                                                {draftHour}
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu>
-                                                {hourOptions.map(hour => (
-                                                    <Dropdown.Item
-                                                        key={hour}
-                                                        value={hour}
-                                                        onClick={() => SetDraftHour(hour)}>
-                                                        {hour}
-                                                    </Dropdown.Item>
-                                                ))}
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </div>
-                                    <div className='mx-auto'>
-                                        <p>Start Minute</p>
-                                        <Dropdown>
-                                            <Dropdown.Toggle id="groups-dropdown">
-                                                {draftMinute}
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu>
-                                                {minuteOptions.map(minute => (
-                                                    <Dropdown.Item
-                                                        key={minute}
-                                                        value={minute}
-                                                        onClick={() => SetDraftMinute(minute)}>
-                                                        {minute}
-                                                    </Dropdown.Item>
-                                                ))}
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </div>
-                                    <div className='mx-auto'>
-                                        <p>Draft Window (mins)</p>
-                                        <Dropdown>
-                                            <Dropdown.Toggle id="groups-dropdown">
-                                                {draftWindow}
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu>
-                                                {windowOptions.map(window => (
-                                                    <Dropdown.Item
-                                                        key={window}
-                                                        value={window}
-                                                        onClick={() => SetDraftWindow(window)}>
-                                                        {window}
-                                                    </Dropdown.Item>
-                                                ))}
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </div>
-                                    <div className='mx-auto'>   
-                                        <p>Clear Team Selections</p>                             
-                                        <ToggleButton
-                                            className="mb-2"
-                                            id="toggle-clear-teams"
-                                            type="checkbox"
-                                            variant="outline-primary"
-                                            checked={clearTeams}
-                                            value="1"
-                                            onChange={(e) => SetClearTeams(e.currentTarget.checked)}>
-                                            {"Clear Teams"}
-                                        </ToggleButton> 
-                                    </div>
-                                </Stack>
+                                <Container>
+                                    <Row>
+                                        <Col>
+                                            <p>Draft Date</p>
+                                            <DatePicker 
+                                                selected={draftDate} 
+                                                onChange={(date: Date) => SetDraftDate(date)} />
+                                        </Col>
+                                        <Col>
+                                            <p>Start Hour</p>
+                                            <Dropdown>
+                                                <Dropdown.Toggle id="groups-dropdown">
+                                                    {draftHour}
+                                                </Dropdown.Toggle>
+                                                <Dropdown.Menu>
+                                                    {hourOptions.map(hour => (
+                                                        <Dropdown.Item
+                                                            key={hour}
+                                                            value={hour}
+                                                            onClick={() => SetDraftHour(hour)}>
+                                                            {hour}
+                                                        </Dropdown.Item>
+                                                    ))}
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </Col>
+                                        <Col>
+                                            <p>Start Minute</p>
+                                            <Dropdown>
+                                                <Dropdown.Toggle id="groups-dropdown">
+                                                    {draftMinute}
+                                                </Dropdown.Toggle>
+                                                <Dropdown.Menu>
+                                                    {minuteOptions.map(minute => (
+                                                        <Dropdown.Item
+                                                            key={minute}
+                                                            value={minute}
+                                                            onClick={() => SetDraftMinute(minute)}>
+                                                            {minute}
+                                                        </Dropdown.Item>
+                                                    ))}
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </Col>
+                                        <Col>
+                                            <p>Draft Window</p>
+                                            <Dropdown>
+                                                <Dropdown.Toggle id="groups-dropdown">
+                                                    {draftWindow}
+                                                </Dropdown.Toggle>
+                                                <Dropdown.Menu>
+                                                    {windowOptions.map(window => (
+                                                        <Dropdown.Item
+                                                            key={window}
+                                                            value={window}
+                                                            onClick={() => SetDraftWindow(window)}>
+                                                            {window}
+                                                        </Dropdown.Item>
+                                                    ))}
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </Col>
+                                        <Col> 
+                                            <p>Clear Teams?</p>                             
+                                            <ToggleButton
+                                                className="mb-2"
+                                                id="toggle-clear-teams"
+                                                type="checkbox"
+                                                variant="outline-primary"
+                                                checked={clearTeams}
+                                                value="1"
+                                                onChange={(e) => SetClearTeams(e.currentTarget.checked)}>
+                                                {"Clear Teams"}
+                                            </ToggleButton> 
+                                        </Col>
+                                    </Row>
+                                </Container>
                                 <br />
 								<Button
 									onClick={() => {

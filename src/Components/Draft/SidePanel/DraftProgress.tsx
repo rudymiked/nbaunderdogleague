@@ -76,6 +76,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	const [userDataLoaded, SetUserDataLoaded] = React.useState<Boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<Boolean>(false);
 	const [draftStartDateTime, SetDraftStartDateTime] = React.useState<string>("");
+	const [nextUpRowIndex, SetNextUpRowIndex] = React.useState<number>(0);
 
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -259,17 +260,30 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		}
 
 		const now: Date = new Date();
+		let userIsUp = false;
 
-		if (row.userStartTimeMS < now.getTime() && row.userEndTimeMS > now.getTime()) {
+		if (row.userEndTimeMS > now.getTime()) { // user's time is up
+			if (!row.team || row.team === "") { // user has not drafted
+				if (nextUpRowIndex === rowIndex) { // next row up to draft
+					userIsUp = true;
+				}
+			} else { // user has drafted
+				SetNextUpRowIndex(rowIndex + 1);
+			}
+		} else {
+			SetNextUpRowIndex(rowIndex + 1);
+		}
+
+		if (userIsUp) { 
 			style.fontWeight = "bold";
 			style.backgroundColor = '#F78387';
 		}
-		
+
 		return style;
 	};
 
 	return (
-		<Card className='side-panel'>
+		<Card>
 			<Card.Title className='card-title'>Draft Progress</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
 				{state.AppStore.LoginStatus !== LoginEnum.Success ? (

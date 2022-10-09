@@ -1,6 +1,7 @@
 import React from 'react';
 import { TeamSelector } from '../Components/Draft/TeamSelection/TeamSelector';
 import { DraftProgress, IUserData } from '../Components/Draft/SidePanel/DraftProgress';
+import { Container, Row, Col } from 'react-bootstrap';
 
 interface IDraftPageProps {}
 
@@ -24,9 +25,15 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 	}, []);
 
 	return (
-		<>
-			<DraftProgress {...{userDrafted, currentDate, draftStartTime, SetDraftStartTime, SetDraftEndTime}} />
-			<TeamSelector {...{SetUserDrafted, currentDate, draftStartTime, draftEndTime}}/>
-		</>
+		<Container>
+			<Row>
+				<Col>
+					<DraftProgress {...{userDrafted, currentDate, draftStartTime, SetDraftStartTime, SetDraftEndTime}} />
+				</Col>
+				<Col>
+					<TeamSelector {...{SetUserDrafted, currentDate, draftStartTime, draftEndTime}}/>
+				</Col>
+			</Row>
+		</Container>
 	);
 }

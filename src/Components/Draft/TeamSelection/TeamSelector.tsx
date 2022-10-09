@@ -143,15 +143,15 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 	}
 
 	return (
-		<Card className='team-selector'>
+		<Card>
 			<Card.Title className='card-title'>{state.AppStore.GroupName} Draft</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
 				{!dataLoaded ? (
 					<Loading />
 				) : ( !dataFailedToLoad ? (
 					<>
-						<p>Start: {new Date(props.draftStartTime).toLocaleTimeString()}</p>
-						<p>Finish: {new Date(props.draftEndTime).toLocaleTimeString()}</p>
+						<p>Draft Start: {new Date(props.draftStartTime).toLocaleTimeString()}</p>
+						<p>Draft Over: {new Date(props.draftEndTime).toLocaleTimeString()}</p>
 						<Button 
 							variant="danger" 
 							onClick={() => handleDraftClicked()} 

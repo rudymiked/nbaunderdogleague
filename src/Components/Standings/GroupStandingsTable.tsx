@@ -17,6 +17,35 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 			text: 'Score',
 			sort: true,
 			sortCaret: sortCaretFunc,
+			style: (cell, row, rowIndex, colIndex) => {
+				if (row.score < .5) {
+					return { backgroundColor: '#D92828' }
+				}
+
+				if (row.score < 1) {
+					return { backgroundColor: '#F67B43' }
+				}
+
+				if (row.score < 1.2) {
+					return { backgroundColor: '#F6E743' }
+				}
+				
+				if (row.score < 1.5) {
+					return { backgroundColor: '#D9F643' }
+				}
+
+				if (row.score < 1.75) {
+					return { backgroundColor: '#A9F643' }
+				}
+
+				if (row.score < 2) {
+					return { backgroundColor: '#77F643' }
+				}
+
+				if (row.score > 2) {
+					return { backgroundColor: '#43F657' }
+				}
+			}
 		},
 		{
 			dataField: 'governor',
@@ -59,10 +88,10 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 	const rowStyle = (row: IGroupStandingsData, rowIndex: number) => {
 		const style: React.CSSProperties = {};
 		
-		if (row.governor === state.AppStore.Email) {
-			style.backgroundColor = '#c8e6c9';
+		if (row.governor === state.AppStore.Email.split("@")[0]) {
+			style.fontWeight = 'bold';
 		}
-		
+
 		return style;
 	};
 
