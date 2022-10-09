@@ -77,9 +77,9 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	};
 
 	return (
-		<div style={{padding: "10px", display:"block"}}>
+		<div style={{ padding: "10px", display:"block" }}>
 			{dataLoaded ? (
-				groups.length !== 0 ? (
+				//groups.length !== 0 ? (
 					<div id="join-a-group-collapse-text">
 						<Dropdown>
 							<Dropdown.Toggle id="groups-dropdown">
@@ -115,17 +115,17 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 								<span>{joinRequestResult}</span>
 							</>
 						}
-					<hr />
 					</div>
 				) : (
 					<div>
+						<p>No more groups to join!</p>
 					</div>
 				)
-				) : (
-				<div>
-					<Loading />
-				</div>
-				)
+				// ) : (
+				// <div>
+				// 	<Loading />
+				// </div>
+				// )
 			}
 			<span>{requestResult}</span>
 		</div>

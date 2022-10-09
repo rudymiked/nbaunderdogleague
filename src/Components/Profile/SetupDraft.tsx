@@ -6,7 +6,7 @@ import SetupDraftAction from '../../services/actions/SetupDraftAction';
 import GetAllGroups from '../../services/data/GetGroups';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';
-import { IDraftDataResponse } from './SidePanel/DraftProgress';
+import { IDraftDataResponse } from '../Draft/SidePanel/DraftProgress';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 

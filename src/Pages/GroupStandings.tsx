@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Error } from '../Components/Error/Error';
-import { YourGroups } from '../Components/Groups/YourGroups';
+import { YourGroups } from '../Components/Profile/YourGroups';
 import { Loading } from '../Components/Shared/Loading';
 import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable';
 import GetAllUsersGroups from '../services/data/GetAllUsersGroups';

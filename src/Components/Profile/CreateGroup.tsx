@@ -40,7 +40,7 @@ export const CreateGroup: React.FunctionComponent = () => {
 	};
 
 	return (
-		<>
+		<div style={{padding: "10px", display:"block"}}>
 			<Button
 				variant="success"
 				onClick={() => SetOpen(!open)}
@@ -70,7 +70,6 @@ export const CreateGroup: React.FunctionComponent = () => {
 					<span>{requestResult}</span>
 				</div>
 			</Collapse>
-			<hr />
-		</>
+		</div>
 	);
 }

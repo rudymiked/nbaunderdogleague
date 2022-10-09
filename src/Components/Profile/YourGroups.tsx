@@ -76,7 +76,6 @@ export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYo
 						</Dropdown.Menu>
 					</Dropdown>
 					<span hidden={!showChangeDropdown}>{groupChangedText}</span>
-					<hr />
 					</div>
 					) : (
 						<div>

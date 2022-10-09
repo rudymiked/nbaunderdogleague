@@ -2,12 +2,13 @@ import { Guid } from 'guid-typescript';
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { IEntity } from '../App';
-import { YourGroups } from '../Components/Groups/YourGroups';
-import { CreateGroup } from '../Components/Groups/CreateGroup';
-import { JoinGroup } from '../Components/Groups/JoinGroup';
+import { YourGroups } from '../Components/Profile/YourGroups';
+import { CreateGroup } from '../Components/Profile/CreateGroup';
+import { JoinGroup } from '../Components/Profile/JoinGroup';
 import { LoginEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
-import { SetupDraft } from '../Components/Draft/SetupDraft';
+import { SetupDraft } from '../Components/Profile/SetupDraft';
+import { Container, Row, Col } from 'react-bootstrap';
 
 interface ITeamPageProps {}
 
@@ -30,7 +31,7 @@ export const FailedLogin = "Could not log you in. Please close your browser and 
 export const LoggingIn = "Logging in...";
 export const somethingWentWrongText = "Something went wrong.";
 
-const cardStyle = {padding: '10px', width: '50vw', alignSelf: 'center'}
+const cardStyle: React.CSSProperties = {padding: '10px', overflow: 'auto', alignSelf: 'center' }
 
 export const Profile: React.FC = (props: ITeamPageProps) => {
 	const [cardTitle, SetCardTitle] = React.useState<string>("");
@@ -49,12 +50,26 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 			<Card.Title>{cardTitle}</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
 				{state.AppStore.LoginStatus === LoginEnum.Success ? (
-					<div>
-						<YourGroups />
-						<JoinGroup />
-						<CreateGroup />
-						<SetupDraft />
-					</div>
+					<Container>
+						<Row>
+							<h4>Groups</h4>
+							<Col>
+								<YourGroups />
+							</Col>
+							<Col>
+								<JoinGroup />
+							</Col>
+							<Col>
+								<CreateGroup />
+							</Col>
+						</Row>
+						<hr />
+						<Row>
+							<Col>
+								<SetupDraft />
+							</Col>
+						</Row>
+					</Container>
 				) : (
 					state.AppStore.LoginStatus === LoginEnum.Fail ? (
 					<span>{FailedLogin}</span>
