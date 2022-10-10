@@ -33,7 +33,6 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	const { state, dispatch } = React.useContext(RootContext);
 
 	React.useEffect(() => {
-		console.log(state);
 		loadGroups();
 	}, [state]);
 

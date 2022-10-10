@@ -2,10 +2,10 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Error } from '../Components/Error/Error';
-import { YourGroups } from '../Components/Profile/YourGroups';
+import { IYourGroupsProps, YourGroups } from '../Components/Profile/YourGroups';
 import { Loading } from '../Components/Shared/Loading';
 import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable';
-import GetAllUsersGroups from '../services/data/GetAllGroupsUserIsInByYear';
+import GetAllGroupsUserIsInByYear from '../services/data/GetAllGroupsUserIsInByYear';
 import GetGroupStandingsData from '../services/data/GetGroupStandingsData';
 import { AppActionEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
@@ -48,7 +48,6 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 			// is a user in (a) group(s)?
 			// if so, show standings of first group queried.
 			// give option to switch groups
-
 			updateGroup();
 		}
 	}, [state]);
@@ -58,8 +57,8 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 			// group ID has not been set
 			// need to load groups and set first index for standings
 			// also need to set group ID in context
-
-			GetAllUsersGroups(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
+			
+			GetAllGroupsUserIsInByYear(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
 					const data = response.data;
 					if (data.length > 0) {
@@ -134,7 +133,6 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 						<Loading />
 					) : (!dataFailedToLoad ? (
 							<div hidden={noGroups}>
-								<YourGroups {...{refresh, SetRefresh}} />
 								<div hidden={data.length === 0 }>
 									<GroupStandingsTable data={data} />
 								</div>
@@ -151,7 +149,7 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 					<Button
 						onClick={() => navigate("/profile")}
 						aria-controls="navigate-to-profile">
-						{"Join a Group"}
+						{"Join or Switch Groups"}
 					</Button>
 				</div>
 			</Card.Body>

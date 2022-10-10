@@ -146,33 +146,38 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		<Card>
 			<Card.Title className='card-title'>{state.AppStore.GroupName} Draft</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
-				{!dataLoaded ? (
-					<Loading />
-				) : ( !dataFailedToLoad ? (
-					<>
-						<p>Draft Start: {new Date(props.draftStartTime).toLocaleTimeString()}</p>
-						<p>Draft Over: {new Date(props.draftEndTime).toLocaleTimeString()}</p>
-						<Button 
-							variant="danger" 
-							onClick={() => handleDraftClicked()} 
-							disabled={!draftEnabled()}>
-							{draftButtonText}
-						</Button>
-						<br />
-						<br />
-						<p>{draftingResultText}</p>
-						<br />
-						<BootstrapTable
-							bootstrap4
-							keyField='name'
-							selectRow={ selectRow }
-							data={ data }
-							columns={ columns } />
-					</>
+				{state.AppStore.GroupId !== "" ? 
+					(!dataLoaded ? (
+						<Loading />
+						) : ( !dataFailedToLoad ? (
+							<>
+								<p>Draft Start: {new Date(props.draftStartTime).toLocaleTimeString()}</p>
+								<p>Draft Over: {new Date(props.draftEndTime).toLocaleTimeString()}</p>
+								<Button 
+									variant="danger" 
+									onClick={() => handleDraftClicked()} 
+									disabled={!draftEnabled()}>
+									{draftButtonText}
+								</Button>
+								<br />
+								<br />
+								<p>{draftingResultText}</p>
+								<br />
+								<BootstrapTable
+									bootstrap4
+									keyField='name'
+									selectRow={ selectRow }
+									data={ data }
+									columns={ columns } />
+							</>
+							) : (
+								<Error />
+							)
+						)
 					) : (
-						<Error />
+						<></>
 					)
-				)}
+				}
 			</Card.Body>
 		</Card>
 	);

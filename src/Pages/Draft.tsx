@@ -2,6 +2,7 @@ import React from 'react';
 import { TeamSelector } from '../Components/Draft/TeamSelection/TeamSelector';
 import { DraftProgress, IUserData } from '../Components/Draft/SidePanel/DraftProgress';
 import { Container, Row, Col } from 'react-bootstrap';
+import { RootContext } from '../services/Stores/RootStore';
 
 interface IDraftPageProps {}
 
@@ -10,6 +11,8 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 	const [ draftStartTime, SetDraftStartTime ] = React.useState<number>(0);
 	const [ draftEndTime, SetDraftEndTime ] = React.useState<number>(0);
 	
+	const { state, dispatch } = React.useContext(RootContext);
+
 	// clock
 	const [currentDate, SetCurrentDate] = React.useState<Date>(new Date());
 
@@ -25,15 +28,21 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 	}, []);
 
 	return (
-		<Container>
-			<Row>
-				<Col>
-					<DraftProgress {...{userDrafted, currentDate, draftStartTime, SetDraftStartTime, SetDraftEndTime}} />
-				</Col>
-				<Col>
-					<TeamSelector {...{SetUserDrafted, currentDate, draftStartTime, draftEndTime}}/>
-				</Col>
-			</Row>
-		</Container>
+		<>
+			{state.AppStore.GroupId !== "" ? (
+				<Container>
+					<Row>
+						<Col>
+							<DraftProgress {...{userDrafted, currentDate, draftStartTime, SetDraftStartTime, SetDraftEndTime}} />
+						</Col>
+						<Col>
+							<TeamSelector {...{SetUserDrafted, currentDate, draftStartTime, draftEndTime}}/>
+						</Col>
+					</Row>
+				</Container>
+			) : (
+				<p>Navigate to your profile to select one of your groups.</p>
+			)}
+		</>
 	);
 }

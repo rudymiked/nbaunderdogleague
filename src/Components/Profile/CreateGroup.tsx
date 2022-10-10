@@ -17,6 +17,7 @@ export const CreateGroup: React.FunctionComponent<ICreateGroupProps> = (props: I
 	const [open, SetOpen] = React.useState<boolean>(false);
 	const [groupName, SetGroupName] = React.useState<string>("");
 	const [requestResult, SetRequestResult] = React.useState<string>("");
+	const [createGroupDisabled, SetCreateGroupDisabled] = React.useState<boolean>(false);
 
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -31,6 +32,7 @@ export const CreateGroup: React.FunctionComponent<ICreateGroupProps> = (props: I
 					props.SetRefresh((refresh: number) => refresh + 1);
 					
 					SetRequestResult(groupSuccessMessage);
+					SetCreateGroupDisabled(true);
 				} else {
 					SetRequestResult(somethingWentWrongText);
 				}
@@ -74,6 +76,7 @@ export const CreateGroup: React.FunctionComponent<ICreateGroupProps> = (props: I
 						onClick={() => requestANewGroup()}
 						aria-controls="create-a-group-request"
 						aria-expanded={open}
+						disabled={createGroupDisabled}
 					>
 						Submit
 					</Button>

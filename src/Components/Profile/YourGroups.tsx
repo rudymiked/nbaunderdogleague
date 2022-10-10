@@ -8,7 +8,7 @@ import { Loading } from '../Shared/Loading';
 
 // choose one of your groups
 
-interface IYourGroupsProps {
+export interface IYourGroupsProps {
 	refresh: number;
 	SetRefresh: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -24,7 +24,6 @@ export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYo
 	const { state, dispatch } = React.useContext(RootContext);
 
 	React.useEffect(() => {
-		console.log(state);
 		loadGroups();
 	}, [state]);
 

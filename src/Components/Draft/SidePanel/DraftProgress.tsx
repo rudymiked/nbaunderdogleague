@@ -145,6 +145,9 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 				props.SetDraftStartTime(new Date(d.userStartTime).getTime());
 			}
 
+			const userStartTimeMS = new Date(new Date(d.userEndTime).toLocaleString()).getTime();
+			const userEndTimeMS = new Date(new Date(d.userEndTime).toLocaleString()).getTime();
+
 			combinedData.push({
 				user: d.email.split("@")[0],
 				team: userInfo.team,
@@ -153,8 +156,8 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 				draftOrder: d.draftOrder,
 				userStartTime: new Date(d.userStartTime).toLocaleTimeString(),
 				userEndTime: new Date(d.userEndTime).toLocaleTimeString(),
-				userStartTimeMS: new Date(d.userStartTime).getTime(), // collect time in milliseconds for later comparison
-				userEndTimeMS: new Date(d.userEndTime).getTime(),
+				userStartTimeMS: userStartTimeMS, // collect time in milliseconds for later comparison
+				userEndTimeMS: userEndTimeMS,
 			});
 			
 			draftEndTime = Math.max(draftEndTime, new Date(d.userEndTime).getTime());
@@ -252,34 +255,32 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		},
 	];
 
-	const rowStyle = (row: IDraftProgressData, rowIndex: number) => {
-		const style: React.CSSProperties = {};
-		
-		if (row.user === state.AppStore.Email.split("@")[0]) {
-			style.backgroundColor = '#c8e6c9';
-		}
-
-		const now: Date = new Date();
-		let userIsUp = false;
-
-
-		if (props.currentDate.getTime() > props.draftStartTime) { // the draft has started
-			if (row.userEndTimeMS > now.getTime()) { // user's time is up
-				if (!row.team || row.team === "") { // user has not drafted
-					if (nextUpRowIndex === rowIndex) { // next row up to draft
-						userIsUp = true;
+	React.useEffect(() => {
+		if (draftDataLoaded && userDataLoaded)  {
+			if (draftProgress.length > 0 && nextUpRowIndex < draftProgress.length) {
+				if (props.currentDate.getTime() > props.draftStartTime) { // the draft has started
+					if (draftProgress[nextUpRowIndex].userEndTimeMS > props.currentDate.getTime()) { // user's time is up
+						if (!draftProgress[nextUpRowIndex].team || draftProgress[nextUpRowIndex].team === "") { // user has not drafted
+							// 	This users turn
+						} else { // user has drafted
+							SetNextUpRowIndex((nextUpRowIndex) => nextUpRowIndex + 1);
+						}
+					} else {
+						SetNextUpRowIndex((nextUpRowIndex) => nextUpRowIndex + 1);
 					}
-				} else { // user has drafted
-					SetNextUpRowIndex(rowIndex + 1);
 				}
-			} else {
-				SetNextUpRowIndex(rowIndex + 1);
 			}
 		}
+	}, [props.currentDate])
 
-		if (userIsUp) { 
+	const rowStyle = (row: IDraftProgressData, rowIndex: number) => {
+		const style: React.CSSProperties = {};
+
+		if (nextUpRowIndex === rowIndex && props.currentDate.getTime() > props.draftStartTime) { 
 			style.fontWeight = "bold";
 			style.backgroundColor = '#F78387';
+		} else if (row.user === state.AppStore.Email.split("@")[0]) {
+			style.backgroundColor = '#c8e6c9';
 		}
 
 		return style;
@@ -293,28 +294,36 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 					<div>
 						<a href="/">Please Login</a>
 					</div>
-					) : (!draftDataLoaded ? (
-							<Loading />
-						) : ( !dataFailedToLoad ? (
-							<>
-								<p>{props.currentDate.toLocaleTimeString()}</p>
-								<Button 							
-									variant="warning" 
-									onClick={() => refreshAllDraftData()}>
-									{"Refresh"}
-								</Button>
-								<br />
-								<br />
-								<BootstrapTable
-									keyField='draftOrder'
-									data={draftProgress}
-									columns={columns} 
-									rowStyle={rowStyle} />
-							</>
-							) : (
-								<Error />
+					) : (state.AppStore.GroupId !== "" ? (
+							(!draftDataLoaded ? (
+								<Loading />
+								) : (!dataFailedToLoad ? (
+										(draftProgress.length > 0 ? (
+											<>
+												<p>{props.currentDate.toLocaleTimeString()}</p>
+												<Button 							
+													variant="warning" 
+													onClick={() => refreshAllDraftData()}>
+													{"Refresh"}
+												</Button>
+												<br />
+												<br />
+												<BootstrapTable
+													keyField='draftOrder'
+													data={draftProgress}
+													columns={columns} 
+													rowStyle={rowStyle} />
+											</>
+											) : (
+												<p>Draft has not been setup</p>
+											)
+										)
+									) : (
+										<Error />
+									)
+								)
 							)
-						)
+						) : (<p>Please select a group in your profile</p>)
 					)
 				}
 			</Card.Body>
