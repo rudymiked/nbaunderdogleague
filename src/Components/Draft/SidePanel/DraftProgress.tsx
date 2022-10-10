@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import './DraftProgress.css';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import GetUserData from '../../../services/data/GetUserData';
@@ -75,7 +75,6 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	const [draftDataLoaded, SetDraftDataLoaded] = React.useState<boolean>(false);
 	const [userDataLoaded, SetUserDataLoaded] = React.useState<boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
-	const [draftStartDateTime, SetDraftStartDateTime] = React.useState<string>("");
 	const [nextUpRowIndex, SetNextUpRowIndex] = React.useState<number>(0);
 
 	const { state, dispatch } = React.useContext(RootContext);
@@ -83,11 +82,9 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	React.useEffect(() => {
 		if (state.AppStore.LoginStatus === LoginEnum.Success) {
 			updateGroup();
-			refreshDraft();
-			refreshUsers();
+			refreshAllDraftData();
 		}
 	}, [state]);
-
 
 	React.useEffect(() => {
 		if (props.userDrafted?.team !== "") {
@@ -106,11 +103,15 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	React.useEffect(() => {
 		if (props.currentDate.getTime() > props.draftStartTime) {
 			if (props.currentDate.getMinutes() % 5 === 0 && props.currentDate.getSeconds() === 0) {
-				refreshDraft();
-				refreshUsers();
+				refreshAllDraftData();
 			}
 		}
-	},[props.currentDate]);
+	}, [props.currentDate]);
+
+	const refreshAllDraftData = () => {
+		refreshDraft();
+		refreshUsers();
+	}
 
 	const updateFromDraft = (team: string) => {
 		const oldData: IDraftProgressData[] = draftProgress;
@@ -141,7 +142,6 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 			const userInfo: IUserData = userData.filter((u: IUserData) => u.email === d.email)[0];
 			// first to draft, to collect draft start datetime
 			if (d.draftOrder === 1) {
-				SetDraftStartDateTime(new Date(d.userStartTime).toLocaleString());
 				props.SetDraftStartTime(new Date(d.userStartTime).getTime());
 			}
 
@@ -199,7 +199,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 
 	const refreshDraft = () => {
 		if (state.AppStore.GroupId !== "") {
-			SetDataFailedToLoad(false);
+			SetDraftDataLoaded(false);
 			GetDraftData(state.AppStore.GroupId).then((response: IDraftDataResponse) => {
 				if (response?.data) {
 					const data = response?.data;
@@ -262,16 +262,19 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		const now: Date = new Date();
 		let userIsUp = false;
 
-		if (row.userEndTimeMS > now.getTime()) { // user's time is up
-			if (!row.team || row.team === "") { // user has not drafted
-				if (nextUpRowIndex === rowIndex) { // next row up to draft
-					userIsUp = true;
+
+		if (props.currentDate.getTime() > props.draftStartTime) { // the draft has started
+			if (row.userEndTimeMS > now.getTime()) { // user's time is up
+				if (!row.team || row.team === "") { // user has not drafted
+					if (nextUpRowIndex === rowIndex) { // next row up to draft
+						userIsUp = true;
+					}
+				} else { // user has drafted
+					SetNextUpRowIndex(rowIndex + 1);
 				}
-			} else { // user has drafted
+			} else {
 				SetNextUpRowIndex(rowIndex + 1);
 			}
-		} else {
-			SetNextUpRowIndex(rowIndex + 1);
 		}
 
 		if (userIsUp) { 
@@ -295,6 +298,13 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 						) : ( !dataFailedToLoad ? (
 							<>
 								<p>{props.currentDate.toLocaleTimeString()}</p>
+								<Button 							
+									variant="warning" 
+									onClick={() => refreshAllDraftData()}>
+									{"Refresh"}
+								</Button>
+								<br />
+								<br />
 								<BootstrapTable
 									keyField='draftOrder'
 									data={draftProgress}

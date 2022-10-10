@@ -135,7 +135,9 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 					) : (!dataFailedToLoad ? (
 							<div hidden={noGroups}>
 								<YourGroups {...{refresh, SetRefresh}} />
-								<GroupStandingsTable data={data} />
+								<div hidden={data.length === 0 }>
+									<GroupStandingsTable data={data} />
+								</div>
 							</div>
 						) : (
 							<Error />
