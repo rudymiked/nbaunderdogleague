@@ -5,7 +5,7 @@ const GetAllGroups = (includeUser: boolean, email: string) => {
 	const year = new Date().getFullYear();
 
 	return httpService.get({
-		url: "/api/Group/GetAllGroupsByYear",
+		url: "/api/Group/AllGroupsByYear",
 		token: null,
 		params: { 
 			year: year,

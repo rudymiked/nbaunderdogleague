@@ -4,7 +4,7 @@ const GetCurrentNBAStandings = () => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/Team/GetCurrentNBAStandings",
+		url: "/api/Team/CurrentNBAStandings",
 		token: null,
 		params: {}
 	});

@@ -4,7 +4,7 @@ const GetUserData = (groupId: string) => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/User/GetUsers",
+		url: "/api/User/Users",
 		token: null,
 		params: { groupId: groupId }
 	});

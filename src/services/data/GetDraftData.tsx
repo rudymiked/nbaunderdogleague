@@ -4,7 +4,7 @@ const GetDraftData = (groupId: string) => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/Draft/GetDraft",
+		url: "/api/Draft/Draft",
 		token: null,
 		params: { groupId: groupId }
 	});

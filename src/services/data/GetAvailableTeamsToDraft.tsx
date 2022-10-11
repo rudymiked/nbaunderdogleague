@@ -4,7 +4,7 @@ const GetAvailableTeamsToDraft = (groupId: string) => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/Draft/GetAvailableTeamsToDraft",
+		url: "/api/Draft/AvailableTeamsToDraft",
 		token: null,
 		params: {
 			groupId: groupId

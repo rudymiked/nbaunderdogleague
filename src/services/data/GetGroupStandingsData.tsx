@@ -4,7 +4,7 @@ const GetGroupStandingsData = (groupId: string) => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/Group/GetGroupStandings",
+		url: "/api/Group/GroupStandings",
 		token: null,
 		params: { 
 			groupId: groupId 
