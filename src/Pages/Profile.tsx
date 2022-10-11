@@ -10,6 +10,7 @@ import { RootContext } from '../services/Stores/RootStore';
 import { SetupDraft } from '../Components/Profile/SetupDraft';
 import { Container, Row, Col } from 'react-bootstrap';
 import { UserInformation } from '../Components/Profile/UserInformation';
+import { UsersInGroupTable } from '../Components/Profile/UsersInGroupTable';
 
 interface ITeamPageProps {}
 
@@ -74,6 +75,11 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 							</Col>
 						</Row>
 						<hr />
+						<Row>
+							<Col>
+								<UsersInGroupTable />
+							</Col>
+						</Row>
 						<Row>
 							<Col>
 								<SetupDraft />
