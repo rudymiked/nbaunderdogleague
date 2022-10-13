@@ -33,7 +33,7 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 				<Container>
 					<Row>
 						<Col>
-							<DraftProgress {...{userDrafted, currentDate, draftStartTime, SetDraftStartTime, SetDraftEndTime}} />
+							<DraftProgress {...{userDrafted, currentDate, draftStartTime, draftEndTime, SetDraftStartTime, SetDraftEndTime}} />
 						</Col>
 						<Col>
 							<TeamSelector {...{SetUserDrafted, currentDate, draftStartTime, draftEndTime}}/>

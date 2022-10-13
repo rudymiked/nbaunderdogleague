@@ -1,10 +1,14 @@
 import React from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { somethingWentWrongText } from '../../Pages/Profile';
+import UpdateUser from '../../services/actions/UpdateUserAction';
 import { RootContext } from '../../services/Stores/RootStore';
+import { IUserDataResponse } from '../Draft/SidePanel/DraftProgress';
 
 interface IUserInformationProps {}
 
 const userInfoText: string = "User Information";
+const usernameUpdated: string = "Username Updated!";
 
 export const UserInformation: React.FC = (props: IUserInformationProps) => {
 	const [refresh, SetRefresh] = React.useState<number>(0);
@@ -16,12 +20,14 @@ export const UserInformation: React.FC = (props: IUserInformationProps) => {
 	React.useEffect(() => {
 	}, [state]);
 
-	React.useEffect(() => {
-		console.log(refresh);
-	}, [refresh]);
-
     const changeUsername = () => {
-
+        UpdateUser(state.AppStore.Email, null, state.AppStore.GroupId, newUserName).then((response: IUserDataResponse) => {
+            console.log(response);
+            SetRequestResult(usernameUpdated);
+        }).catch((reason: any) => {
+            SetRequestResult(somethingWentWrongText);
+            console.log(reason);
+        });
     };
 
     const updateUserName = (e: any) => {

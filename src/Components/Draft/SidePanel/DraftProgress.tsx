@@ -17,6 +17,7 @@ export interface IDraftProgressProps {
 	userDrafted: IUserData;
 	currentDate: Date;
 	draftStartTime: number;
+	draftEndTime: number;
 	SetDraftStartTime: React.Dispatch<React.SetStateAction<number>>;
 	SetDraftEndTime: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -34,10 +35,11 @@ export interface IDraftDataResponse {
 	data: IDraftData[];
 }
 
-export interface IUserData  extends IEntity {
+export interface IUserData extends IEntity {
 	email: string;
 	team: string;
 	groupId: Guid;
+	username: string;
 }
 
 export interface IDraftProgressData {
@@ -87,21 +89,20 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	}, [state]);
 
 	React.useEffect(() => {
-		if (props.userDrafted?.team !== "") {
-			updateFromDraft(props.userDrafted?.team);
+		if (props.userDrafted !== undefined && props.userDrafted?.team !== "") {
+			updateFromDraft();
 		}
 	}, [props.userDrafted?.team]);
 
 	React.useEffect(() => {
 		if (draftDataLoaded && userDataLoaded) {
 			// combine user and draft data
-			console.log("Updating Draft Progress");
 			combineUserAndDraftData();
 		}
 	}, [draftDataLoaded, userDataLoaded]);
 
 	React.useEffect(() => {
-		if (props.currentDate.getTime() > props.draftStartTime) {
+		if (props.currentDate.getTime() > props.draftStartTime && props.currentDate.getTime() < props.draftEndTime) {
 			if (props.currentDate.getMinutes() % 5 === 0 && props.currentDate.getSeconds() === 0) {
 				refreshAllDraftData();
 			}
@@ -113,13 +114,15 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		refreshUsers();
 	}
 
-	const updateFromDraft = (team: string) => {
+	const updateFromDraft = () => {
 		const oldData: IDraftProgressData[] = draftProgress;
 		const updatedDraftProgress: IDraftProgressData[] = [];
 
+		const user: string = (props.userDrafted?.username !== null && props.userDrafted?.username !== undefined) ? props.userDrafted.username : props.userDrafted?.email.split("@")[0];
+
 		for(const d of oldData) {
 			updatedDraftProgress.push({
-				team: props.userDrafted?.email.split("@")[0] === d.user ? props.userDrafted?.team : d.team,
+				team: user === d.user ? props.userDrafted?.team : d.team,
 				id: d.id,
 				groupId: d.groupId,
 				draftOrder: d.draftOrder,
@@ -136,7 +139,6 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 
 	const combineUserAndDraftData = () => {
 		const combinedData: IDraftProgressData[] = [];
-		let draftEndTime: number = 0;
 
 		draftData.forEach(d => {
 			const userInfo: IUserData = userData.filter((u: IUserData) => u.email === d.email)[0];
@@ -144,12 +146,16 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 			if (d.draftOrder === 1) {
 				props.SetDraftStartTime(new Date(d.userStartTime).getTime());
 			}
+			
+			if (d.draftOrder === draftData.length) {
+				props.SetDraftEndTime(new Date(d.userEndTime).getTime());
+			}
 
 			const userStartTimeMS = new Date(new Date(d.userEndTime).toLocaleString()).getTime();
 			const userEndTimeMS = new Date(new Date(d.userEndTime).toLocaleString()).getTime();
 
 			combinedData.push({
-				user: d.email.split("@")[0],
+				user: userInfo.username ?? d.email.split("@")[0],
 				team: userInfo.team,
 				id: d.id,
 				groupId: d.groupId,
@@ -159,11 +165,8 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 				userStartTimeMS: userStartTimeMS, // collect time in milliseconds for later comparison
 				userEndTimeMS: userEndTimeMS,
 			});
-			
-			draftEndTime = Math.max(draftEndTime, new Date(d.userEndTime).getTime());
 		});
 
-		props.SetDraftEndTime(draftEndTime);
 		SetDraftProgress(combinedData);
 	}
 
@@ -208,6 +211,8 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 					const data = response?.data;
 					SetDraftDataLoaded(true);
 					SetDraftData(data.sort((a: IDraftData, b: IDraftData) => (a.draftOrder > b.draftOrder) ? 1 : -1));
+				} else {
+					// something went wrong
 				}
 			}).catch((reason: any) => {
 				SetDraftDataLoaded(true);
@@ -224,6 +229,16 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 					const data = response?.data;
 					SetUserDataLoaded(true);
 					SetUsers(data);
+
+					const userInfo: IUserData[] =  data?.filter((u: IUserData) => u.email === state.AppStore.Email);
+                    const username: string = userInfo.length > 0 ? userInfo[0].username : state.AppStore.Email.split["@"][0];
+
+                    if (state.AppStore.Username === "") {
+                        dispatch({
+                            type: AppActionEnum.UPDATE_USERNAME,
+                            Username: username!,
+                        });
+                    }
 				}
 			}).catch((reason: any) => {
 				SetUserDataLoaded(true);
@@ -256,27 +271,31 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	];
 
 	React.useEffect(() => {
-		if (draftDataLoaded && userDataLoaded)  {
-			if (draftProgress.length > 0 && nextUpRowIndex < draftProgress.length) {
-				if (props.currentDate.getTime() > props.draftStartTime) { // the draft has started
-					if (draftProgress[nextUpRowIndex].userEndTimeMS > props.currentDate.getTime()) { // user's time is up
-						if (!draftProgress[nextUpRowIndex].team || draftProgress[nextUpRowIndex].team === "") { // user has not drafted
-							// 	This users turn
-						} else { // user has drafted
+		if (props.currentDate.getTime() < props.draftEndTime) {
+			if (draftDataLoaded && userDataLoaded)  {
+				if (draftProgress.length > 0 && nextUpRowIndex < draftProgress.length) {
+					if (props.currentDate.getTime() > props.draftStartTime) { // the draft has started
+						if (draftProgress[nextUpRowIndex].userEndTimeMS > props.currentDate.getTime()) { // user's time is up
+							if (!draftProgress[nextUpRowIndex].team || draftProgress[nextUpRowIndex].team === "") { // user has not drafted
+								// 	This users turn
+							} else { // user has drafted
+								SetNextUpRowIndex((nextUpRowIndex) => nextUpRowIndex + 1);
+							}
+						} else {
 							SetNextUpRowIndex((nextUpRowIndex) => nextUpRowIndex + 1);
 						}
-					} else {
-						SetNextUpRowIndex((nextUpRowIndex) => nextUpRowIndex + 1);
 					}
 				}
 			}
+		} else {
+			//the draft is over
 		}
 	}, [props.currentDate])
 
 	const rowStyle = (row: IDraftProgressData, rowIndex: number) => {
 		const style: React.CSSProperties = {};
 
-		if (nextUpRowIndex === rowIndex && props.currentDate.getTime() > props.draftStartTime) { 
+		if (nextUpRowIndex === rowIndex && props.currentDate.getTime() > props.draftStartTime && props.currentDate.getTime() < props.draftEndTime) { 
 			style.fontWeight = "bold";
 			style.backgroundColor = '#F78387';
 		} else if (row.user === state.AppStore.Email.split("@")[0]) {
@@ -303,6 +322,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 												<p>{props.currentDate.toLocaleTimeString()}</p>
 												<Button 							
 													variant="warning" 
+													disabled={props.currentDate.getTime() > props.draftEndTime}
 													onClick={() => refreshAllDraftData()}>
 													{"Refresh"}
 												</Button>

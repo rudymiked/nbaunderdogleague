@@ -88,7 +88,7 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 	const rowStyle = (row: IGroupStandingsData, rowIndex: number) => {
 		const style: React.CSSProperties = {};
 		
-		if (row.governor === state.AppStore.Email.split("@")[0]) {
+		if (row.email === state.AppStore.Email) {
 			style.fontWeight = 'bold';
 		}
 

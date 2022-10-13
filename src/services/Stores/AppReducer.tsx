@@ -10,6 +10,7 @@ export interface IAppState {
     Token: string;
     GroupId: string;
     GroupName: string;
+    Username: string;
     LoginStatus: LoginEnum;
 }
 
@@ -19,6 +20,7 @@ export const AppInitialState = {
     Token: "",
     GroupId: "",
     GroupName: "",
+    Username: "",
     LoginStatus: LoginEnum.LoggingIn,
 }
 
@@ -28,6 +30,7 @@ export enum AppActionEnum {
     LOGOUT = "LOGOUT",
     UPDATE_TOKEN = "UPDATE_TOKEN",
     UPDATE_GROUP = "UPDATE_GROUP",
+    UPDATE_USERNAME = "UPDATE_USERNAME",
 }
 
 export type AppActions = |
@@ -47,6 +50,9 @@ export type AppActions = |
 } | {
     type: AppActionEnum.LOGIN_FAIL,
     LoginStatus: LoginEnum,
+} | {
+    type: AppActionEnum.UPDATE_USERNAME,
+    Username: string,
 };
 
 export const AppReducer = (state: IAppState, action: AppActions): IAppState => {
@@ -59,6 +65,8 @@ export const AppReducer = (state: IAppState, action: AppActions): IAppState => {
             return {...state, GroupId: action.GroupId, GroupName: action.GroupName};
         case AppActionEnum.LOGIN_FAIL:
             return {...state, LoginStatus: action.LoginStatus};
+        case AppActionEnum.UPDATE_USERNAME:
+            return {...state, Username: action.Username};
         default:
             return state;
     }

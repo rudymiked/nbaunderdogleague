@@ -101,7 +101,6 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
     };
 
 	const handleDraftClicked = () => {
-		// TODO Make this have state so the value is actually correct. Having a default blank/disabled is kind of a workaround
 		if (selectedTeam?.name !== '') {
 			DraftTeamAction(state.AppStore.GroupId, state.AppStore.Email, selectedTeam.name).then((response: any) => {
 				if (response?.data) {
@@ -111,6 +110,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 							groupId: Guid.parse(state.AppStore.GroupId),
 							email: state.AppStore.Email,
 							team: selectedTeam.name,
+							username: state.AppStore.Username,
 							partitionKey: state.AppStore.GroupId,
 							rowKey: state.AppStore.Email,
 							timestamp: new Date(),

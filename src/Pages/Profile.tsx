@@ -47,10 +47,6 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 		}
 	}, [state]);
 
-	React.useEffect(() => {
-		console.log(refresh);
-	}, [refresh])
-
 	return (
 		<Card style={cardStyle}>
 			<Card.Title>{cardTitle}</Card.Title>
@@ -59,7 +55,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 					<Container>
 						<Row>
 							<Col>
-								{/* <UserInformation /> */}
+								<UserInformation />
 							</Col>
 						</Row>
 						<Row>

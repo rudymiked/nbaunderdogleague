@@ -48,10 +48,6 @@ export const CreateGroup: React.FunctionComponent<ICreateGroupProps> = (props: I
 		SetGroupName(e.target.value);
 	};
 
-	React.useEffect(() => {
-		console.log(props.refresh);
-	}, [props.refresh]);
-
 	return (
 		<div style={{padding: "10px", display:"block"}}>
 			<Button
