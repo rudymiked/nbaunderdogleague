@@ -298,7 +298,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		if (nextUpRowIndex === rowIndex && props.currentDate.getTime() > props.draftStartTime && props.currentDate.getTime() < props.draftEndTime) { 
 			style.fontWeight = "bold";
 			style.backgroundColor = '#F78387';
-		} else if (row.user === state.AppStore.Email.split("@")[0]) {
+		} else if (row.user === state.AppStore.Email.split("@")[0] || row.user === state.AppStore.Username) {
 			style.backgroundColor = '#c8e6c9';
 		}
 

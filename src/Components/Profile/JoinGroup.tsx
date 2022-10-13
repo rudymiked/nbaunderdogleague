@@ -12,6 +12,9 @@ import { Loading } from '../Shared/Loading';
 interface IJoinGroupProps {
 	refresh: number;
 	SetRefresh: React.Dispatch<React.SetStateAction<number>>;
+	groups: IGroupData[];
+	dataLoaded: boolean;
+	loadGroups: () => void;
 }
 
 export interface IJoinGroupResponse {
@@ -21,8 +24,6 @@ export interface IJoinGroupResponse {
 const joinGroupText = "Join a group";
 
 export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoinGroupProps) => {
-	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
-	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [requesting, SetRequesting] = React.useState<boolean>(false);
 	const [requestResult, SetRequestResult] = React.useState<string>("");
 	const [joinRequestResult, SetJoinRequestResult] = React.useState<string>("");
@@ -33,33 +34,8 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	const { state, dispatch } = React.useContext(RootContext);
 
 	React.useEffect(() => {
-		loadGroups();
-	}, [state]);
-
-	React.useEffect(() => {
-		loadGroups();
+		props.loadGroups();
 	}, [props.refresh]);
-
-	const loadGroups = () => {
-		if (state.AppStore.Email !== "") {
-			SetDataLoaded(false);
-
-			GetAllGroups(false, state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
-				if (response?.data) {
-					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
-				} else {
-					SetRequestResult(somethingWentWrongText);
-				}
-
-				SetDataLoaded(true);
-			}).catch((reason: any) => {
-				SetDataLoaded(true);
-				SetRequestResult(somethingWentWrongText);
-			});
-		} else {
-			// user not logged in
-		}
-	};
 
 	const selectAGroup = (key: string, name: string) => {
 		SetSelectedGroupId(key);
@@ -89,7 +65,7 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 
 	return (
 		<div style={{ padding: "10px", display:"block" }}>
-			{dataLoaded ? (
+			{props.dataLoaded ? (
 				//groups.length !== 0 ? (
 					<div id="join-a-group-collapse-text">
 						<Dropdown>
@@ -97,7 +73,7 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 								{dropdownText}
 							</Dropdown.Toggle>
 							<Dropdown.Menu>
-								{groups.filter((val) => val?.name !== "").map(group => (
+								{props.groups.filter((val) => val?.name !== "").map(group => (
 									<Dropdown.Item
 										key={group.id.toString()}
 										value={group.name}

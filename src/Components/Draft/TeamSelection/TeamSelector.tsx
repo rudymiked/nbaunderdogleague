@@ -43,7 +43,10 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 	const { state, dispatch } = React.useContext(RootContext);
 
 	React.useEffect(() => {
-		if (props.currentDate.getMinutes() % 5 === 0 && props.currentDate.getSeconds() === 0) {
+		if (props.currentDate.getMinutes() % 5 === 0 
+			&& props.currentDate.getSeconds() === 0
+			&& props.draftStartTime > props.currentDate.getTime() 
+			&& props.draftEndTime < props.currentDate.getTime()) {
 			getAvailableTeams();
 		}
 	}, [props.currentDate]);

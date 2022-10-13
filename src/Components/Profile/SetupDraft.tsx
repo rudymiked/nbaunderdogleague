@@ -12,7 +12,10 @@ import "react-datepicker/dist/react-datepicker.css";
 
 // Join a group that someone else has created for this season
 
-interface ISetupDraftProps {}
+interface ISetupDraftProps {
+    dataLoaded: boolean;
+    ownedGroups: IGroupData[];
+}
 
 export interface ISetupDraftResults {
 	email: string;
@@ -22,15 +25,12 @@ export interface ISetupDraftResults {
 }
 
 const chooseGroupText = "Choose Group";
-const adminEmail: string = "rudymiked@gmail.com";
 
 const hourOptions: number[] = [...Array(24).keys()];
 const minuteOptions: number[] = [];
 const windowOptions: number[] = [];
 
 export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISetupDraftProps) => {
-	const [ownedGroups, SetOwnedGroups] = React.useState<IGroupData[]>([]);
-	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [requestResult, SetRequestResult] = React.useState<string>("");
 	const [setupDraftData, SetSetupDraftData] = React.useState<ISetupDraftResults[]>([]);
 	const [chooseGroupDropdownText, SetChooseGroupDropdownText] = React.useState<string>(chooseGroupText);
@@ -55,27 +55,6 @@ export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISe
         windowOptions.push(5);
         windowOptions.push(10);
     }, []);
-
-	React.useEffect(() => {
-		if (state.AppStore.Email !== "") {
-			GetAllGroups(true, state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
-				if (response?.data) {
-                    const data = response.data;
-                    SetRequestResult("");
-					SetOwnedGroups(data.filter((group: IGroupData) => group.name && group.name !== "" && (group.owner === state.AppStore.Email || state.AppStore.Email === adminEmail)));
-				} else {
-					SetRequestResult(somethingWentWrongText);
-				}
-
-				SetDataLoaded(true);
-			}).catch((reason: any) => {
-				SetDataLoaded(true);
-				SetRequestResult(somethingWentWrongText);
-			});
-		} else {
-			// user not logged in
-		}
-	}, [state]);
 
 	const selectAGroup = (key: string, name: string) => {
 		SetSelectedGroupId(key);
@@ -133,8 +112,8 @@ export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISe
 
 	return (
 		<div style={{padding: "10px", display:"block"}}>
-			{dataLoaded ? (
-				ownedGroups.length !== 0 ? (
+			{props.dataLoaded ? (
+				props.ownedGroups.length !== 0 ? (
 					<div id="choose-a-group-collapse-text">
                         <h4>Setup Draft</h4>
 						<Dropdown>
@@ -142,7 +121,7 @@ export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISe
 								{chooseGroupDropdownText}
 							</Dropdown.Toggle>
 							<Dropdown.Menu>
-								{ownedGroups.filter((val) => val?.name !== "").map(group => (
+								{props.ownedGroups.filter((val) => val?.name !== "").map(group => (
 									<Dropdown.Item
 										key={group.id.toString()}
 										value={group.name}

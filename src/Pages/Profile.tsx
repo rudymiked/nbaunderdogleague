@@ -7,10 +7,10 @@ import { CreateGroup } from '../Components/Profile/CreateGroup';
 import { JoinGroup } from '../Components/Profile/JoinGroup';
 import { LoginEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
-import { SetupDraft } from '../Components/Profile/SetupDraft';
 import { Container, Row, Col } from 'react-bootstrap';
 import { UserInformation } from '../Components/Profile/UserInformation';
-import { UsersInGroupTable } from '../Components/Profile/UsersInGroupTable';
+import { GroupManagement } from '../Components/Groups/GroupManagement';
+import GetAllGroups from '../services/data/GetGroups';
 
 interface ITeamPageProps {}
 
@@ -32,20 +32,46 @@ export interface IGroupDataResponse {
 export const FailedLogin = "Could not log you in. Please close your browser and try again.";
 export const LoggingIn = "Logging in...";
 export const somethingWentWrongText = "Something went wrong.";
+const adminEmail: string = "rudymiked@gmail.com";
 
 const cardStyle: React.CSSProperties = {padding: '10px', overflow: 'auto', alignSelf: 'center' }
 
 export const Profile: React.FC = (props: ITeamPageProps) => {
 	const [cardTitle, SetCardTitle] = React.useState<string>("");
 	const [refresh, SetRefresh] = React.useState<number>(0);
+	const [ownedGroups, SetOwnedGroups] = React.useState<IGroupData[]>([]);
+	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
+	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 
 	const { state } = React.useContext(RootContext);
 
 	React.useEffect(() => {
 		if (state.AppStore.Email !== "") {
 			SetCardTitle("Welcome, " + state.AppStore.Name);
+
+			loadGroups();
+
+		} else {
+			// user not logged in
 		}
 	}, [state]);
+
+
+	const loadGroups = () => {
+		GetAllGroups(true, state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
+			if (response?.data) {
+				const data = response.data;
+				SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
+				SetOwnedGroups(data.filter((group: IGroupData) => group.name && group.name !== "" && (group.owner === state.AppStore.Email || state.AppStore.Email === adminEmail)));
+			} else {
+				// something went wrong
+			}
+
+			SetDataLoaded(true);
+		}).catch((reason: any) => {
+			SetDataLoaded(true);
+		});
+	};
 
 	return (
 		<Card style={cardStyle}>
@@ -64,7 +90,13 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 								<YourGroups {...{refresh, SetRefresh}} />
 							</Col>
 							<Col>
-								<JoinGroup {...{refresh, SetRefresh}} />
+								<JoinGroup {...{
+									refresh,
+									SetRefresh,
+									groups,
+									dataLoaded,
+									loadGroups
+								}} />
 							</Col>
 							<Col>
 								<CreateGroup {...{refresh, SetRefresh}} />
@@ -73,12 +105,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 						<hr />
 						<Row>
 							<Col>
-								<UsersInGroupTable />
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<SetupDraft />
+								<GroupManagement {...{ownedGroups, dataLoaded}}/>
 							</Col>
 						</Row>
 					</Container>
