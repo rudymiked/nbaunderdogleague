@@ -1,34 +1,39 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
-import GetCurrentNBAStandings from '../services/data/GetCurrentNBAStandings';
+import GetTeamStats from '../services/data/GetTeamStats';
 import { Error } from '../Components/Error/Error';
 import { Loading } from '../Components/Shared/Loading';
 import { sortCaretFunc } from '../Utils/Utils';
 
 interface ITeamPageProps {}
 
-export interface ICurrentNBAStandings {
+export interface ITeamStats {
+    teamId: number;
     teamName: string;
     teamCity: string;
-    win: number;
-    loss: number;
-    playoffs: string;
+	conference: string;
+	standing: number;
+    wins: number;
+    losses: number;
+	ratio: number;
+	streak: number;
+    clinchedPlayoffBirth: string;
 }
 
-interface ICurrentNBAStandingsResponse {
-	data: ICurrentNBAStandings[];
+interface ITeamStatsResponse {
+	data: ITeamStats[];
 }
 
 const Title = "Current NBA Standings";
 
 export const Teams: React.FC = (props: ITeamPageProps) => {
-	const [team, SetTeams] = React.useState<ICurrentNBAStandings[]>([]);
+	const [team, SetTeams] = React.useState<ITeamStats[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
-		GetCurrentNBAStandings().then((response: ICurrentNBAStandingsResponse) => {
+		GetTeamStats().then((response: ITeamStatsResponse) => {
 			if (response?.data) {
 				SetDataLoaded(true);
 				SetTeams(response.data);
@@ -55,19 +60,19 @@ export const Teams: React.FC = (props: ITeamPageProps) => {
 			sortCaret: sortCaretFunc,
 		},
 		{
-			dataField: 'win',
-			text: 'Wins',
+			dataField: 'wins',
+			text: 'Win',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		},
 		{
-			dataField: 'loss',
+			dataField: 'losses',
 			text: 'Loss',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		},
 		{
-			dataField: 'playoffs',
+			dataField: 'clinchedPlayoffBirth',
 			text: 'Playoffs',
 			sort: true,
 			sortCaret: sortCaretFunc,

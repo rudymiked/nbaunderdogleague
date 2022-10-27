@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Error } from '../Components/Error/Error';
-import { IYourGroupsProps, YourGroups } from '../Components/Profile/YourGroups';
 import { Loading } from '../Components/Shared/Loading';
 import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable';
 import GetAllGroupsUserIsInByYear from '../services/data/GetAllGroupsUserIsInByYear';
