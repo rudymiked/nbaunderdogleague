@@ -79,19 +79,15 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 			<Card.Body style={{overflow: 'auto'}}>
 				{state.AppStore.LoginStatus === LoginEnum.Success ? (
 					<Container>
-						{state.AppStore.LoginStatus === LoginEnum.Success ??
 						<Row>
 							<Col>
-							
 								<Button
 									href={"/.auth/logout?post_logout_redirect_uri=/index.html"}
 									aria-controls="logout">
 									{"Logout"}
 								</Button>
-							
 							</Col>
 						</Row>
-						}
 						<Row>
 							<Col>
 								<UserInformation />
