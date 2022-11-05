@@ -42,7 +42,7 @@ export const UserInformation: React.FC = (props: IUserInformationProps) => {
                     <Col>
                         <Form.Group className="mb-3" controlId="formCreateGroup">
                             <Form.Label>Update Username</Form.Label>
-                            <Form.Control type="text" placeholder={state.AppStore.Name} onChange={(e) => updateUserName(e)} />
+                            <Form.Control type="text" placeholder={state.AppStore.Username} onChange={(e) => updateUserName(e)} />
                             <Form.Text className="text-muted">
                             </Form.Text>
                         </Form.Group>
