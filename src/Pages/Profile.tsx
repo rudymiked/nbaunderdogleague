@@ -1,6 +1,6 @@
 import { Guid } from 'guid-typescript';
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { IEntity } from '../App';
 import { YourGroups } from '../Components/Profile/YourGroups';
 import { CreateGroup } from '../Components/Profile/CreateGroup';
@@ -79,6 +79,19 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 			<Card.Body style={{overflow: 'auto'}}>
 				{state.AppStore.LoginStatus === LoginEnum.Success ? (
 					<Container>
+						{state.AppStore.LoginStatus === LoginEnum.Success ??
+						<Row>
+							<Col>
+							
+								<Button
+									href={"/.auth/logout?post_logout_redirect_uri=/index.html"}
+									aria-controls="logout">
+									{"Logout"}
+								</Button>
+							
+							</Col>
+						</Row>
+						}
 						<Row>
 							<Col>
 								<UserInformation />
