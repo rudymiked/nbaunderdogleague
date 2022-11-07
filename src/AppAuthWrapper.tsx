@@ -8,6 +8,7 @@ import { GroupStandings } from './Pages/GroupStandings';
 import { IGroupData, IGroupDataArrayResponse, Profile, somethingWentWrongText } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
 import { Teams } from './Pages/Teams';
+import AppStart from './services/actions/AppStart';
 import GetAllGroupsUserIsInByYear from './services/data/GetAllGroupsUserIsInByYear';
 import GetAuthInformation from './services/data/GetAuthInformation';
 import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
@@ -25,6 +26,8 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 	const [groupId, SetGroupId] = React.useState<string>("");
 
 	React.useEffect(() => {
+		AppStart();
+
 		if (authEmail === "" && state.AppStore.LoginStatus !== LoginEnum.Fail) {
 			getAuthInfo();
 		}
