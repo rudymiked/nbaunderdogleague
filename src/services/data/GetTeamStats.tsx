@@ -4,7 +4,7 @@ const GetTeamStats = () => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/Team/TeamStats",
+		url: "/api/Team/TeamStatsV2",
 		token: null,
 		params: {}
 	});
