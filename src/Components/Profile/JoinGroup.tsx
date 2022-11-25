@@ -1,8 +1,7 @@
 import React from 'react';
 import { Button, Dropdown } from 'react-bootstrap';
-import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
-import JoinGroupAction from '../../services/actions/JoinGroupAction';
-import GetAllGroups from '../../services/data/GetGroups';
+import { IGroupData, somethingWentWrongText } from '../../Pages/Profile';
+import { JoinGroupAction } from '../../services/actions/PostRequests';
 import { AppActionEnum } from '../../services/Stores/AppReducer';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';

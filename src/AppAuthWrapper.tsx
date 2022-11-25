@@ -8,9 +8,7 @@ import { GroupStandings } from './Pages/GroupStandings';
 import { IGroupData, IGroupDataArrayResponse, Profile, somethingWentWrongText } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
 import { Teams } from './Pages/Teams';
-import AppStart from './services/actions/AppStart';
-import GetAllGroupsUserIsInByYear from './services/data/GetAllGroupsUserIsInByYear';
-import GetAuthInformation from './services/data/GetAuthInformation';
+import { AppStart, GetAllGroupsUserIsInByYear, GetAuthInformation } from './services/data/GetRequests';
 import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
 import { RootContext } from './services/Stores/RootStore';
 
@@ -80,7 +78,6 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 				}
 			}
 		}).catch((reason: any) => {
-			console.log(reason);
 			dispatch({
 				type: AppActionEnum.LOGIN_FAIL,
 				LoginStatus: LoginEnum.Fail,

@@ -7,10 +7,10 @@ import { Error } from '../../Error/Error';
 import { IEntity } from '../../../App';
 import { sortCaretFunc } from '../../../Utils/Utils';
 import { RootContext } from '../../../services/Stores/RootStore';
-import GetAvailableTeamsToDraft from '../../../services/data/GetAvailableTeamsToDraft';
-import DraftTeamAction from '../../../services/actions/DraftTeamAction';
 import { Guid } from 'guid-typescript';
 import { IUserData } from '../SidePanel/DraftProgress';
+import { GetAvailableTeamsToDraft } from '../../../services/data/GetRequests';
+import { DraftTeamAction } from '../../../services/actions/PostRequests';
 
 export interface ITeamSelectorProps {
 	SetUserDrafted: React.Dispatch<React.SetStateAction<IUserData>>;

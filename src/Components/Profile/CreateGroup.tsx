@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Collapse, Form } from 'react-bootstrap';
 import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pages/Profile';
-import CreateGroupAction from '../../services/actions/CreateGroupAction';
+import { CreateGroupAction } from '../../services/actions/PostRequests';
 import { RootContext } from '../../services/Stores/RootStore';
 
 interface ICreateGroupProps {

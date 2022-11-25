@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Error } from '../Components/Error/Error';
 import { Loading } from '../Components/Shared/Loading';
 import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable';
-import GetAllGroupsUserIsInByYear from '../services/data/GetAllGroupsUserIsInByYear';
-import GetGroupStandingsData from '../services/data/GetGroupStandingsData';
+import { GetAllGroupsUserIsInByYear, GetGroupStandingsData } from '../services/data/GetRequests';
 import { AppActionEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
 import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from './Profile';
@@ -110,14 +109,14 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 	},	[groupId]);
 
 	return (
-		<Card style={{padding: '10px'}}>
+		<Card style={{padding: '10px', maxWidth: '100wh'}}>
 			<Card.Title className='card-title'><b>{state.AppStore.GroupName}</b> Standings</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
 				{!dataLoaded ? (
 						<Loading />
 					) : (!dataFailedToLoad ? (
 							<div hidden={noGroups}>
-								<div hidden={data.length === 0 }>
+								<div hidden={data.length === 0}>
 									<GroupStandingsTable data={data} />
 								</div>
 							</div>

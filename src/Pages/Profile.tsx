@@ -10,7 +10,7 @@ import { RootContext } from '../services/Stores/RootStore';
 import { Container, Row, Col } from 'react-bootstrap';
 import { UserInformation } from '../Components/Profile/UserInformation';
 import { GroupManagement } from '../Components/Groups/GroupManagement';
-import GetAllGroups from '../services/data/GetGroups';
+import { GetAllGroups } from '../services/data/GetRequests';
 
 interface ITeamPageProps {}
 

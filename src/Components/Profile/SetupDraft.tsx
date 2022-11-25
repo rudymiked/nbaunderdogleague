@@ -1,14 +1,13 @@
 import React from 'react';
 import { Button, Container, Dropdown, Row, Col, ToggleButton } from 'react-bootstrap';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
-import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
-import SetupDraftAction from '../../services/actions/SetupDraftAction';
-import GetAllGroups from '../../services/data/GetGroups';
+import { IGroupData, somethingWentWrongText } from '../../Pages/Profile';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';
 import { IDraftDataResponse } from '../Draft/SidePanel/DraftProgress';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { SetupDraftAction } from '../../services/actions/PostRequests';
 
 // Join a group that someone else has created for this season
 

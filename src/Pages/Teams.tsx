@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
-import GetTeamStats from '../services/data/GetTeamStats';
 import { Error } from '../Components/Error/Error';
 import { Loading } from '../Components/Shared/Loading';
+import { GetTeamStats } from '../services/data/GetRequests';
 import { sortCaretFunc } from '../Utils/Utils';
 
 interface ITeamPageProps {}

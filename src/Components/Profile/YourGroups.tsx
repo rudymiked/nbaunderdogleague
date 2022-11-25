@@ -1,7 +1,7 @@
 import React from 'react';
 import {  Dropdown } from 'react-bootstrap';
 import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
-import GetAllGroupsUserIsInByYear from '../../services/data/GetAllGroupsUserIsInByYear';
+import { GetAllGroupsUserIsInByYear } from '../../services/data/GetRequests';
 import { AppActionEnum } from '../../services/Stores/AppReducer';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';
@@ -33,8 +33,7 @@ export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYo
 
 	const loadGroups = () => {
 		if (state.AppStore.Email !== "") {
-			SetDataLoaded(false);
-			
+			SetDataLoaded(false);			
 			GetAllGroupsUserIsInByYear(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 				if (response?.data) {
 					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));

@@ -2,16 +2,14 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import './DraftProgress.css';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
-import GetUserData from '../../../services/data/GetUserData';
 import { Loading } from '../../Shared/Loading';
 import { Error } from '../../Error/Error';
 import { Guid } from 'guid-typescript';
 import { IEntity } from '../../../App';
-import GetDraftData from '../../../services/data/GetDraftData';
 import { RootContext } from '../../../services/Stores/RootStore';
 import { LoginEnum, AppActionEnum } from '../../../services/Stores/AppReducer';
-import GetAllGroupsUserIsInByYear from '../../../services/data/GetAllGroupsUserIsInByYear';
 import { IGroupDataArrayResponse, somethingWentWrongText, IGroupData } from '../../../Pages/Profile';
+import { GetAllGroupsUserIsInByYear, GetDraftData, GetUserData } from '../../../services/data/GetRequests';
 
 export interface IDraftProgressProps {
 	userDrafted: IUserData;

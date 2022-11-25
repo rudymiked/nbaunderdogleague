@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { somethingWentWrongText } from '../../Pages/Profile';
-import UpdateUser from '../../services/actions/UpdateUserAction';
+import { UpdateUser } from '../../services/actions/PostRequests';
 import { RootContext } from '../../services/Stores/RootStore';
 import { IUserDataResponse } from '../Draft/SidePanel/DraftProgress';
 

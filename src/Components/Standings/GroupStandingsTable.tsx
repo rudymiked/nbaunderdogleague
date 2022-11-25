@@ -18,32 +18,23 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 			sort: true,
 			sortCaret: sortCaretFunc,
 			style: (cell, row, rowIndex, colIndex) => {
-				if (row.score < .5) {
-					return { backgroundColor: '#D92828' }
-				}
-
-				if (row.score < 1) {
-					return { backgroundColor: '#F67B43' }
-				}
-
-				if (row.score < 1.2) {
-					return { backgroundColor: '#F6E743' }
-				}
-				
-				if (row.score < 1.5) {
-					return { backgroundColor: '#D9F643' }
-				}
-
-				if (row.score < 1.75) {
-					return { backgroundColor: '#A9F643' }
-				}
-
-				if (row.score < 2) {
-					return { backgroundColor: '#77F643' }
-				}
-
-				if (row.score > 2) {
-					return { backgroundColor: '#43F657' }
+				// color scale for points
+				const score: number = row.score
+				switch (true) {
+					case score < .5: 
+						return { backgroundColor: '#D92828' }
+					case score < .75: 
+						return { backgroundColor: '#D94628' }
+					case score < 1: 
+						return { backgroundColor: '#F67B43' }
+					case score < 1.25: 
+						return { backgroundColor: '#F6E743' }
+					case score < 1.5: 
+						return { backgroundColor: '#D9F643' }
+					case score < 2: 
+						return { backgroundColor: '#77F643' }					
+					default: 
+						return { backgroundColor: '#43F657' }
 				}
 			}
 		},

@@ -1,7 +1,7 @@
 import React from "react";
 import BootstrapTable, { ColumnDescription } from "react-bootstrap-table-next";
 import { somethingWentWrongText } from "../../Pages/Profile";
-import GetUserData from "../../services/data/GetUserData";
+import { GetUserData } from "../../services/data/GetRequests";
 import { AppActionEnum } from "../../services/Stores/AppReducer";
 import { RootContext } from "../../services/Stores/RootStore";
 import { IUserData, IUserDataResponse } from "../Draft/SidePanel/DraftProgress";
