@@ -4,7 +4,7 @@ import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import { IGroupData, somethingWentWrongText } from '../../Pages/Profile';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';
-import { IDraftDataResponse } from '../Draft/SidePanel/DraftProgress';
+import { IDraftDataResponse } from '../Draft/DraftProgress';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { SetupDraftAction } from '../../services/actions/PostRequests';

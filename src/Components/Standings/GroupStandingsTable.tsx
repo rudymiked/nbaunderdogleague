@@ -96,6 +96,7 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 				}]}
 			data={ props.data } 
 			columns={ columns }
-			rowStyle={rowStyle} />
+			rowStyle={rowStyle} 
+		/>
 	);
 }

@@ -1,15 +1,18 @@
 import React from 'react';
-import { TeamSelector } from '../Components/Draft/TeamSelection/TeamSelector';
-import { DraftProgress, IUserData } from '../Components/Draft/SidePanel/DraftProgress';
+import { TeamSelector } from '../Components/Draft/TeamSelector';
+import { DraftProgress, IUserData } from '../Components/Draft/DraftProgress';
 import { Container, Row, Col } from 'react-bootstrap';
 import { RootContext } from '../services/Stores/RootStore';
+import { DraftResults } from '../Components/Draft/DraftResults';
+import { NBAStartDate } from '../Utils/AppConstants';
 
 interface IDraftPageProps {}
 
 export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
-	const [ userDrafted, SetUserDrafted ] = React.useState<IUserData>();
-	const [ draftStartTime, SetDraftStartTime ] = React.useState<number>(0);
-	const [ draftEndTime, SetDraftEndTime ] = React.useState<number>(0);
+	const [userDrafted, SetUserDrafted] = React.useState<IUserData>();
+	const [draftStartTime, SetDraftStartTime] = React.useState<number>(0);
+	const [draftEndTime, SetDraftEndTime] = React.useState<number>(0);
+	const [showDraft, SetShowDraft] = React.useState<boolean>(true);
 	
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -27,18 +30,34 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 		}
 	}, []);
 
+	React.useEffect(() => {
+		// show results of previous draft if date is before October or after the NBA start date
+		// this is a hack and needs to be updated XXX
+		const now: Date = new Date();
+
+		if (now.getMonth() < 10 || now > NBAStartDate) {
+			SetShowDraft(false);
+		}
+	}, []);
+
 	return (
 		<>
 			{state.AppStore.GroupId !== "" ? (
 				<Container>
-					<Row>
-						<Col>
-							<DraftProgress {...{userDrafted, currentDate, draftStartTime, draftEndTime, SetDraftStartTime, SetDraftEndTime}} />
-						</Col>
-						<Col>
-							<TeamSelector {...{SetUserDrafted, currentDate, draftStartTime, draftEndTime}}/>
-						</Col>
-					</Row>
+					{showDraft ? (
+						<Row>
+							<Col>
+								<DraftProgress {...{userDrafted, currentDate, draftStartTime, draftEndTime, SetDraftStartTime, SetDraftEndTime}} />
+							</Col>
+							<Col>
+								<TeamSelector {...{SetUserDrafted, currentDate, draftStartTime, draftEndTime}}/>
+							</Col>
+						</Row>
+					) : (
+						<Row>
+							<DraftResults />
+						</Row>
+					)}
 				</Container>
 			) : (
 				<p>Navigate to your profile to select one of your groups.</p>

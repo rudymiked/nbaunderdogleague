@@ -1,16 +1,15 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
-import './TeamSelector.css';
 import BootstrapTable, { ColumnDescription, SelectRowProps } from 'react-bootstrap-table-next';
-import { Loading } from '../../Shared/Loading';
-import { Error } from '../../Error/Error';
-import { IEntity } from '../../../App';
-import { sortCaretFunc } from '../../../Utils/Utils';
-import { RootContext } from '../../../services/Stores/RootStore';
+import { Loading } from '../Shared/Loading';
+import { Error } from '../Error/Error';
+import { IEntity } from '../../App';
+import { sortCaretFunc } from '../../Utils/Utils';
+import { RootContext } from '../../services/Stores/RootStore';
 import { Guid } from 'guid-typescript';
-import { IUserData } from '../SidePanel/DraftProgress';
-import { GetAvailableTeamsToDraft } from '../../../services/data/GetRequests';
-import { DraftTeamAction } from '../../../services/actions/PostRequests';
+import { IUserData } from './DraftProgress';
+import { GetAvailableTeamsToDraft } from '../../services/data/GetRequests';
+import { DraftTeamAction } from '../../services/actions/PostRequests';
 
 export interface ITeamSelectorProps {
 	SetUserDrafted: React.Dispatch<React.SetStateAction<IUserData>>;

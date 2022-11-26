@@ -74,58 +74,59 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 	};
 
 	return (
-		<Card style={cardStyle}>
-			<Card.Title>{cardTitle}</Card.Title>
-			<Card.Body style={{overflow: 'auto'}}>
-				{state.AppStore.LoginStatus === LoginEnum.Success ? (
-					<Container>
-						<Row>
-							<Col>
-								<Button
-									href={"/.auth/logout?post_logout_redirect_uri=/index.html"}
-									aria-controls="logout">
-									{"Logout"}
-								</Button>
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<UserInformation />
-							</Col>
-						</Row>
-						<Row>
-							<h4>Groups</h4>
-							<Col>
-								<YourGroups {...{refresh, SetRefresh}} />
-							</Col>
-							<Col>
-								<JoinGroup {...{
-									refresh,
-									SetRefresh,
-									groups,
-									dataLoaded,
-									loadGroups
-								}} />
-							</Col>
-							<Col>
-								<CreateGroup {...{refresh, SetRefresh}} />
-							</Col>
-						</Row>
-						<hr />
-						<Row>
-							<Col>
-								<GroupManagement {...{ownedGroups, dataLoaded}}/>
-							</Col>
-						</Row>
-					</Container>
+		<div>
+			{state.AppStore.LoginStatus === LoginEnum.Success ? (
+				<Container>
+					<Row>
+						<Col>
+							<Card>
+								<Card.Title className='card-title'>Welcome, {state.AppStore.Name}</Card.Title>
+								<Card.Body style={{overflow: 'auto'}}>
+									<Button
+										href={"/.auth/logout?post_logout_redirect_uri=/index.html"}
+										aria-controls="logout">
+										{"Logout"}
+									</Button>
+									<UserInformation />
+								</Card.Body>
+							</Card>
+						</Col>
+						<Col>
+							<Card>
+								<Card.Title className='card-title'>Groups</Card.Title>
+								<Card.Body style={{overflow: 'auto'}}>
+									<Row>
+										<Col>
+											<YourGroups {...{refresh, SetRefresh}} />
+										</Col>
+										<Col>
+											<JoinGroup {...{
+												refresh,
+												SetRefresh,
+												groups,
+												dataLoaded,
+												loadGroups
+											}} />
+										</Col>
+										<Col>
+											<CreateGroup {...{refresh, SetRefresh}} />
+										</Col>
+										<Col>
+											<GroupManagement {...{ownedGroups, dataLoaded}}/>
+										</Col>
+									</Row>
+								</Card.Body>
+							</Card>
+						</Col>
+					</Row>
+				</Container>
+			) : (
+				state.AppStore.LoginStatus === LoginEnum.Fail ? (
+				<span>{FailedLogin}</span>
 				) : (
-					state.AppStore.LoginStatus === LoginEnum.Fail ? (
-					<span>{FailedLogin}</span>
-					) : (
-						<span>{LoggingIn}</span>
-					)
-				)}
-			</Card.Body>
-		</Card>
+					<span>{LoggingIn}</span>
+				)
+			)}
+		</div>
 	);
 }

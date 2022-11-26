@@ -72,6 +72,16 @@ export const GetDraftData = (groupId: string) => {
 	});
 }
 
+export const GetDraftResults = (groupId: string) => {
+	const httpService = HttpService();
+
+	return httpService.get({
+		url: "/api/Draft/DraftResults",
+		token: null,
+		params: { groupId: groupId }
+	});
+}
+
 export const GetAvailableTeamsToDraft = (groupId: string) => {
 	const httpService = HttpService();
 

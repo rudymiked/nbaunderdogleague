@@ -1,15 +1,14 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
-import './DraftProgress.css';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
-import { Loading } from '../../Shared/Loading';
-import { Error } from '../../Error/Error';
+import { Loading } from '../Shared/Loading';
+import { Error } from '../Error/Error';
 import { Guid } from 'guid-typescript';
-import { IEntity } from '../../../App';
-import { RootContext } from '../../../services/Stores/RootStore';
-import { LoginEnum, AppActionEnum } from '../../../services/Stores/AppReducer';
-import { IGroupDataArrayResponse, somethingWentWrongText, IGroupData } from '../../../Pages/Profile';
-import { GetAllGroupsUserIsInByYear, GetDraftData, GetUserData } from '../../../services/data/GetRequests';
+import { IEntity } from '../../App';
+import { RootContext } from '../../services/Stores/RootStore';
+import { LoginEnum, AppActionEnum } from '../../services/Stores/AppReducer';
+import { IGroupDataArrayResponse, somethingWentWrongText, IGroupData } from '../../Pages/Profile';
+import { GetAllGroupsUserIsInByYear, GetDraftData, GetUserData } from '../../services/data/GetRequests';
 
 export interface IDraftProgressProps {
 	userDrafted: IUserData;
@@ -42,7 +41,7 @@ export interface IUserData extends IEntity {
 
 export interface IDraftProgressData {
 	user: string;
-	team: string;
+	teamName: string;
 	id: string;
 	groupId: Guid;
 	draftOrder: number;
@@ -57,7 +56,7 @@ export interface IUserDataResponse {
 }
 
 const defaultDraft: IDraftProgressData[] = [{
-	team: "",
+	teamName: "",
 	id: "",
 	groupId: Guid.createEmpty(),
 	draftOrder: 1,
@@ -120,7 +119,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 
 		for(const d of oldData) {
 			updatedDraftProgress.push({
-				team: user === d.user ? props.userDrafted?.team : d.team,
+				teamName: user === d.user ? props.userDrafted?.team : d.teamName,
 				id: d.id,
 				groupId: d.groupId,
 				draftOrder: d.draftOrder,
@@ -154,7 +153,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 
 			combinedData.push({
 				user: userInfo.username ?? d.email.split("@")[0],
-				team: userInfo.team,
+				teamName: userInfo.team,
 				id: d.id,
 				groupId: d.groupId,
 				draftOrder: d.draftOrder,
@@ -263,7 +262,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 			text: 'End Draft Time'
 		},
 		{
-			dataField: 'team',
+			dataField: 'teamName',
 			text: 'Team'
 		},
 	];
@@ -274,7 +273,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 				if (draftProgress.length > 0 && nextUpRowIndex < draftProgress.length) {
 					if (props.currentDate.getTime() > props.draftStartTime) { // the draft has started
 						if (draftProgress[nextUpRowIndex].userEndTimeMS > props.currentDate.getTime()) { // user's time is up
-							if (!draftProgress[nextUpRowIndex].team || draftProgress[nextUpRowIndex].team === "") { // user has not drafted
+							if (!draftProgress[nextUpRowIndex].teamName || draftProgress[nextUpRowIndex].teamName === "") { // user has not drafted
 								// 	This users turn
 							} else { // user has drafted
 								SetNextUpRowIndex((nextUpRowIndex) => nextUpRowIndex + 1);

@@ -3,7 +3,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { somethingWentWrongText } from '../../Pages/Profile';
 import { UpdateUser } from '../../services/actions/PostRequests';
 import { RootContext } from '../../services/Stores/RootStore';
-import { IUserDataResponse } from '../Draft/SidePanel/DraftProgress';
+import { IUserDataResponse } from '../Draft/DraftProgress';
 
 interface IUserInformationProps {}
 
@@ -56,7 +56,6 @@ export const UserInformation: React.FC = (props: IUserInformationProps) => {
                     </Col>
                 </Row>
             </Container>
-            <hr />
         </div>
 	);
 }
