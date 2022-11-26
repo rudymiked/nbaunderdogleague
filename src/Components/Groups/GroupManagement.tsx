@@ -9,12 +9,9 @@ interface IGroupManagementProps {
     dataLoaded: boolean;
 }
 
-const title: string = "Group Management";
-
 export const GroupManagement: React.FunctionComponent<IGroupManagementProps> = (props: IGroupManagementProps) => {
     return (
         <>
-            <h4>{title}</h4>
             <Container>
                 <Row>
                     <Col>

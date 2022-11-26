@@ -122,3 +122,15 @@ export const GetAllGroups = (includeUser: boolean, email: string) => {
 		}
 	});
 }
+
+export const GetArchiveSummary = (email: string) => {
+	const httpService = HttpService();
+
+	return httpService.get({
+		url: "/api/Archive/ArchiveSummary",
+		token: null,
+		params: {
+			email: email,
+		}
+	});
+}
