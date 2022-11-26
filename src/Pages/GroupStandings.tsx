@@ -109,7 +109,7 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 	},	[groupId]);
 
 	return (
-		<Card style={{padding: '10px', maxWidth: '100wh'}}>
+		<Card style={{padding: '10px', maxWidth: '100vw'}}>
 			<Card.Title className='card-title'><b>{state.AppStore.GroupName}</b> Standings</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
 				{!dataLoaded ? (

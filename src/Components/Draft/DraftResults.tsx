@@ -21,6 +21,7 @@ export const DraftResults: React.FunctionComponent<IDraftResultsProps> = (props:
 	const [draftResults, SetDraftResults] = React.useState<IDraftResultsData[]>([]);
 	const [draftDataLoaded, SetDraftDataLoaded] = React.useState<boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
+    const [cardTitle, SetCardTitle] = React.useState<string>("Draft Results");
 
 	const { state, dispatch } = React.useContext(RootContext);
 
@@ -28,9 +29,10 @@ export const DraftResults: React.FunctionComponent<IDraftResultsProps> = (props:
 
     React.useEffect(() => {
 		if (state.AppStore.GroupId !== "") {
+            SetCardTitle(state.AppStore.GroupName + " Draft Results");
+
 			SetDraftDataLoaded(false);
 			GetDraftResults(state.AppStore.GroupId).then((response: IDraftResultsResponse) => {
-                console.log(response);
 				if (response?.data) {
 					const data = response?.data;
 					SetDraftDataLoaded(true);
@@ -48,7 +50,7 @@ export const DraftResults: React.FunctionComponent<IDraftResultsProps> = (props:
 	const columns: ColumnDescription[] = [
 		{
 			dataField: 'draftOrder',
-			text: 'Order'
+			text: 'Order',
 		},
 		{
 			dataField: 'user',
@@ -71,8 +73,8 @@ export const DraftResults: React.FunctionComponent<IDraftResultsProps> = (props:
 	};
 
 	return (
-		<Card>
-			<Card.Title className='card-title'>Draft Results</Card.Title>
+		<Card style={{padding: '10px'}}>
+			<Card.Title className='card-title'>{cardTitle}</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
 				{state.AppStore.LoginStatus !== LoginEnum.Success ? (
 					<div>

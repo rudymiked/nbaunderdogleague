@@ -43,8 +43,9 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 	return (
 		<>
 			{state.AppStore.GroupId !== "" ? (
-				<Container>
-					{showDraft ? (
+				<>
+				{showDraft ? (
+					<Container>
 						<Row>
 							<Col>
 								<DraftProgress {...{userDrafted, currentDate, draftStartTime, draftEndTime, SetDraftStartTime, SetDraftEndTime}} />
@@ -53,12 +54,11 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 								<TeamSelector {...{SetUserDrafted, currentDate, draftStartTime, draftEndTime}}/>
 							</Col>
 						</Row>
-					) : (
-						<Row>
-							<DraftResults />
-						</Row>
-					)}
-				</Container>
+					</Container>
+				) : (
+					<DraftResults />
+				)}
+				</>
 			) : (
 				<p>Navigate to your profile to select one of your groups.</p>
 			)}

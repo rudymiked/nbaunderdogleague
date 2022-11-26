@@ -28,7 +28,7 @@ interface ITeamStatsResponse {
 const Title = "Current NBA Standings";
 
 export const Teams: React.FC = (props: ITeamPageProps) => {
-	const [team, SetTeams] = React.useState<ITeamStats[]>([]);
+	const [teams, SetTeams] = React.useState<ITeamStats[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 
@@ -81,12 +81,16 @@ export const Teams: React.FC = (props: ITeamPageProps) => {
 
 	return (
 		<Card style={{padding: '10px'}}>
-			<Card.Title>{Title}</Card.Title>
+			<Card.Title className='card-title'>{Title}</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
 				{!dataLoaded ? (
 					<Loading />
 				) : ( !dataFailedToLoad ? (
-						<BootstrapTable keyField='teamName' data={ team } columns={ columns } />
+						<BootstrapTable 
+							keyField='teamName' 
+							data={ teams }
+							columns={ columns } 
+						/>
 					) : (
 						<Error />
 					)
