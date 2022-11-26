@@ -38,7 +38,6 @@ const adminEmail: string = "rudymiked@gmail.com";
 const cardStyle: React.CSSProperties = {padding: '10px', overflow: 'auto', alignSelf: 'center' }
 
 export const Profile: React.FC = (props: ITeamPageProps) => {
-	const [cardTitle, SetCardTitle] = React.useState<string>("");
 	const [refresh, SetRefresh] = React.useState<number>(0);
 	const [ownedGroups, SetOwnedGroups] = React.useState<IGroupData[]>([]);
 	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
@@ -48,8 +47,6 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 
 	React.useEffect(() => {
 		if (state.AppStore.Email !== "") {
-			SetCardTitle("Welcome, " + state.AppStore.Name);
-
 			loadGroups();
 
 		} else {

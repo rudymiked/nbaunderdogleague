@@ -44,7 +44,7 @@ export const Archive: React.FunctionComponent<IArchiveProps> = (props: IArchiveP
 				SetDataFailedToLoad(true);
 			});
 		}
-    }, [state]);
+    }, []);
 
     const columns: ColumnDescription[] = [
 		{
@@ -85,7 +85,7 @@ export const Archive: React.FunctionComponent<IArchiveProps> = (props: IArchiveP
                 <Loading />
                 ) : (!dataFailedToLoad ? (
                     <BootstrapTable
-                        keyField='email'
+                        keyField='year'
                         data={archiveSummaryData}
                         columns={columns} />
                     ) : (
