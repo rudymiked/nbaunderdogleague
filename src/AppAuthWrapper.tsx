@@ -3,6 +3,7 @@ import { Button, Card } from 'react-bootstrap';
 import { Route, Routes } from 'react-router-dom';
 import { AppNav } from './Components/Shared/AppNav';
 import { Loading } from './Components/Shared/Loading';
+import { ArchiveStandings } from './Pages/ArchiveStandings';
 import { Draft } from './Pages/Draft';
 import { GroupStandings } from './Pages/GroupStandings';
 import { IGroupData, IGroupDataArrayResponse, Profile, somethingWentWrongText } from './Pages/Profile';
@@ -132,6 +133,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 						<Route path="/draft" element={<Draft />} />
 						<Route path="/profile" element={<Profile />} />
 						<Route path="/publicPolicy" element={<PublicPolicy />} />
+						<Route path="/archive" element={<ArchiveStandings />} />
 					</Routes>
 				) : (state.AppStore.LoginStatus === LoginEnum.LoggingIn ? (
 						<Card style={{padding: '10px'}}>

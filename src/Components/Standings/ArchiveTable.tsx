@@ -1,17 +1,23 @@
 import React from 'react';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
-import { IGroupStandingsData } from '../../Pages/GroupStandings';
+import { IArchiveStandingsData } from '../../Pages/ArchiveStandings';
 import { RootContext } from '../../services/Stores/RootStore';
 import { sortCaretFunc } from '../../Utils/Utils';
 
-export interface IGroupStandingsTableProps {
-	data: IGroupStandingsData[];
+export interface IArchiveTableProps {
+	data: IArchiveStandingsData[];
 }
 
-export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTableProps> = (props: IGroupStandingsTableProps) => {
+export const ArchiveTable: React.FunctionComponent<IArchiveTableProps> = (props: IArchiveTableProps) => {
 	const { state, dispatch } = React.useContext(RootContext);
 
 	const columns: ColumnDescription[] = [
+		{
+			dataField: 'standing',
+			text: 'Standing',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
 		{
 			dataField: 'score',
 			text: 'Score',
@@ -51,32 +57,32 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 			sortCaret: sortCaretFunc,
 		},
 		{
-			dataField: 'win',
-			text: 'W',
+			dataField: 'wins',
+			text: 'Wins',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		},
 		{
-			dataField: 'loss',
-			text: 'L',
+			dataField: 'losses',
+			text: 'Losses',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'projectedWin',
-			text: 'Proj. W',
+			text: 'Projected Wins',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'projectedLoss',
-			text: 'Proj. L',
+			text: 'Projected Losses',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		}
 	];
 
-	const rowStyle = (row: IGroupStandingsData, rowIndex: number) => {
+	const rowStyle = (row: IArchiveStandingsData, rowIndex: number) => {
 		const style: React.CSSProperties = {};
 		
 		if (row.email === state.AppStore.Email) {
@@ -88,11 +94,11 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 
 	return (
 		<BootstrapTable 
-			keyField='teamName'
+			keyField='standing'
 			defaultSorted={[
 				{
-					dataField: 'name',
-					order: 'desc' 
+					dataField: 'standing',
+					order: 'asc' 
 				}]}
 			data={ props.data } 
 			columns={ columns }

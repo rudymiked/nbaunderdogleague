@@ -134,3 +134,15 @@ export const GetArchiveSummary = (email: string) => {
 		}
 	});
 }
+
+export const GetSeasonArchive = (groupId: string) => {
+	const httpService = HttpService();
+
+	return httpService.get({
+		url: "/api/Archive/SeasonArchive",
+		token: null,
+		params: {
+			groupId: groupId,
+		}
+	});
+}

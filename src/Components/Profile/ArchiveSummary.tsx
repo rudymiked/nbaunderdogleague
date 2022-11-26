@@ -1,12 +1,12 @@
 import React from "react";
-import BootstrapTable, { ColumnDescription, ExpandRowProps } from "react-bootstrap-table-next";
+import BootstrapTable, { ColumnDescription } from "react-bootstrap-table-next";
 import { GetArchiveSummary } from "../../services/data/GetRequests";
 import { RootContext } from "../../services/Stores/RootStore";
 import { Loading } from "../Shared/Loading";
 import { Error } from "../Error/Error";
 import { sortCaretFunc } from "../../Utils/Utils";
 import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface IArchiveProps {}
 
@@ -25,7 +25,7 @@ interface IArchiveSummaryResponse {
     data: IArchiveSummaryData[];
 }
 
-export const Archive: React.FunctionComponent<IArchiveProps> = (props: IArchiveProps) => {
+export const ArchiveSummary: React.FunctionComponent<IArchiveProps> = (props: IArchiveProps) => {
     const [archiveSummaryData, SetArchiveSummaryData] = React.useState<IArchiveSummaryData[]>([]);
 	const [archiveSummaryDataLoaded, SetArchiveSummaryDataLoaded] = React.useState<boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
@@ -40,6 +40,15 @@ export const Archive: React.FunctionComponent<IArchiveProps> = (props: IArchiveP
 			GetArchiveSummary(state.AppStore.Email).then((response: IArchiveSummaryResponse) => {
 				if (response?.data) {
 					const data = response?.data;
+
+					const sortedData = data.sort((a: IArchiveSummaryData, b: IArchiveSummaryData) => (a.year > b.year) ? 1 : -1);
+					
+					// remove current season from archive results
+					// do not show archive until final day of NBA season XXX TODO
+					if (sortedData.at(-1).year === new Date().getFullYear()) {
+						sortedData.pop();
+					}
+
 					SetArchiveSummaryDataLoaded(true);
 					SetArchiveSummaryData(data);
 				}
@@ -113,29 +122,16 @@ export const Archive: React.FunctionComponent<IArchiveProps> = (props: IArchiveP
 				}
 			}
 		},
-		{
-			dataField: 'standings',
-			text: 'Full Standings',
-            sort: true,
-			sortCaret: sortCaretFunc,
-		},
+        {
+            dataField: "actions",
+            text: "Group",
+            isDummyField: true,
+            formatter: (cell, row) => 
+				<Link to={'/archive'} state={{ groupId: row.groupId, groupName: row.groupName, year: row.year }}>
+					{row.groupName}
+				</Link>
+          },
 	];
-
-    const expandRow: ExpandRowProps<any, number> = {
-        renderer: (row, rowIndex) => {
-            console.log(row);
-            switch (row) {
-                case "standings": {
-                    return <div>Full Standings</div>;
-                    //  <Button
-                    //             onClick={() => navigate("/standings")}
-                    //             aria-controls="navigate-to-profile">
-                    //             {"Join or Switch Groups"}
-                    //         </Button>
-                }
-            }
-        }
-    };
 
     return (
         <div style={{overflow: 'auto'}}>
@@ -144,9 +140,13 @@ export const Archive: React.FunctionComponent<IArchiveProps> = (props: IArchiveP
                 ) : (!dataFailedToLoad ? (
                     <BootstrapTable
                         keyField='year'
+						defaultSorted={[
+							{
+								dataField: 'year',
+								order: 'desc' 
+							}]}
                         data={archiveSummaryData}
-                        columns={columns} 
-                        expandRow={expandRow}
+                        columns={columns}
                     />
                     ) : (
                         <Error />

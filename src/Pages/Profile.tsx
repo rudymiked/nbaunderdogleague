@@ -11,7 +11,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { UserInformation } from '../Components/Profile/UserInformation';
 import { GroupManagement } from '../Components/Groups/GroupManagement';
 import { GetAllGroups } from '../services/data/GetRequests';
-import { Archive } from '../Components/Profile/Archive';
+import { ArchiveSummary } from '../Components/Profile/ArchiveSummary';
 
 interface ITeamPageProps {}
 
@@ -94,7 +94,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 								<Card style={{padding: '10px'}}>
 									<Card.Title className='card-title'>Past Teams</Card.Title>
 									<Card.Body style={{overflow: 'auto'}}>
-										<Archive />
+										<ArchiveSummary />
 									</Card.Body>
 								</Card>
 							</Row>

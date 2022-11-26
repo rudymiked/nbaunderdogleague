@@ -22,7 +22,6 @@ export const UserInformation: React.FC = (props: IUserInformationProps) => {
 
     const changeUsername = () => {
         UpdateUser(state.AppStore.Email, null, state.AppStore.GroupId, newUserName).then((response: IUserDataResponse) => {
-            console.log(response);
             SetRequestResult(usernameUpdated);
         }).catch((reason: any) => {
             SetRequestResult(somethingWentWrongText);
