@@ -74,7 +74,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 	return (
 		<div>
 			{state.AppStore.LoginStatus === LoginEnum.Success ? (
-				<Container>
+				<Container  style={{maxWidth: '95vw'}}>
 					<Row>
 						<Col>
 							<Row>
@@ -90,7 +90,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 									</Card.Body>
 								</Card>
 							</Row>
-							<Row style={{paddingTop: '10px'}}>
+							<Row style={{paddingTop: '10px', paddingBottom: '10px'}}>
 								<Card style={{padding: '10px'}}>
 									<Card.Title className='card-title'>Past Teams</Card.Title>
 									<Card.Body style={{overflow: 'auto'}}>
@@ -119,7 +119,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 										<Col>
 											<CreateGroup {...{refresh, SetRefresh}} />
 										</Col>
-										<Col>
+										<Col >
 											<GroupManagement {...{ownedGroups, dataLoaded}}/>
 										</Col>
 									</Row>
