@@ -1,3 +1,4 @@
+import { CURRENT_YEAR } from "../../Utils/AppConstants";
 import { HttpService } from "../Http/HttpService";
 
 export const AppStart = () => {
@@ -96,27 +97,25 @@ export const GetAvailableTeamsToDraft = (groupId: string) => {
 
 export const GetAllGroupsUserIsInByYear = (email: string) => {
 	const httpService = HttpService();
-	const year = new Date().getFullYear();
 
 	return httpService.get({
 		url: "/api/Group/AllGroupsUserIsInByYear",
 		token: null,
 		params: { 
 			email: email,
-			year: year 
+			year: CURRENT_YEAR 
 		}
 	});
 }
 
 export const GetAllGroups = (includeUser: boolean, email: string) => {
 	const httpService = HttpService();
-	const year = new Date().getFullYear();
 
 	return httpService.get({
 		url: "/api/Group/AllGroupsByYear",
 		token: null,
 		params: { 
-			year: year,
+			year: CURRENT_YEAR,
 			includeUser: includeUser,
 			email: email,
 		}

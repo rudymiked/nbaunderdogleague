@@ -17,6 +17,18 @@ export const ArchiveTable: React.FunctionComponent<IArchiveTableProps> = (props:
 			text: 'Standing',
 			sort: true,
 			sortCaret: sortCaretFunc,
+			style: (cell, row, rowIndex, colIndex) => {
+				switch (row.standing) {
+					case 1: 
+						return { backgroundColor: '#ECD122' }
+					case 2: 
+						return { backgroundColor: '#C0C0C0' }
+					case 3: 		
+                        return { backgroundColor: '#cd7f32' }		
+					default: 
+						return { }
+				}
+			}
 		},
 		{
 			dataField: 'score',

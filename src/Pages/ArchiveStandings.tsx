@@ -3,7 +3,7 @@ import { RootContext } from '../services/Stores/RootStore';
 import { Card } from 'react-bootstrap';
 import { Loading } from '../Components/Shared/Loading';
 import { Error } from "../Components/Error/Error";
-import { ArchiveTable } from '../Components/Standings/ArchiveTable';
+import { ArchiveTable } from '../Components/Archive/ArchiveTable';
 import { GetSeasonArchive } from '../services/data/GetRequests';
 import { useLocation } from 'react-router-dom';
 

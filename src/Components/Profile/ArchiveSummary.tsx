@@ -5,8 +5,8 @@ import { RootContext } from "../../services/Stores/RootStore";
 import { Loading } from "../Shared/Loading";
 import { Error } from "../Error/Error";
 import { sortCaretFunc } from "../../Utils/Utils";
-import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { CURRENT_YEAR } from "../../Utils/AppConstants";
 
 interface IArchiveProps {}
 
@@ -45,7 +45,7 @@ export const ArchiveSummary: React.FunctionComponent<IArchiveProps> = (props: IA
 					
 					// remove current season from archive results
 					// do not show archive until final day of NBA season XXX TODO
-					if (sortedData.at(-1).year === new Date().getFullYear()) {
+					if (sortedData.at(-1).year === CURRENT_YEAR) {
 						sortedData.pop();
 					}
 

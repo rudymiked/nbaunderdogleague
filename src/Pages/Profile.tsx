@@ -12,6 +12,7 @@ import { UserInformation } from '../Components/Profile/UserInformation';
 import { GroupManagement } from '../Components/Groups/GroupManagement';
 import { GetAllGroups } from '../services/data/GetRequests';
 import { ArchiveSummary } from '../Components/Profile/ArchiveSummary';
+import { CURRENT_YEAR, NBAEndDate, NBAStartDate } from '../Utils/AppConstants';
 
 interface ITeamPageProps {}
 
@@ -74,10 +75,33 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 	return (
 		<div>
 			{state.AppStore.LoginStatus === LoginEnum.Success ? (
-				<Container  style={{maxWidth: '95vw'}}>
+				<Container style={{maxWidth: '95vw'}}>
+					{(new Date()).getTime() < NBAStartDate.getTime() && (new Date()).getTime() > NBAEndDate.getTime() &&
+					<Row style={{padding: '10px', minHeight: '300px'}}>
+						<Card style={{padding: '10px'}}>
+							<Card.Title className='card-title'>Welcome to {CURRENT_YEAR} NBA fantasy!</Card.Title>
+							<Card.Body style={{overflow: 'auto'}}>
+								<Row>
+									<Col>
+										<JoinGroup {...{
+											refresh,
+											SetRefresh,
+											groups,
+											dataLoaded,
+											loadGroups
+										}} />
+									</Col>
+									<Col>
+										<CreateGroup {...{refresh, SetRefresh}} />
+									</Col>
+								</Row>
+							</Card.Body>
+						</Card>
+					</Row>
+					}
 					<Row>
-						<Col>
-							<Row>
+						<Col style={{padding: '10px'}}>
+							<Row style={{padding: '10px'}}>
 								<Card style={{padding: '10px'}}>
 									<Card.Title className='card-title'>Welcome, {state.AppStore.Name}</Card.Title>
 									<Card.Body style={{overflow: 'auto'}}>
@@ -90,7 +114,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 									</Card.Body>
 								</Card>
 							</Row>
-							<Row style={{paddingTop: '10px', paddingBottom: '10px'}}>
+							<Row style={{padding: '10px'}}>
 								<Card style={{padding: '10px'}}>
 									<Card.Title className='card-title'>Past Teams</Card.Title>
 									<Card.Body style={{overflow: 'auto'}}>
@@ -99,32 +123,24 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 								</Card>
 							</Row>
 						</Col>
-						<Col>
-							<Card style={{padding: '10px'}}>
-								<Card.Title className='card-title'>Group Management</Card.Title>
-								<Card.Body style={{overflow: 'auto'}}>
-									<Row>
-										<Col>
-											<YourGroups {...{refresh, SetRefresh}} />
-										</Col>
-										<Col>
-											<JoinGroup {...{
-												refresh,
-												SetRefresh,
-												groups,
-												dataLoaded,
-												loadGroups
-											}} />
-										</Col>
-										<Col>
-											<CreateGroup {...{refresh, SetRefresh}} />
-										</Col>
-										<Col >
-											<GroupManagement {...{ownedGroups, dataLoaded}}/>
-										</Col>
-									</Row>
-								</Card.Body>
-							</Card>
+						<Col style={{padding: '10px'}}>
+							<Row style={{padding: '10px'}}>
+								<Card style={{padding: '10px'}}>
+									<Card.Title className='card-title'>Group Management</Card.Title>
+									<Card.Body style={{overflow: 'auto'}}>
+										<Row style={{padding: '10px'}}>
+											<Col>
+												<YourGroups {...{refresh, SetRefresh}} />
+											</Col>
+										</Row>
+										<Row>
+											<Col>
+												<GroupManagement {...{ownedGroups, dataLoaded}}/>
+											</Col>
+										</Row>
+									</Card.Body>
+								</Card>
+							</Row>
 						</Col>
 					</Row>
 				</Container>
