@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, Collapse, Form } from 'react-bootstrap';
-import { IGroupData, IGroupDataResponse, somethingWentWrongText } from '../../Pages/Profile';
+import { IGroupData, IGroupDataResponse } from '../../Pages/Profile';
 import { CreateGroupAction } from '../../services/actions/PostRequests';
 import { RootContext } from '../../services/Stores/RootStore';
+import { SOMETHING_WENT_WRONG } from '../../Utils/AppConstants';
 
 interface ICreateGroupProps {
 	refresh: number;
@@ -34,10 +35,10 @@ export const CreateGroup: React.FunctionComponent<ICreateGroupProps> = (props: I
 					SetRequestResult(groupSuccessMessage);
 					SetCreateGroupDisabled(true);
 				} else {
-					SetRequestResult(somethingWentWrongText);
+					SetRequestResult(SOMETHING_WENT_WRONG);
 				}
 			}).catch((reason: any) => {
-				SetRequestResult(somethingWentWrongText);
+				SetRequestResult(SOMETHING_WENT_WRONG);
 			});
 		} else {
 			SetRequestResult(blankGroupName);

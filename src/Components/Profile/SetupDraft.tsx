@@ -1,13 +1,14 @@
 import React from 'react';
 import { Button, Container, Dropdown, Row, Col, ToggleButton } from 'react-bootstrap';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
-import { IGroupData, somethingWentWrongText } from '../../Pages/Profile';
+import { IGroupData } from '../../Pages/Profile';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Loading } from '../Shared/Loading';
 import { IDraftDataResponse } from '../Draft/DraftProgress';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { SetupDraftAction } from '../../services/actions/PostRequests';
+import { SOMETHING_WENT_WRONG } from '../../Utils/AppConstants';
 
 // Join a group that someone else has created for this season
 
@@ -85,7 +86,7 @@ export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISe
                 SetSetupDraftData(draftResults.sort((a: ISetupDraftResults, b: ISetupDraftResults) => (a.draftOrder > b.draftOrder) ? 1 : -1));
 			}
 		}).catch((reason: any) => {
-            SetRequestResult(somethingWentWrongText);
+            SetRequestResult(SOMETHING_WENT_WRONG);
 			SetSetupDraftData([]);
 		});
 	};

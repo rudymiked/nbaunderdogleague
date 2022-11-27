@@ -1,9 +1,10 @@
 import React from 'react';
 import {  Dropdown } from 'react-bootstrap';
-import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from '../../Pages/Profile';
+import { IGroupData, IGroupDataArrayResponse } from '../../Pages/Profile';
 import { GetAllGroupsUserIsInByYear } from '../../services/data/GetRequests';
 import { AppActionEnum } from '../../services/Stores/AppReducer';
 import { RootContext } from '../../services/Stores/RootStore';
+import { SOMETHING_WENT_WRONG } from '../../Utils/AppConstants';
 import { Loading } from '../Shared/Loading';
 
 // choose one of your groups
@@ -38,12 +39,12 @@ export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYo
 				if (response?.data) {
 					SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
 				} else {
-					SetRequestResult(somethingWentWrongText);
+					SetRequestResult(SOMETHING_WENT_WRONG);
 				}
 
 				SetDataLoaded(true);
 			}).catch((reason: any) => {
-				SetRequestResult(somethingWentWrongText);
+				SetRequestResult(SOMETHING_WENT_WRONG);
 				SetDataLoaded(true);
 			});
 		}

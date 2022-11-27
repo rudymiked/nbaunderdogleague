@@ -1,9 +1,9 @@
 import React from "react";
 import BootstrapTable, { ColumnDescription } from "react-bootstrap-table-next";
-import { somethingWentWrongText } from "../../Pages/Profile";
 import { GetUserData } from "../../services/data/GetRequests";
 import { AppActionEnum } from "../../services/Stores/AppReducer";
 import { RootContext } from "../../services/Stores/RootStore";
+import { SOMETHING_WENT_WRONG } from "../../Utils/AppConstants";
 import { IUserData, IUserDataResponse } from "../Draft/DraftProgress";
 
 interface IUsersInGroupTableProps {}
@@ -37,7 +37,7 @@ export const UsersInGroupTable: React.FunctionComponent<IUsersInGroupTableProps>
 				}
 			}).catch((reason: any) => {
 				SetUserDataLoaded(true);
-                SetDraftingResultText(somethingWentWrongText);
+                SetDraftingResultText(SOMETHING_WENT_WRONG);
 				SetDataFailedToLoad(true);
 			});
 		}

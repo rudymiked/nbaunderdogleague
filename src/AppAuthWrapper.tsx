@@ -6,12 +6,13 @@ import { Loading } from './Components/Shared/Loading';
 import { ArchiveStandings } from './Pages/ArchiveStandings';
 import { Draft } from './Pages/Draft';
 import { GroupStandings } from './Pages/GroupStandings';
-import { IGroupData, IGroupDataArrayResponse, Profile, somethingWentWrongText } from './Pages/Profile';
+import { IGroupData, IGroupDataArrayResponse, Profile } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
 import { Teams } from './Pages/Teams';
 import { AppStart, GetAllGroupsUserIsInByYear, GetAuthInformation } from './services/data/GetRequests';
 import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
 import { RootContext } from './services/Stores/RootStore';
+import { SOMETHING_WENT_WRONG } from './Utils/AppConstants';
 
 interface IAuthProps {};
 
@@ -110,7 +111,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 								GroupName: firstGroup.name!,
 							});
 						} else {
-							console.log(somethingWentWrongText);
+							console.log(SOMETHING_WENT_WRONG);
 						}
 					} else {
 						// user is not in any groups

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { somethingWentWrongText } from '../../Pages/Profile';
 import { UpdateUser } from '../../services/actions/PostRequests';
 import { RootContext } from '../../services/Stores/RootStore';
+import { SOMETHING_WENT_WRONG } from '../../Utils/AppConstants';
 import { IUserDataResponse } from '../Draft/DraftProgress';
 
 interface IUserInformationProps {}
@@ -24,7 +24,7 @@ export const UserInformation: React.FC = (props: IUserInformationProps) => {
         UpdateUser(state.AppStore.Email, null, state.AppStore.GroupId, newUserName).then((response: IUserDataResponse) => {
             SetRequestResult(usernameUpdated);
         }).catch((reason: any) => {
-            SetRequestResult(somethingWentWrongText);
+            SetRequestResult(SOMETHING_WENT_WRONG);
             console.log(reason);
         });
     };

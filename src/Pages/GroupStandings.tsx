@@ -7,7 +7,8 @@ import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable
 import { GetAllGroupsUserIsInByYear, GetGroupStandingsData } from '../services/data/GetRequests';
 import { AppActionEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
-import { IGroupData, IGroupDataArrayResponse, somethingWentWrongText } from './Profile';
+import { SOMETHING_WENT_WRONG } from '../Utils/AppConstants';
+import { IGroupData, IGroupDataArrayResponse } from './Profile';
 
 export interface IGroupStandingsData {
     governor: string;
@@ -69,8 +70,6 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 								GroupId: firstGroup.id!,
 								GroupName: firstGroup.name!,
 							});
-						} else {
-							console.log(somethingWentWrongText);
 						}
 					} else {
 						// user is not in any groups

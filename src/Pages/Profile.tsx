@@ -12,7 +12,7 @@ import { UserInformation } from '../Components/Profile/UserInformation';
 import { GroupManagement } from '../Components/Groups/GroupManagement';
 import { GetAllGroups } from '../services/data/GetRequests';
 import { ArchiveSummary } from '../Components/Profile/ArchiveSummary';
-import { CURRENT_YEAR, NBAEndDate, NBAStartDate } from '../Utils/AppConstants';
+import { ADMIN_EMAIL, CURRENT_YEAR, FAILED_LOGIN, LOGGING_IN, NBAEndDate, NBAStartDate } from '../Utils/AppConstants';
 
 interface ITeamPageProps {}
 
@@ -30,13 +30,6 @@ export interface IGroupDataArrayResponse {
 export interface IGroupDataResponse {
 	data: IGroupData;
 }
-
-export const FailedLogin = "Could not log you in. Please close your browser and try again.";
-export const LoggingIn = "Logging in...";
-export const somethingWentWrongText = "Something went wrong.";
-const adminEmail: string = "rudymiked@gmail.com";
-
-const cardStyle: React.CSSProperties = {padding: '10px', overflow: 'auto', alignSelf: 'center' }
 
 export const Profile: React.FC = (props: ITeamPageProps) => {
 	const [refresh, SetRefresh] = React.useState<number>(0);
@@ -61,7 +54,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 			if (response?.data) {
 				const data = response.data;
 				SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
-				SetOwnedGroups(data.filter((group: IGroupData) => group.name && group.name !== "" && (group.owner === state.AppStore.Email || state.AppStore.Email === adminEmail)));
+				SetOwnedGroups(data.filter((group: IGroupData) => group.name && group.name !== "" && (group.owner === state.AppStore.Email || state.AppStore.Email === ADMIN_EMAIL)));
 			} else {
 				// something went wrong
 			}
@@ -146,9 +139,9 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 				</Container>
 			) : (
 				state.AppStore.LoginStatus === LoginEnum.Fail ? (
-				<span>{FailedLogin}</span>
+				<span>{FAILED_LOGIN}</span>
 				) : (
-					<span>{LoggingIn}</span>
+					<span>{LOGGING_IN}</span>
 				)
 			)}
 		</div>

@@ -7,7 +7,7 @@ import { Guid } from 'guid-typescript';
 import { IEntity } from '../../App';
 import { RootContext } from '../../services/Stores/RootStore';
 import { LoginEnum, AppActionEnum } from '../../services/Stores/AppReducer';
-import { IGroupDataArrayResponse, somethingWentWrongText, IGroupData } from '../../Pages/Profile';
+import { IGroupDataArrayResponse, IGroupData } from '../../Pages/Profile';
 import { GetAllGroupsUserIsInByYear, GetDraftData, GetUserData } from '../../services/data/GetRequests';
 
 export interface IDraftProgressProps {
@@ -185,8 +185,6 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 								GroupId: firstGroup.id!,
 								GroupName: firstGroup.name!,
 							});
-						} else {
-							console.log(somethingWentWrongText);
 						}
 					} else {
 						// user is not in any groups

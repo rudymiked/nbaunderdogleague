@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button, Dropdown } from 'react-bootstrap';
-import { IGroupData, somethingWentWrongText } from '../../Pages/Profile';
+import { IGroupData } from '../../Pages/Profile';
 import { JoinGroupAction } from '../../services/actions/PostRequests';
 import { AppActionEnum } from '../../services/Stores/AppReducer';
 import { RootContext } from '../../services/Stores/RootStore';
+import { SOMETHING_WENT_WRONG } from '../../Utils/AppConstants';
 import { Loading } from '../Shared/Loading';
 
 // Join a group that someone else has created for this season
@@ -46,7 +47,7 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 		JoinGroupAction(selectedGroupId, state.AppStore.Email).then((response: IJoinGroupResponse) => {
 			if (response?.data !== undefined) {
 				if (response?.data === "") {
-					SetJoinRequestResult(somethingWentWrongText);
+					SetJoinRequestResult(SOMETHING_WENT_WRONG);
 				} else {
 					SetJoinRequestResult(response.data + " Please navigate to the Draft to see your draft start time.");
 
@@ -58,7 +59,7 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 				}
 			}
 		}).catch((reason: any) => {
-			SetJoinRequestResult(somethingWentWrongText);
+			SetJoinRequestResult(SOMETHING_WENT_WRONG);
 		});
 	};
 
