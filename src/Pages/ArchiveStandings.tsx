@@ -40,7 +40,6 @@ export const ArchiveStandings: React.FunctionComponent<IArchiveStandingsProps> =
     const location = useLocation();
 
     React.useEffect(() => {
-        console.log(location);
 		if (location.state?.groupId !== "") {
 			GetSeasonArchive(location.state?.groupId).then((response: IArchiveStandingsResponse) => {
 				if (response?.data) {

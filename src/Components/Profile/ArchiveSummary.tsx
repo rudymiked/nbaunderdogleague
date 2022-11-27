@@ -35,7 +35,7 @@ export const ArchiveSummary: React.FunctionComponent<IArchiveProps> = (props: IA
     const navigate = useNavigate();
 
     React.useEffect(() => {
-		if (state.AppStore.GroupId !== "") {
+		if (state.AppStore.Email !== "") {
 			SetArchiveSummaryDataLoaded(false);
 			GetArchiveSummary(state.AppStore.Email).then((response: IArchiveSummaryResponse) => {
 				if (response?.data) {

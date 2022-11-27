@@ -94,7 +94,7 @@ export const ArchiveTable: React.FunctionComponent<IArchiveTableProps> = (props:
 
 	return (
 		<BootstrapTable 
-			keyField='standing'
+			keyField='governor'
 			defaultSorted={[
 				{
 					dataField: 'standing',

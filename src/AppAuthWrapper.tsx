@@ -30,6 +30,10 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 		if (authEmail === "" && state.AppStore.LoginStatus !== LoginEnum.Fail) {
 			getAuthInfo();
 		}
+		
+		// need to update group information in state if the user refreshes the page (F5)
+		updateGroup();
+
 	}, [state]);
 
 	const getAuthInfo = () => {
@@ -88,6 +92,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 
 	const updateGroup = () => {
 		if (state.AppStore.GroupId === "" && state.AppStore.Email !== "") {
+			console.log("updateGroup");
 			// group ID has not been set
 			// need to load groups and set first index for standings
 			// also need to set group ID in context
