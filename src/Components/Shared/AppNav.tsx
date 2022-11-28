@@ -50,7 +50,7 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 							Draft
 						</Nav.Link>
 						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/teams")}>
-							NBA Data
+							Stats
 						</Nav.Link>
 						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/profile")}>
 							{<b>{state.AppStore.Name}</b>}
