@@ -130,7 +130,7 @@ export const ArchiveSummary: React.FunctionComponent<IArchiveProps> = (props: IA
 				<Link to={'/archive'} state={{ groupId: row.groupId, groupName: row.groupName, year: row.year }}>
 					{row.groupName}
 				</Link>
-          },
+		},
 	];
 
     return (

@@ -1,13 +1,13 @@
 import React from 'react';
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Error } from '../Components/Error/Error';
+import { ScoreCard } from '../Components/Scoreboard/ScoreCard';
 import { Loading } from '../Components/Shared/Loading';
 import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable';
 import { GetAllGroupsUserIsInByYear, GetGroupStandingsData } from '../services/data/GetRequests';
 import { AppActionEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
-import { SOMETHING_WENT_WRONG } from '../Utils/AppConstants';
 import { IGroupData, IGroupDataArrayResponse } from './Profile';
 
 export interface IGroupStandingsData {
@@ -35,7 +35,6 @@ export const GroupStandings: React.FunctionComponent<IStandingsPageProps> = (pro
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 	const [noGroups, SetNoGroups] = React.useState<boolean>(false);
 	const [groupId, SetGroupId] = React.useState<string>("");
-	const [refresh, SetRefresh] = React.useState<number>(0);
 
 	const { state, dispatch } = React.useContext(RootContext);
 

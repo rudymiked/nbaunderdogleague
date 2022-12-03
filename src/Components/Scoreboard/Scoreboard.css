@@ -1,0 +1,11 @@
+.scoreboardRow {
+    overflow: auto;
+    flex-wrap: nowrap;
+    display: flex;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+}
+  
+.scoreboardRow::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}

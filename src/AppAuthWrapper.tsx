@@ -6,6 +6,7 @@ import { Loading } from './Components/Shared/Loading';
 import { ArchiveStandings } from './Pages/ArchiveStandings';
 import { Draft } from './Pages/Draft';
 import { GroupStandings } from './Pages/GroupStandings';
+import { Home } from './Pages/Home';
 import { IGroupData, IGroupDataArrayResponse, Profile } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
 import { Teams } from './Pages/Teams';
@@ -133,7 +134,8 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 			<main id="main" tabIndex={-1} className='page-body'>
 				{state.AppStore.LoginStatus === LoginEnum.Success ? (
 					<Routes>
-						<Route path="/" element={<GroupStandings />} />
+						<Route path="/" element={<Home />} />
+						<Route path="/Home" element={<Home />} />
 						<Route path="/teams" element={<Teams />} />
 						<Route path="/standings" element={<GroupStandings />} />
 						<Route path="/draft" element={<Draft />} />

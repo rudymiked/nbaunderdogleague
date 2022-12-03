@@ -43,8 +43,8 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 				<Navbar.Toggle onClick={() => setExpanded(!expanded)} aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav>
-						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/standings")}>
-							Standings
+						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/home")}>
+							League
 						</Nav.Link>
 						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/draft")}>
 							Draft
