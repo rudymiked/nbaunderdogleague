@@ -70,25 +70,37 @@ export const ArchiveTable: React.FunctionComponent<IArchiveTableProps> = (props:
 		},
 		{
 			dataField: 'wins',
-			text: 'Wins',
+			text: 'W',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'losses',
-			text: 'Losses',
+			text: 'L',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'projectedWin',
-			text: 'Projected Wins',
+			text: 'Proj. W',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		},
 		{
 			dataField: 'projectedLoss',
-			text: 'Projected Losses',
+			text: 'Pro. L',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'clinchedPlayoffBirth',
+			text: 'Playoffs',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'playoffWins',
+			text: 'Playoff Ws',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		}
