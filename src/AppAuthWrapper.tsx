@@ -135,7 +135,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 				{state.AppStore.LoginStatus === LoginEnum.Success ? (
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/Home" element={<Home />} />
+						<Route path="/home" element={<Home />} />
 						<Route path="/teams" element={<Teams />} />
 						<Route path="/standings" element={<GroupStandings />} />
 						<Route path="/draft" element={<Draft />} />
@@ -156,14 +156,14 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 								<Card.Body>
 									<div>
 										<Button
-											href={"/.auth/login/google?post_login_redirect_uri=/standings"}
+											href={"/.auth/login/google?post_login_redirect_uri=/home"}
 											aria-controls="login-with-google">
 											{"Login with Google"}
 										</Button>
 										<br />
 										<br />
 										{/* <Button
-											href={"/.auth/login/facebook?post_login_redirect_uri=/standings"}
+											href={"/.auth/login/facebook?post_login_redirect_uri=/home"}
 											aria-controls="login-with-facebook">
 											{"Login with Facebook"}
 										</Button> */}
