@@ -3,53 +3,61 @@ import { Card, Container, Table, Row, Col } from 'react-bootstrap';
 import { RootContext } from '../../services/Stores/RootStore';
 import { IScore, ScoreCard, IScoreCardData } from './ScoreCard';
 import './Scoreboard.css';
+import { GetNBAScoreboard } from '../../services/data/GetRequests';
 
 export interface IScoreboardProps {}
+
+interface IScoreboardResponse {
+    data: IScoreboardData[];
+}
+interface IScoreboardData {
+    homeGovernor: string;
+    homeLogo: string;
+    homeTeam: string;
+    homeScore: number;
+    visitorsGovernor: string;
+    visitorsLogo: string;
+    visitorsTeam: string;
+    visitorsScore: number;
+} 
 
 export const Scoreboard: React.FunctionComponent<IScoreboardProps> = (props: IScoreboardProps) => {
     const { state, dispatch } = React.useContext(RootContext);
     const [ scores, SetScores ] = React.useState<IScoreCardData[]>([]);
 
     React.useEffect(() => {
-        const team1: IScore = {
-            Governor: "CATlanta Hawks",
-            Team: "Hawks",
-            Score: 100,
-            Logo: "https://upload.wikimedia.org/wikipedia/fr/e/ee/Hawks_2016.png",
-        };
+        if (state.AppStore.GroupId !== "") {
+            GetNBAScoreboard(state.AppStore.GroupId).then((response: IScoreboardResponse) => {
+                const data: IScoreboardData[] = response?.data;
+                const scoreCardDataArray: IScoreCardData[] = [];
 
-        const team2: IScore = {
-            Governor: "TylerMurt",
-            Team: "Pacers",
-            Score: 90,
-            Logo: "https://upload.wikimedia.org/wikipedia/fr/thumb/c/cf/Pacers_de_l%27Indiana_logo.svg/1180px-Pacers_de_l%27Indiana_logo.svg.png",
-        };
+                for(const d of data) {
+                    const home: IScore = {
+                        Governor: d.homeGovernor,
+                        Team: d.homeTeam,
+                        Score: d.homeScore,
+                        Logo: d.homeLogo
+                    };
 
-        const scoreCardDataArray: IScoreCardData[] = [];
+                    const visitor: IScore = {
+                        Governor: d.visitorsGovernor,
+                        Team: d.visitorsTeam,
+                        Score: d.visitorsScore,
+                        Logo: d.visitorsLogo
+                    };
 
-        scoreCardDataArray.push({
-            Winner: team1,
-            Loser: team2,
-        });
-        scoreCardDataArray.push({
-            Winner: team1,
-            Loser: team2,
-        });
-        scoreCardDataArray.push({
-            Winner: team1,
-            Loser: team2,
-        });
-        scoreCardDataArray.push({
-            Winner: team1,
-            Loser: team2,
-        });
-        scoreCardDataArray.push({
-            Winner: team1,
-            Loser: team2,
-        });
+                    scoreCardDataArray.push({
+                        Home: home,
+                        Visitor: visitor
+                    });
+                }
 
-        SetScores(scoreCardDataArray);
-    }, [])
+                SetScores(scoreCardDataArray);
+            }).catch((reason: any) =>{
+                SetScores([]);
+            });
+        }
+    }, [state])
 
     return (
         <Container style={{ padding: '5px', maxWidth: '95vw'}}>

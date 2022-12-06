@@ -145,3 +145,15 @@ export const GetSeasonArchive = (groupId: string) => {
 		}
 	});
 }
+
+export const GetNBAScoreboard = (groupId: string) => {
+	const httpService = HttpService();
+
+	return httpService.get({
+		url: "/api/NBA/NBAScoreboard",
+		token: null,
+		params: {
+			groupId: groupId,
+		}
+	});
+}

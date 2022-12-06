@@ -14,47 +14,33 @@ export interface IScore {
 }
 
 export interface IScoreCardData {
-	Winner: IScore;
-	Loser: IScore;
+	Home: IScore;
+	Visitor: IScore;
 }
 
 export const ScoreCard: React.FunctionComponent<IScoreCardProps> = (props: IScoreCardProps) => {
-	const { state, dispatch } = React.useContext(RootContext);
-	const [ winner, SetWinner ] = React.useState<IScore>();
-	const [ loser, SetLoser ] = React.useState<IScore>();
+	const [ home, SetHome ] = React.useState<IScore>();
+	const [ visitor, SetVisitor ] = React.useState<IScore>();
 
 	React.useEffect(() => {
-		SetWinner(props.ScoreCardData.Winner);
-		SetLoser(props.ScoreCardData.Loser);
+		SetHome(props.ScoreCardData.Home);
+		SetVisitor(props.ScoreCardData.Visitor);
 	}, []);
 
 	return (
 		<>
-		{winner !== undefined && loser !== undefined &&
+		{home !== undefined && visitor !== undefined &&
 			<Table borderless size="sm" style={{ width: '250px' }}>
-				{/* <thead>
-					<tr>
-						<th>
-							{winner.Governor}
-						</th>
-						<th>
-							v.
-						</th>
-						<th>
-							{loser.Governor}
-						</th>
-					</tr>
-				</thead> */}
 				<tbody>
 					<tr>
-						<td>{winner.Governor}</td>
-						<td><img src={winner.Logo} alt={winner.Team + " logo"} style={{ width: '20px', height: '20px'}} /></td>
-						<td><b>{winner.Score}</b></td>
+						<td>{home.Governor}</td>
+						<td><img src={home.Logo} alt={home.Team + " logo"} style={{ width: '20px', height: '20px'}} /></td>
+						<td>{home.Score}</td>
 					</tr>
 					<tr>
-						<td>{loser.Governor}</td>
-						<td><img src={loser.Logo} alt={loser.Team + " logo"} style={{ width: '20px', height: '20px'}} /></td>
-						<td>{loser.Score}</td>
+						<td>{visitor.Governor}</td>
+						<td><img src={visitor.Logo} alt={visitor.Team + " logo"} style={{ width: '20px', height: '20px'}} /></td>
+						<td>{visitor.Score}</td>
 					</tr>
 				</tbody>
 			</Table>
