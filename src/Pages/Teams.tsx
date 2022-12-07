@@ -78,22 +78,24 @@ export const Teams: React.FC = (props: ITeamPageProps) => {
 	];
 
 	return (
-		<Card style={{padding: '10px', maxWidth: '95vw'}}>
-			<Card.Title className='card-title'>{Title}</Card.Title>
-			<Card.Body style={{overflow: 'auto'}}>
-				{!dataLoaded ? (
-					<Loading />
-				) : ( !dataFailedToLoad ? (
-						<BootstrapTable 
-							keyField='teamName' 
-							data={ teams }
-							columns={ columns } 
-						/>
-					) : (
-						<Error />
-					)
-				)}
-			</Card.Body>
-		</Card>
+		<div style={{padding: '15px'}}>
+			<Card style={{padding: '10px', maxWidth: '95vw'}}>
+				<Card.Title className='card-title'>{Title}</Card.Title>
+				<Card.Body style={{overflow: 'auto'}}>
+					{!dataLoaded ? (
+						<Loading />
+					) : ( !dataFailedToLoad ? (
+							<BootstrapTable 
+								keyField='teamName' 
+								data={ teams }
+								columns={ columns } 
+							/>
+						) : (
+							<Error />
+						)
+					)}
+				</Card.Body>
+			</Card>
+		</div>
 	);
 }

@@ -41,7 +41,7 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 	}, []);
 
 	return (
-		<>
+		<div style={{padding: '15px'}}>
 			{state.AppStore.GroupId !== "" ? (
 				<>
 				{showDraft ? (
@@ -62,6 +62,6 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 			) : (
 				<p>Navigate to your profile to select one of your groups.</p>
 			)}
-		</>
+		</div>
 	);
 }

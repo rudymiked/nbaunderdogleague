@@ -58,20 +58,22 @@ export const ArchiveStandings: React.FunctionComponent<IArchiveStandingsProps> =
     }, [])
 
 	return (
-        <Card style={{padding: '10px', maxWidth: '95vw'}}>
-            <Card.Title className='card-title'>{title}</Card.Title>
-            <Card.Body style={{overflow: 'auto'}}>
-                {!dataLoaded ? (
-                    <Loading />
-                ) : ( !dataFailedToLoad ? (
-                    <ArchiveTable 
-                        data={data} 
-                /> 
-                    ) : (
-                        <Error />
-                    )
-                )}
-            </Card.Body>
-        </Card>
+        <div style={{padding: '15px'}}>
+            <Card style={{padding: '10px', maxWidth: '95vw'}}>
+                <Card.Title className='card-title'>{title}</Card.Title>
+                <Card.Body style={{overflow: 'auto'}}>
+                    {!dataLoaded ? (
+                        <Loading />
+                    ) : ( !dataFailedToLoad ? (
+                        <ArchiveTable 
+                            data={data} 
+                    /> 
+                        ) : (
+                            <Error />
+                        )
+                    )}
+                </Card.Body>
+            </Card>
+        </div>
 	);
 }
