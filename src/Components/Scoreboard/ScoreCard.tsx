@@ -33,14 +33,14 @@ export const ScoreCard: React.FunctionComponent<IScoreCardProps> = (props: IScor
 			<Table borderless size="sm" style={{ width: '250px' }}>
 				<tbody>
 					<tr>
-						<td>{home.Governor}</td>
+						<td style={{ fontWeight: home.Score > visitor.Score ? 'bold' : 'normal' }}>{home.Governor}</td>
 						<td><img src={home.Logo} alt={home.Team + " logo"} style={{ width: '20px', height: '20px'}} /></td>
-						<td>{home.Score}</td>
+						<td style={{ fontWeight: home.Score > visitor.Score ? 'bold' : 'normal' }}>{home.Score}</td>
 					</tr>
 					<tr>
-						<td>{visitor.Governor}</td>
+						<td style={{ fontWeight: visitor.Score > home.Score ? 'bold' : 'normal' }}>{visitor.Governor}</td>
 						<td><img src={visitor.Logo} alt={visitor.Team + " logo"} style={{ width: '20px', height: '20px'}} /></td>
-						<td>{visitor.Score}</td>
+						<td style={{ fontWeight: visitor.Score > home.Score ? 'bold' : 'normal' }}>{visitor.Score}</td>
 					</tr>
 				</tbody>
 			</Table>
