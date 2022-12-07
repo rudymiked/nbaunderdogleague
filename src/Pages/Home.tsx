@@ -14,7 +14,7 @@ export const Home: React.FunctionComponent = (props: IHomePageProps) => {
                     <Scoreboard />
                 </Col>
             </Row>
-            <Row className="justify-content-md-center"> 
+            <Row style={{padding: '10px'}} className="justify-content-md-center"> 
                 <Col md="auto">
                     <GroupStandings /> 
                 </Col>
