@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Error } from '../Components/Error/Error';
-import { ScoreCard } from '../Components/Scoreboard/ScoreCard';
 import { Loading } from '../Components/Shared/Loading';
 import { GroupStandingsTable } from '../Components/Standings/GroupStandingsTable';
 import { GetAllGroupsUserIsInByYear, GetGroupStandingsData } from '../services/data/GetRequests';
@@ -20,6 +19,7 @@ export interface IGroupStandingsData {
     win: number;
     loss: number;
 	score: number;
+	playoffWins: number;
     playoffs: string;
 }
 

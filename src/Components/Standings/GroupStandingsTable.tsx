@@ -57,8 +57,14 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 			sortCaret: sortCaretFunc,
 		},
 		{
-			dataField: 'loss',
+			dataField: 'loss',	
 			text: 'L',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'playoffWins',
+			text: 'Playoff W',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		},
