@@ -74,6 +74,12 @@ export const Teams: React.FC = (props: ITeamPageProps) => {
 			text: 'Playoffs',
 			sort: true,
 			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'playoffWins',
+			text: 'Playoff Ws',
+			sort: true,
+			sortCaret: sortCaretFunc,
 		}
 	];
 
