@@ -80,6 +80,12 @@ export const Teams: React.FC = (props: ITeamPageProps) => {
 			text: 'Playoff Ws',
 			sort: true,
 			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'score',
+			text: 'Score',
+			sort: true,
+			sortCaret: sortCaretFunc,
 		}
 	];
 

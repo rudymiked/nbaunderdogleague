@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import { AppNav } from './Components/Shared/AppNav';
 import { Loading } from './Components/Shared/Loading';
 import { ArchiveStandings } from './Pages/ArchiveStandings';
@@ -14,17 +14,19 @@ import { AppStart, GetAllGroupsUserIsInByYear, GetAuthInformation } from './serv
 import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
 import { RootContext } from './services/Stores/RootStore';
 import { SOMETHING_WENT_WRONG } from './Utils/AppConstants';
+import { Join } from './Pages/Join';
 
 interface IAuthProps {};
 
 const givenName: string = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname";
 const surname: string = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname";
+const redirectDefault: string = "/.auth/login/google?post_login_redirect_uri=/";
 
 export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuthProps) => {
 	const [authEmail, SetAuthEmail] = React.useState<string>("");
 	const { state, dispatch } = React.useContext(RootContext);
-	const [noGroups, SetNoGroups] = React.useState<boolean>(false);
-	const [groupId, SetGroupId] = React.useState<string>("");
+	const [redirectPage, SetRedirectPage] = React.useState<string>(redirectDefault);
+	const { groupId } = useParams();
 
 	React.useEffect(() => {
 		AppStart();
@@ -35,6 +37,12 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 		
 		// need to update group information in state if the user refreshes the page (F5)
 		updateGroup();
+
+		const page: string = window.location.href.split("/").at(-1);
+		
+		console.log(groupId);
+		
+		SetRedirectPage(redirectDefault + page);
 
 	}, [state]);
 
@@ -116,15 +124,11 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 						}
 					} else {
 						// user is not in any groups
-						SetNoGroups(true);
 					}
 				}
 			}).catch((reason) => {
-				SetNoGroups(true);
+
 			});
-		} else {
-			// if group has already been loaded, but user chooses to change the group.
-			SetGroupId(state.AppStore.GroupId);
 		}
 	}
 
@@ -142,6 +146,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 						<Route path="/profile" element={<Profile />} />
 						<Route path="/publicPolicy" element={<PublicPolicy />} />
 						<Route path="/archive" element={<ArchiveStandings />} />
+						<Route path="/join(/:groupId)" element={<Join />} />
 					</Routes>
 				) : (state.AppStore.LoginStatus === LoginEnum.LoggingIn ? (
 						<Card style={{padding: '10px'}}>
@@ -156,7 +161,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 								<Card.Body>
 									<div>
 										<Button
-											href={"/.auth/login/google?post_login_redirect_uri=/home"}
+											href={redirectPage}
 											aria-controls="login-with-google">
 											{"Login with Google"}
 										</Button>
