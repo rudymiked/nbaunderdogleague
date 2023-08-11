@@ -4,7 +4,7 @@ import { DraftProgress, IUserData } from '../Components/Draft/DraftProgress';
 import { Container, Row, Col } from 'react-bootstrap';
 import { RootContext } from '../services/Stores/RootStore';
 import { DraftResults } from '../Components/Draft/DraftResults';
-import { NBAStartDate } from '../Utils/AppConstants';
+import { NBA_START_DATE } from '../Utils/AppConstants';
 
 interface IDraftPageProps {}
 
@@ -35,7 +35,7 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 		// this is a hack and needs to be updated XXX
 		const now: Date = new Date();
 
-		if (now.getMonth() < 10 || now > NBAStartDate) {
+		if (now.getMonth() < 10 || now > NBA_START_DATE) {
 			SetShowDraft(false);
 		}
 	}, []);

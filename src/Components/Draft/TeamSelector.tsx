@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import BootstrapTable, { ColumnDescription, SelectRowProps } from 'react-bootstrap-table-next';
 import { Loading } from '../Shared/Loading';
-import { Error } from '../Error/Error';
+import { SomethingWentWrong } from '../Error/SomethingWentWrong';
 import { IEntity } from '../../App';
 import { sortCaretFunc } from '../../Utils/Utils';
 import { RootContext } from '../../services/Stores/RootStore';
@@ -173,7 +173,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 									columns={ columns } />
 							</>
 							) : (
-								<Error />
+								<SomethingWentWrong />
 							)
 						)
 					) : (

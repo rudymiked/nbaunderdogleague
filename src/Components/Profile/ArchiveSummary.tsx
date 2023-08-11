@@ -3,7 +3,7 @@ import BootstrapTable, { ColumnDescription } from "react-bootstrap-table-next";
 import { GetArchiveSummary } from "../../services/data/GetRequests";
 import { RootContext } from "../../services/Stores/RootStore";
 import { Loading } from "../Shared/Loading";
-import { Error } from "../Error/Error";
+import { SomethingWentWrong } from "../Error/SomethingWentWrong";
 import { sortCaretFunc } from "../../Utils/Utils";
 import { Link, useNavigate } from "react-router-dom";
 import { CURRENT_YEAR } from "../../Utils/AppConstants";
@@ -149,7 +149,7 @@ export const ArchiveSummary: React.FunctionComponent<IArchiveProps> = (props: IA
                         columns={columns}
                     />
                     ) : (
-                        <Error />
+                        <SomethingWentWrong />
                     )
                 )
             }

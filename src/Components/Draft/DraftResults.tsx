@@ -2,12 +2,13 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import { Loading } from '../Shared/Loading';
-import { Error } from '../Error/Error';
+import { SomethingWentWrong } from '../Error/SomethingWentWrong';
 import { RootContext } from '../../services/Stores/RootStore';
 import { LoginEnum } from '../../services/Stores/AppReducer';
 import { GetDraftResults } from '../../services/data/GetRequests';
 import { IDraftProgressData } from './DraftProgress';
 import { useNavigate } from 'react-router-dom';
+import { JoinOrSwitchGroupsButton } from '../Shared/JoinOrSwitchGroupsButton';
 
 interface IDraftResultsProps {}
 
@@ -92,18 +93,10 @@ export const DraftResults: React.FunctionComponent<IDraftResultsProps> = (props:
                                                 rowStyle={rowStyle} 
                                             />
                                             <hr />
-                                            <div>
-                                                <span>{"Don't see your group?"}</span>
-                                                <br /><br />
-                                                <Button
-                                                    onClick={() => navigate("/profile")}
-                                                    aria-controls="navigate-to-profile">
-                                                    {"Join or Switch Groups"}
-                                                </Button>
-                                            </div>
+                                            <JoinOrSwitchGroupsButton />
                                         </>
 									) : (
-										<Error />
+										<SomethingWentWrong />
 									)
 								)
 							)

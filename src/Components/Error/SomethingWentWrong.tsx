@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Error: React.FunctionComponent = () => {
+export const SomethingWentWrong: React.FunctionComponent = () => {
 	const somethingWentWrongText = "Something went wrong!";
 
 	return (

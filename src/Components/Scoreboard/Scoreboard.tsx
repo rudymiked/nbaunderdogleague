@@ -26,37 +26,35 @@ export const Scoreboard: React.FunctionComponent<IScoreboardProps> = (props: ISc
     const [ scores, SetScores ] = React.useState<IScoreCardData[]>([]);
 
     React.useEffect(() => {
-        if (state.AppStore.GroupId !== "") {
-            GetNBAScoreboard(state.AppStore.GroupId).then((response: IScoreboardResponse) => {
-                const data: IScoreboardData[] = response?.data;
-                const scoreCardDataArray: IScoreCardData[] = [];
+        GetNBAScoreboard(state.AppStore.GroupId).then((response: IScoreboardResponse) => {
+            const data: IScoreboardData[] = response?.data;
+            const scoreCardDataArray: IScoreCardData[] = [];
 
-                for(const d of data) {
-                    const home: IScore = {
-                        Governor: d.homeGovernor,
-                        Team: d.homeTeam,
-                        Score: d.homeScore,
-                        Logo: d.homeLogo
-                    };
+            for(const d of data) {
+                const home: IScore = {
+                    Governor: d.homeGovernor,
+                    Team: d.homeTeam,
+                    Score: d.homeScore,
+                    Logo: d.homeLogo
+                };
 
-                    const visitor: IScore = {
-                        Governor: d.visitorsGovernor,
-                        Team: d.visitorsTeam,
-                        Score: d.visitorsScore,
-                        Logo: d.visitorsLogo
-                    };
+                const visitor: IScore = {
+                    Governor: d.visitorsGovernor,
+                    Team: d.visitorsTeam,
+                    Score: d.visitorsScore,
+                    Logo: d.visitorsLogo
+                };
 
-                    scoreCardDataArray.push({
-                        Home: home,
-                        Visitor: visitor
-                    });
-                }
+                scoreCardDataArray.push({
+                    Home: home,
+                    Visitor: visitor
+                });
+            }
 
-                SetScores(scoreCardDataArray);
-            }).catch((reason: any) =>{
-                SetScores([]);
-            });
-        }
+            SetScores(scoreCardDataArray);
+        }).catch((reason: any) =>{
+            SetScores([]);
+        });
     }, [state])
 
     return (

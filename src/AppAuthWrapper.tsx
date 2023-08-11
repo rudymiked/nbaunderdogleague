@@ -5,7 +5,6 @@ import { AppNav } from './Components/Shared/AppNav';
 import { Loading } from './Components/Shared/Loading';
 import { ArchiveStandings } from './Pages/ArchiveStandings';
 import { Draft } from './Pages/Draft';
-import { GroupStandings } from './Pages/GroupStandings';
 import { Home } from './Pages/Home';
 import { IGroupData, IGroupDataArrayResponse, Profile } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
@@ -15,6 +14,8 @@ import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
 import { RootContext } from './services/Stores/RootStore';
 import { SOMETHING_WENT_WRONG } from './Utils/AppConstants';
 import { Join } from './Pages/Join';
+import { League } from './Pages/League';
+import { GetStarted } from './Pages/GetStarted';
 
 interface IAuthProps {};
 
@@ -140,13 +141,14 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/home" element={<Home />} />
+						<Route path="/league" element={<League />} />
 						<Route path="/teams" element={<Teams />} />
-						<Route path="/standings" element={<GroupStandings />} />
 						<Route path="/draft" element={<Draft />} />
 						<Route path="/profile" element={<Profile />} />
 						<Route path="/publicPolicy" element={<PublicPolicy />} />
 						<Route path="/archive" element={<ArchiveStandings />} />
 						<Route path="/join(/:groupId)" element={<Join />} />
+						<Route path="/getstarted" element={<GetStarted />} />
 					</Routes>
 				) : (state.AppStore.LoginStatus === LoginEnum.LoggingIn ? (
 						<Card style={{padding: '10px'}}>

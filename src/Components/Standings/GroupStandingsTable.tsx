@@ -1,15 +1,106 @@
 import React from 'react';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
-import { IGroupStandingsData } from '../../Pages/GroupStandings';
 import { RootContext } from '../../services/Stores/RootStore';
 import { sortCaretFunc } from '../../Utils/Utils';
+import { SomethingWentWrong } from '../Error/SomethingWentWrong';
+import { Loading } from '../Shared/Loading';
+import { GetAllGroupsUserIsInByYear, GetGroupStandingsData } from '../../services/data/GetRequests';
+import { IGroupData, IGroupDataArrayResponse } from '../../Pages/Profile';
+import { AppActionEnum } from '../../services/Stores/AppReducer';
 
-export interface IGroupStandingsTableProps {
+export interface IGroupStandingsData {
+    governor: string;
+    email: string;
+    teamName: string;
+    teamCity: string;
+    projectedWin: number;
+    projectedLoss: number;
+    win: number;
+    loss: number;
+	score: number;
+	playoffWins: number;
+    playoffs: string;
+}
+
+export interface IGroupStandingsDataResponse {
 	data: IGroupStandingsData[];
 }
 
+export interface IGroupStandingsTableProps {}
+
 export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTableProps> = (props: IGroupStandingsTableProps) => {
+	const [groupId, SetGroupId] = React.useState<string>("");
+	const [data, SetData] = React.useState<IGroupStandingsData[]>([]);
+	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
+	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
+	const [noGroups, SetNoGroups] = React.useState<boolean>(false);
 	const { state, dispatch } = React.useContext(RootContext);
+
+	React.useEffect(() => {
+		if (groupId !== "") {
+			SetNoGroups(false);
+
+			GetGroupStandingsData(groupId).then((response: IGroupStandingsDataResponse) => {
+				if (response?.data) {
+					const data = response.data;
+					SetDataLoaded(true);
+					SetData(data);
+				} else {
+					// no standings data
+				}
+			}).catch((reason: any) => {
+				SetDataLoaded(true);
+				SetDataFailedToLoad(true);
+			});
+		}
+	},	[groupId]);
+
+	React.useEffect(() => {
+		if (state.AppStore.Email !== "") {
+			// user has logged in
+
+			// is a user in (a) group(s)?
+			// if so, show standings of first group queried.
+			// give option to switch groups
+			updateGroup();
+		}
+	}, [state]);
+
+	const updateGroup = () => {
+		if (state.AppStore.GroupId === "" && state.AppStore.Email !== "") {
+			// group ID has not been set
+			// need to load groups and set first index for standings
+			// also need to set group ID in context
+			
+			GetAllGroupsUserIsInByYear(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
+				if (response?.data) {
+					const data = response.data;
+					if (data.length > 0) {
+						const firstGroup: IGroupData = data.find((group: IGroupData) => group.name && group.name !== "")!;
+
+						if (firstGroup?.id.toString() !== "") {
+							dispatch({
+								type: AppActionEnum.UPDATE_GROUP,
+								GroupId: firstGroup.id!,
+								GroupName: firstGroup.name!,
+							});
+						}
+					} else {
+						// user is not in any groups
+						SetNoGroups(true);
+					}
+
+					SetDataLoaded(true);
+				}
+			}).catch((reason) => {
+				SetDataLoaded(true);
+				SetDataFailedToLoad(true);
+			});
+		} else {
+			// if group has already been loaded, but user chooses to change the group.
+			SetGroupId(state.AppStore.GroupId);
+		}
+	}
 
 	const columns: ColumnDescription[] = [
 		{
@@ -93,16 +184,30 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 	};
 
 	return (
-		<BootstrapTable 
-			keyField='teamName'
-			defaultSorted={[
-				{
-					dataField: 'name',
-					order: 'desc' 
-				}]}
-			data={ props.data } 
-			columns={ columns }
-			rowStyle={rowStyle} 
-		/>
+		<>
+		{!dataLoaded && groupId && groupId !== "" ? (
+			<Loading />
+			) : (!dataFailedToLoad ? (
+					<div hidden={noGroups}>
+						<div hidden={data.length === 0}>
+						<BootstrapTable 
+						keyField='teamName'
+						defaultSorted={[
+							{
+								dataField: 'name',
+								order: 'desc' 
+							}]}
+						data={ data } 
+						columns={ columns }
+						rowStyle={rowStyle} 
+					/>
+						</div>
+					</div>
+				) : (
+					<SomethingWentWrong />
+				)
+			)
+		}
+		</>
 	);
 }

@@ -3,8 +3,6 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { IEntity } from '../App';
 import { YourGroups } from '../Components/Profile/YourGroups';
-import { CreateGroup } from '../Components/Profile/CreateGroup';
-import { JoinGroup } from '../Components/Profile/JoinGroup';
 import { LoginEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -12,7 +10,7 @@ import { UserInformation } from '../Components/Profile/UserInformation';
 import { GroupManagement } from '../Components/Groups/GroupManagement';
 import { GetAllGroups } from '../services/data/GetRequests';
 import { ArchiveSummary } from '../Components/Profile/ArchiveSummary';
-import { ADMIN_EMAIL, CURRENT_YEAR, FAILED_LOGIN, LOGGING_IN, NBAEndDate, NBAStartDate } from '../Utils/AppConstants';
+import { ADMIN_EMAIL, FAILED_LOGIN, LOGGING_IN } from '../Utils/AppConstants';
 
 interface ITeamPageProps {}
 
@@ -69,29 +67,6 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 		<div>
 			{state.AppStore.LoginStatus === LoginEnum.Success ? (
 				<Container style={{maxWidth: '95vw'}}>
-					{(new Date()).getTime() < NBAStartDate.getTime() && (new Date()).getTime() > NBAEndDate.getTime() &&
-					<Row style={{padding: '10px', minHeight: '300px'}}>
-						<Card style={{padding: '10px'}}>
-							<Card.Title className='card-title'>Welcome to {CURRENT_YEAR} NBA fantasy!</Card.Title>
-							<Card.Body style={{overflow: 'auto'}}>
-								<Row>
-									<Col>
-										<JoinGroup {...{
-											refresh,
-											SetRefresh,
-											groups,
-											dataLoaded,
-											loadGroups
-										}} />
-									</Col>
-									<Col>
-										<CreateGroup {...{refresh, SetRefresh}} />
-									</Col>
-								</Row>
-							</Card.Body>
-						</Card>
-					</Row>
-					}
 					<Row>
 						<Col style={{padding: '10px'}}>
 							<Row style={{padding: '10px'}}>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import { Loading } from '../Shared/Loading';
-import { Error } from '../Error/Error';
+import { SomethingWentWrong } from '../Error/SomethingWentWrong';
 import { Guid } from 'guid-typescript';
 import { IEntity } from '../../App';
 import { RootContext } from '../../services/Stores/RootStore';
@@ -334,7 +334,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 											)
 										)
 									) : (
-										<Error />
+										<SomethingWentWrong />
 									)
 								)
 							)
