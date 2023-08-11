@@ -58,3 +58,7 @@ a.nav-link {
 	color: #000000;
 	background-color: #FFFFFF;
 }
+
+.navbar-toggler-icon {
+	background-color: #FFFFFF;
+}
