@@ -10,4 +10,4 @@ export const LOGGING_IN = "Logging in...";
 export const SOMETHING_WENT_WRONG = "Something went wrong.";
 export const ADMIN_EMAIL: string = "rudymiked@gmail.com";
 
-export const SITE_NAME: string = "NBA Fantasy";
+export const SITE_NAME: string = "NBA Underdogs";

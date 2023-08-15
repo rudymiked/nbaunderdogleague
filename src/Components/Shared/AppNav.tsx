@@ -17,7 +17,7 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 	const navigate = useNavigate();
 
 	React.useEffect(() => {
-		SetProfileLinkText(state.AppStore.Name! !== "" ? state.AppStore.Name: "LOGIN")
+		SetProfileLinkText(state.AppStore.Name! !== "" ? state.AppStore.Name: "LOGIN");
 	}, [state])
 
 	const navigateAndCollapse = (path: string) => {
@@ -49,7 +49,7 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 				<Navbar.Toggle onClick={() => SetExpanded(!expanded)} aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav>
-						{state.AppStore.LoginStatus === LoginEnum.Success ??
+						{state.AppStore.LoginStatus === LoginEnum.Success ? ( 
 							<>
 							<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/league")}>
 								League
@@ -58,6 +58,7 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 								Draft
 							</Nav.Link>
 							</>
+							) : (<></>)
 						}
 
 						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/teams")}>

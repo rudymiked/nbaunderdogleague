@@ -21,7 +21,7 @@ export const GetStarted: React.FunctionComponent = (props: IGetStartedPageProps)
             {(new Date()).getTime() < NBA_START_DATE.getTime() && (new Date()).getTime() > NBA_END_DATE.getTime() ? ( // pre-season
                 <Row style={{padding: '10px', minHeight: '300px'}}>
                     <Card style={{padding: '10px'}}>
-                        <Card.Title className='card-title'>Welcome to {CURRENT_YEAR} NBA fantasy!</Card.Title>
+                        <Card.Title className='card-title'>Welcome to {CURRENT_YEAR} NBA Underdogs!</Card.Title>
                         <Card.Body style={{overflow: 'auto'}}>
                             <Row>
                                 <Col>
