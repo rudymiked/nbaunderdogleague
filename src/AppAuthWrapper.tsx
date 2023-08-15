@@ -16,6 +16,7 @@ import { SOMETHING_WENT_WRONG } from './Utils/AppConstants';
 import { Join } from './Pages/Join';
 import { League } from './Pages/League';
 import { GetStarted } from './Pages/GetStarted';
+import { PleaseLogin } from './Components/Shared/PleaseLogin';
 
 interface IAuthProps {};
 
@@ -32,19 +33,17 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 	React.useEffect(() => {
 		AppStart();
 
-		if (authEmail === "" && state.AppStore.LoginStatus !== LoginEnum.Fail) {
-			getAuthInfo();
-		}
-		
-		// need to update group information in state if the user refreshes the page (F5)
-		updateGroup();
-
 		const page: string = window.location.href.split("/").at(-1);
-		
-		console.log(groupId);
-		
 		SetRedirectPage(redirectDefault + page);
 
+		if (authEmail === "") {
+			getAuthInfo();
+		}
+
+		if (state.AppStore.LoginStatus === LoginEnum.Success) {
+			// need to update group information in state if the user refreshes the page (F5)
+			updateGroup();
+		}
 	}, [state]);
 
 	const getAuthInfo = () => {
@@ -137,48 +136,18 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 		<>
 			<AppNav />
 			<main id="main" tabIndex={-1} className='page-body'>
-				{state.AppStore.LoginStatus === LoginEnum.Success ? (
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/home" element={<Home />} />
-						<Route path="/league" element={<League />} />
-						<Route path="/teams" element={<Teams />} />
-						<Route path="/draft" element={<Draft />} />
-						<Route path="/profile" element={<Profile />} />
-						<Route path="/publicPolicy" element={<PublicPolicy />} />
-						<Route path="/archive" element={<ArchiveStandings />} />
-						<Route path="/join(/:groupId)" element={<Join />} />
-						<Route path="/getstarted" element={<GetStarted />} />
-					</Routes>
-				) : (state.AppStore.LoginStatus === LoginEnum.LoggingIn ? (
-						<Card style={{padding: '10px'}}>
-							<Card.Title className='card-title'>Please wait while we log you in...</Card.Title>
-							<Card.Body>
-								<Loading />
-							</Card.Body>
-						</Card>
-						) : (
-							<Card style={{padding: '10px'}}>
-								<Card.Title className='card-title'>Please Login</Card.Title>
-								<Card.Body>
-									<div>
-										<Button
-											href={redirectPage}
-											aria-controls="login-with-google">
-											{"Login with Google"}
-										</Button>
-										<br />
-										<br />
-										{/* <Button
-											href={"/.auth/login/facebook?post_login_redirect_uri=/home"}
-											aria-controls="login-with-facebook">
-											{"Login with Facebook"}
-										</Button> */}
-									</div>
-								</Card.Body>
-							</Card>
-					)
-				)}
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/home" element={<Home />} />
+					<Route path="/league" element={<League />} />
+					<Route path="/teams" element={<Teams />} />
+					<Route path="/draft" element={<Draft />} />
+					<Route path="/profile" element={<Profile />} />
+					<Route path="/publicPolicy" element={<PublicPolicy />} />
+					<Route path="/archive" element={<ArchiveStandings />} />
+					<Route path="/join(/:groupId)" element={<Join />} />
+					<Route path="/getstarted" element={<GetStarted />} />
+				</Routes>
 			</main>
 		</>
 	);

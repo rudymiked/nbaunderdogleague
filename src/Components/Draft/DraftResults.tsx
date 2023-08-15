@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import { Loading } from '../Shared/Loading';
 import { SomethingWentWrong } from '../Error/SomethingWentWrong';
@@ -9,6 +9,7 @@ import { GetDraftResults } from '../../services/data/GetRequests';
 import { IDraftProgressData } from './DraftProgress';
 import { useNavigate } from 'react-router-dom';
 import { JoinOrSwitchGroupsButton } from '../Shared/JoinOrSwitchGroupsButton';
+import { PleaseLogin } from '../Shared/PleaseLogin';
 
 interface IDraftResultsProps {}
 
@@ -79,7 +80,7 @@ export const DraftResults: React.FunctionComponent<IDraftResultsProps> = (props:
 			<Card.Body style={{overflow: 'auto'}}>
 				{state.AppStore.LoginStatus !== LoginEnum.Success ? (
 					<div>
-						<a href="/">Please Login</a>
+						<PleaseLogin />
 					</div>
 					) : (state.AppStore.GroupId !== "" ? (
 							(!draftDataLoaded ? (

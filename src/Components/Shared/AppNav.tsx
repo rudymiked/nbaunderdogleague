@@ -11,17 +11,22 @@ import { SITE_NAME } from '../../Utils/AppConstants';
 interface INavProps {};
 
 export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => {
-	const [expanded, setExpanded] = React.useState(false);
+	const [expanded, SetExpanded] = React.useState(false);
+	const [profileLinkText, SetProfileLinkText] = React.useState<string>("");
 	const { state, dispatch } = React.useContext(RootContext);
 	const navigate = useNavigate();
 
+	React.useEffect(() => {
+		SetProfileLinkText(state.AppStore.Name! !== "" ? state.AppStore.Name: "LOGIN")
+	}, [state])
+
 	const navigateAndCollapse = (path: string) => {
-		setExpanded(false);
+		SetExpanded(false);
 		navigate(path);
 	};
 
 	const disabledUntilLoggedIn = () => {
-		return state.AppStore.LoginStatus !== LoginEnum.Success ? 'disabled' : null;
+		return state.AppStore.LoginStatus === LoginEnum.Fail ? 'disabled' : null;
 	};
 
 	return (
@@ -41,20 +46,25 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 						</span>
 					</div>
 				</Navbar.Brand>
-				<Navbar.Toggle onClick={() => setExpanded(!expanded)} aria-controls="responsive-navbar-nav" />
+				<Navbar.Toggle onClick={() => SetExpanded(!expanded)} aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav>
-						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/league")}>
-							League
-						</Nav.Link>
-						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/draft")}>
-							Draft
-						</Nav.Link>
+						{state.AppStore.LoginStatus === LoginEnum.Success ??
+							<>
+							<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/league")}>
+								League
+							</Nav.Link>
+							<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/draft")}>
+								Draft
+							</Nav.Link>
+							</>
+						}
+
 						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/teams")}>
 							Stats
 						</Nav.Link>
 						<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/profile")}>
-							{<b>{state.AppStore.Name}</b>}
+							{<b>{profileLinkText}</b>}
 						</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>

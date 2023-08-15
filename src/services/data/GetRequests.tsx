@@ -157,3 +157,13 @@ export const GetNBAScoreboard = (groupId: string) => {
 		}
 	});
 }
+
+export const GetPlayerStats = () => {
+	const httpService = HttpService();
+
+	return httpService.get({
+		url: "/api/Player/Statistics",
+		token: null,
+		params: {}
+	});
+}

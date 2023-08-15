@@ -2,6 +2,7 @@ export enum LoginEnum {
 	LoggingIn,
     Success,
     Fail,
+    NotLoggedIn,
 }
 
 export interface IAppState {
@@ -21,7 +22,7 @@ export const AppInitialState = {
     GroupId: "",
     GroupName: "",
     Username: "",
-    LoginStatus: LoginEnum.LoggingIn,
+    LoginStatus: LoginEnum.NotLoggedIn,
 }
 
 export enum AppActionEnum {

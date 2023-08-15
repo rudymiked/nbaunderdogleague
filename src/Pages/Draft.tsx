@@ -5,6 +5,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { RootContext } from '../services/Stores/RootStore';
 import { DraftResults } from '../Components/Draft/DraftResults';
 import { NBA_START_DATE } from '../Utils/AppConstants';
+import { LoginEnum } from '../services/Stores/AppReducer';
+import { PleaseLogin } from '../Components/Shared/PleaseLogin';
 
 interface IDraftPageProps {}
 
@@ -60,7 +62,13 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 				)}
 				</>
 			) : (
-				<p>Navigate to your profile to select one of your groups.</p>
+				<>
+					{state.AppStore.LoginStatus !== LoginEnum.Success ? (
+						<PleaseLogin />
+					) : (
+						<p>Navigate to your profile to select one of your groups.</p>
+					)}
+				</>
 			)}
 		</div>
 	);

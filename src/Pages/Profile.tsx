@@ -11,6 +11,8 @@ import { GroupManagement } from '../Components/Groups/GroupManagement';
 import { GetAllGroups } from '../services/data/GetRequests';
 import { ArchiveSummary } from '../Components/Profile/ArchiveSummary';
 import { ADMIN_EMAIL, FAILED_LOGIN, LOGGING_IN } from '../Utils/AppConstants';
+import { PleaseLogin } from '../Components/Shared/PleaseLogin';
+import { Loading } from '../Components/Shared/Loading';
 
 interface ITeamPageProps {}
 
@@ -113,11 +115,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 					</Row>
 				</Container>
 			) : (
-				state.AppStore.LoginStatus === LoginEnum.Fail ? (
-				<span>{FAILED_LOGIN}</span>
-				) : (
-					<span>{LOGGING_IN}</span>
-				)
+				<PleaseLogin />
 			)}
 		</div>
 	);

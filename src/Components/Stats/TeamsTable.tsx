@@ -5,7 +5,9 @@ import { GetTeamStats } from '../../services/data/GetRequests';
 import { Loading } from '../Shared/Loading';
 import { SomethingWentWrong } from '../Error/SomethingWentWrong';
 
-interface ITeamsTableProps {}
+interface ITeamsTableProps {
+	rowsDisplayed?: number
+}
 
 export interface ITeamStats {
     teamId: number;
@@ -23,8 +25,6 @@ export interface ITeamStats {
 interface ITeamStatsResponse {
 	data: ITeamStats[];
 }
-
-const Title = "Current NBA Standings";
 
 export const TeamsTable: React.FC = (props: ITeamsTableProps) => {
 	const [teams, SetTeams] = React.useState<ITeamStats[]>([]);
@@ -95,7 +95,7 @@ export const TeamsTable: React.FC = (props: ITeamsTableProps) => {
 			) : ( !dataFailedToLoad ? (
 					<BootstrapTable 
 						keyField='teamName' 
-						data={ teams }
+						data={ props.rowsDisplayed && props.rowsDisplayed !== 0 ? teams.slice(0, props.rowsDisplayed) : teams }
 						columns={ columns } 
 					/>
 				) : (

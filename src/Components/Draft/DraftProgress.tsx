@@ -9,6 +9,7 @@ import { RootContext } from '../../services/Stores/RootStore';
 import { LoginEnum, AppActionEnum } from '../../services/Stores/AppReducer';
 import { IGroupDataArrayResponse, IGroupData } from '../../Pages/Profile';
 import { GetAllGroupsUserIsInByYear, GetDraftData, GetUserData } from '../../services/data/GetRequests';
+import { PleaseLogin } from '../Shared/PleaseLogin';
 
 export interface IDraftProgressProps {
 	userDrafted: IUserData;
@@ -306,7 +307,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 			<Card.Body style={{overflow: 'auto'}}>
 				{state.AppStore.LoginStatus !== LoginEnum.Success ? (
 					<div>
-						<a href="/">Please Login</a>
+						<PleaseLogin />
 					</div>
 					) : (state.AppStore.GroupId !== "" ? (
 							(!draftDataLoaded ? (
