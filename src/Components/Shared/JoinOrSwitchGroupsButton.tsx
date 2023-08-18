@@ -11,7 +11,8 @@ export const JoinOrSwitchGroupsButton: React.FC = () => { // React.FunctionCompo
             <br /><br />
             <Button
                 onClick={() => navigate("/profile")}
-                aria-controls="navigate-to-profile">
+                aria-controls="navigate-to-profile"
+                variant="dark">
                 {"Join or Switch Groups"}
             </Button>
         </div>

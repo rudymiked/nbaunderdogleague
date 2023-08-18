@@ -6,6 +6,7 @@ import { GroupStandingsTable } from "../Components/Standings/GroupStandingsTable
 import { RootContext } from "../services/Stores/RootStore";
 import { JoinOrSwitchGroupsButton } from "../Components/Shared/JoinOrSwitchGroupsButton";
 import { PlayerStatsTable } from "../Components/Stats/PlayerStatsTable";
+import { LinkButton } from "../Components/Shared/LinkButton";
 
 interface IHomePageProps {}
 
@@ -29,6 +30,8 @@ export const Home: React.FunctionComponent = (props: IHomePageProps) => {
                         <Card.Title className='card-title'>{TeamStandingsTitle}</Card.Title>
                         <Card.Body style={{overflow: 'auto'}}>
                             <TeamsTable />
+                            <hr />
+                            <LinkButton text={"See More"} url={"/teams"} />
                         </Card.Body>
                     </Card>
                 </Col>
@@ -37,6 +40,8 @@ export const Home: React.FunctionComponent = (props: IHomePageProps) => {
                         <Card.Title className='card-title'>{PLayerStatsTitle}</Card.Title>
                         <Card.Body style={{overflow: 'auto'}}>
                             <PlayerStatsTable rowsDisplayed={30} />
+                            <hr />
+                            <LinkButton text={"See More"} url={"/players"} />
                         </Card.Body>
                     </Card>
                 </Col>

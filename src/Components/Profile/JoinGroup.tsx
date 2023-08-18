@@ -118,7 +118,8 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 										SetRequesting(false);
 									}}
 									disabled={requesting}
-									aria-controls="join-a-group-request">
+									aria-controls="join-a-group-request"
+									variant={"dark"}>
 									{"Request To Join Group"}
 								</Button>
 								<br />

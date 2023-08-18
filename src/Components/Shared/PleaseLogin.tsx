@@ -33,7 +33,8 @@ export const PleaseLogin: React.FunctionComponent<IPleaseLoginProps> = (props: I
                     <div>
                         <Button
                             href={redirectPage}
-                            aria-controls="login-with-google">
+                            aria-controls="login-with-google"
+                            variant={"light"}>
                             {"Login with Google"}
                         </Button>
                         <br />

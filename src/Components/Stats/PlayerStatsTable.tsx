@@ -4,14 +4,10 @@ import { sortCaretFunc } from '../../Utils/Utils';
 import { GetPlayerStats } from '../../services/data/GetRequests';
 import { Loading } from '../Shared/Loading';
 import { SomethingWentWrong } from '../Error/SomethingWentWrong';
+import { IPlayerStats } from './PlayerStats';
 
 interface IPlayerStatsTableProps {
 	rowsDisplayed?: number
-}
-
-export interface IPlayerStats {
-	playerName: string;
-	seasonPlusMinus: number;
 }
 
 interface IIPlayerStatsResponse {

@@ -16,6 +16,7 @@ import { SOMETHING_WENT_WRONG } from './Utils/AppConstants';
 import { Join } from './Pages/Join';
 import { League } from './Pages/League';
 import { GetStarted } from './Pages/GetStarted';
+import { Players } from './Pages/Players';
 
 interface IAuthProps {};
 
@@ -140,6 +141,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 					<Route path="/home" element={<Home />} />
 					<Route path="/league" element={<League />} />
 					<Route path="/teams" element={<Teams />} />
+					<Route path="/players" element={<Players />} />
 					<Route path="/draft" element={<Draft />} />
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/publicPolicy" element={<PublicPolicy />} />

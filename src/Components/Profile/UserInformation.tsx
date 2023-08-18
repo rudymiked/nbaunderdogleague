@@ -47,7 +47,8 @@ export const UserInformation: React.FC = (props: IUserInformationProps) => {
                         </Form.Group>
                         <Button
                             onClick={() => changeUsername()}
-                            aria-controls="change-username-request">
+                            aria-controls="change-username-request"
+                            variant={"dark"}>
                             Submit
                         </Button>
                         <br />

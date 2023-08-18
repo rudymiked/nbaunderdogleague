@@ -77,7 +77,8 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 									<Card.Body style={{overflow: 'auto'}}>
 										<Button
 											href={"/.auth/logout?post_logout_redirect_uri=/index.html"}
-											aria-controls="logout">
+											aria-controls="logout"
+											variant={"dark"}>
 											{"Logout"}
 										</Button>
 										<UserInformation />
