@@ -7,7 +7,7 @@ import { Home } from './Pages/Home';
 import { IGroupData, IGroupDataArrayResponse, Profile } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
 import { Teams } from './Pages/Teams';
-import { GetAllGroupsUserIsInByYear } from './services/data/GetRequests';
+import { GetAllGroupsUserIsInByYear, GetAuthInformation } from './services/data/GetRequests';
 import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
 import { RootContext } from './services/Stores/RootStore';
 import { SOMETHING_WENT_WRONG } from './Utils/AppConstants';
@@ -16,9 +16,13 @@ import { League } from './Pages/League';
 import { GetStarted } from './Pages/GetStarted';
 import { Players } from './Pages/Players';
 
+const givenName: string = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname";
+const surname: string = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname";
+
 interface IAuthProps {};
 
 export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuthProps) => {
+	const [authEmail, SetAuthEmail] = React.useState<string>("");
 	const { state, dispatch } = React.useContext(RootContext);
 	const { groupId } = useParams();
 
@@ -28,6 +32,64 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 			updateGroup();
 		}
 	}, [state.AppStore.LoginStatus]);
+
+	React.useEffect(() => {
+		if (window.location.href.includes("post_login_redirect_uri")) {
+			getAuthInfo();
+		}
+    },[window.location.href]);
+
+    const getAuthInfo = () => {
+		GetAuthInformation().then((response: any) => {
+			if (response?.data !== undefined) {
+				const data = response.data[0];
+
+				const provider_name = data.provider_name;
+				console.log("logged in using: " + provider_name);
+
+				let firstName: string = "";
+				let lastName: string = "";
+
+				for(const d of data?.user_claims) {
+					if (d.typ === givenName) {
+						firstName = d.val;
+					}
+
+					if (d.typ === surname) {
+						lastName = d.val;
+					}
+				}
+
+				const email = data?.user_id!;
+				const token = data?.access_token!;
+
+				if (email === "") {
+					dispatch({
+						type: AppActionEnum.LOGIN_FAIL,
+						LoginStatus: LoginEnum.Fail,
+					});
+				} else {
+					SetAuthEmail(email);
+					if (firstName === "") {
+						firstName = email;
+					}
+
+					dispatch({
+						type: AppActionEnum.LOGIN,
+						Name: firstName + " " + lastName,
+						Email: email,
+						Token: token,
+						LoginStatus: LoginEnum.Success,
+					});
+				}
+			}
+		}).catch((reason: any) => {
+			dispatch({
+				type: AppActionEnum.LOGIN_FAIL,
+				LoginStatus: LoginEnum.Fail,
+			});
+		});
+	}
 
 	const updateGroup = () => {
 		if (state.AppStore.GroupId === "" && state.AppStore.Email !== "") {
