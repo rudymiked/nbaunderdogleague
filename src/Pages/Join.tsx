@@ -8,7 +8,7 @@ interface IJoinPageProps {
     groupId: string;
 }
 
-export const Join: React.FunctionComponent = (props: IJoinPageProps) => {
+export const Join: React.FunctionComponent<IJoinPageProps> = (props: IJoinPageProps) => {
 	const [refresh, SetRefresh] = React.useState<number>(0);
 	const { state } = React.useContext(RootContext);
 

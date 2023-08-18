@@ -1,21 +1,21 @@
 import { CURRENT_YEAR } from "../../Utils/AppConstants";
 import { HttpService } from "../Http/HttpService";
 
-export const AppStart = () => {
-	const httpService = HttpService();
-
-	return httpService.get({
-		url: '/api/App/Start',
-		token: null,
-		params: { start: true},
-	});
-}
-
 export const GetAuthInformation = () => {
 	const httpService = HttpService();
 
 	return httpService.getExternal({
 		url: 'https://nbaunderdogleague.azurewebsites.net/.auth/me',
+		token: null,
+		params: {},
+	});
+}
+
+export const LoginWithGoogle = (redirectUrl: string) => {
+	const httpService = HttpService();
+
+	return httpService.getExternal({
+		url: 'https://nbaunderdogleague.azurewebsites.net/.auth/login/google?post_login_redirect_uri=/"' + redirectUrl,
 		token: null,
 		params: {},
 	});

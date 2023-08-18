@@ -18,6 +18,8 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 
 	React.useEffect(() => {
 		SetProfileLinkText(state.AppStore.Name! !== "" ? state.AppStore.Name: "LOGIN");
+
+		console.log(state.AppStore.LoginStatus);
 	}, [state])
 
 	const navigateAndCollapse = (path: string) => {
