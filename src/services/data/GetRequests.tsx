@@ -11,16 +11,6 @@ export const GetAuthInformation = () => {
 	});
 }
 
-export const LoginWithGoogle = (redirectUrl: string) => {
-	const httpService = HttpService();
-
-	return httpService.getExternal({
-		url: 'https://nbaunderdogleague.azurewebsites.net/.auth/login/google?post_login_redirect_uri=/"' + redirectUrl,
-		token: null,
-		params: {},
-	});
-}
-
 export const GetTeamsTable = () => {
 	const httpService = HttpService();
 

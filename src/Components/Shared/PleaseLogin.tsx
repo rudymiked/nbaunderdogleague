@@ -1,12 +1,11 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { Loading } from "./Loading";
 import { AppActionEnum, LoginEnum } from "../../services/Stores/AppReducer";
-import { FAILED_LOGIN } from "../../Utils/AppConstants";
 import { RootContext } from "../../services/Stores/RootStore";
-import { GetAuthInformation, LoginWithGoogle } from "../../services/data/GetRequests";
+import { GetAuthInformation } from "../../services/data/GetRequests";
 
+const googleAuthLink: string = ".auth/login/google?post_login_redirect_uri=/";
 const givenName: string = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname";
 const surname: string = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname";
 
@@ -90,7 +89,7 @@ export const PleaseLogin: React.FunctionComponent<IPleaseLoginProps> = (props: I
                 <div>
                     <div>
                         <Button
-                            onClick={() => LoginWithGoogle(redirectPage)}
+                            href={googleAuthLink + redirectPage}
                             aria-controls="login-with-google"
                             variant={"light"}>
                             {"Login with Google"}
