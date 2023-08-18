@@ -16,7 +16,6 @@ import { SOMETHING_WENT_WRONG } from './Utils/AppConstants';
 import { Join } from './Pages/Join';
 import { League } from './Pages/League';
 import { GetStarted } from './Pages/GetStarted';
-import { PleaseLogin } from './Components/Shared/PleaseLogin';
 
 interface IAuthProps {};
 
@@ -44,7 +43,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 			// need to update group information in state if the user refreshes the page (F5)
 			updateGroup();
 		}
-	}, [state]);
+	}, [state.AppStore.LoginStatus]);
 
 	const getAuthInfo = () => {
 		GetAuthInformation().then((response: any) => {
@@ -127,7 +126,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 					}
 				}
 			}).catch((reason) => {
-
+				console.log(reason);
 			});
 		}
 	}
