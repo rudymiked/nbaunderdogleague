@@ -12,12 +12,14 @@ interface INavProps {};
 
 export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => {
 	const [expanded, SetExpanded] = React.useState(false);
-	const [profileLinkText, SetProfileLinkText] = React.useState<string>("");
+	const [profileLinkText, SetProfileLinkText] = React.useState<string>("LOGIN");
 	const { state, dispatch } = React.useContext(RootContext);
 	const navigate = useNavigate();
 
 	React.useEffect(() => {
-		SetProfileLinkText(state.AppStore.Name! !== "" ? state.AppStore.Name: "LOGIN");
+		if (state.AppStore.LoginStatus === LoginEnum.Success) {
+			SetProfileLinkText(state.AppStore.Name);
+		}
 	}, [state])
 
 	const navigateAndCollapse = (path: string) => {

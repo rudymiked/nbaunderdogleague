@@ -28,6 +28,7 @@ export const PleaseLogin: React.FunctionComponent<IPleaseLoginProps> = (props: I
     },[props]);
 
     React.useEffect(() => {
+        console.log("getAuthInfo");
         getAuthInfo();
     }, []);
 
