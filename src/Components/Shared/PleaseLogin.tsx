@@ -19,7 +19,7 @@ export const PleaseLogin: React.FunctionComponent<IPleaseLoginProps> = (props: I
             SetRedirectPage(props.redirectPage);
         } else {
             const page: string = window.location.href.split("/").at(-1);
-            SetRedirectPage(page);
+            SetRedirectPage(window.location.href);
         }
     },[props]);
     
@@ -28,6 +28,7 @@ export const PleaseLogin: React.FunctionComponent<IPleaseLoginProps> = (props: I
             {state.AppStore.LoginStatus === LoginEnum.NotLoggedIn || state.AppStore.LoginStatus === LoginEnum.Fail ? (
                 <div>
                     <div>
+                        <p>Please Login to Continue</p>
                         <Button
                             href={googleAuthLink + redirectPage}
                             aria-controls="login-with-google"

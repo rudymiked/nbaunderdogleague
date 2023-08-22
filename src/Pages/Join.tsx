@@ -5,7 +5,7 @@ import { JoinGroup } from "../Components/Profile/JoinGroup";
 import { RootContext } from "../services/Stores/RootStore";
 
 interface IJoinPageProps {
-    groupId: string;
+    groupId?: string;
 }
 
 export const Join: React.FunctionComponent<IJoinPageProps> = (props: IJoinPageProps) => {

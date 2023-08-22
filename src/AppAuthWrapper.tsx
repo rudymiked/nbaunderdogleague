@@ -137,6 +137,7 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/publicPolicy" element={<PublicPolicy />} />
 					<Route path="/archive" element={<ArchiveStandings />} />
+					<Route path="/join" element={<Join />} />
 					<Route path="/join(/:groupId)" element={<Join groupId={groupId} />} />
 					<Route path="/getstarted" element={<GetStarted />} />
 				</Routes>
