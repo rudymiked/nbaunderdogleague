@@ -4,7 +4,7 @@ import { Loading } from "./Loading";
 import { LoginEnum } from "../../services/Stores/AppReducer";
 import { RootContext } from "../../services/Stores/RootStore";
 
-const googleAuthLink: string = ".auth/login/google?post_login_redirect_uri=";
+const googleAuthLink: string = "/.auth/login/google?post_login_redirect_uri=/";
 
 export interface IPleaseLoginProps {
     redirectPage?: string;
