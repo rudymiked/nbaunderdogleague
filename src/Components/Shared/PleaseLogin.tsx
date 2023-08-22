@@ -19,7 +19,7 @@ export const PleaseLogin: React.FunctionComponent<IPleaseLoginProps> = (props: I
             SetRedirectPage(props.redirectPage);
         } else {
             const page: string = window.location.href.split("/").at(-1);
-            SetRedirectPage(window.location.href);
+            SetRedirectPage(page);
         }
     },[props]);
     
