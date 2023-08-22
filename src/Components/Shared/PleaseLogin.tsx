@@ -32,6 +32,11 @@ export const PleaseLogin: React.FunctionComponent<IPleaseLoginProps> = (props: I
     }, []);
 
     const getAuthInfo = () => {
+        dispatch({
+            type: AppActionEnum.LOGIN,
+            LoginStatus: LoginEnum.LoggingIn,
+        });
+
 		GetAuthInformation().then((response: any) => {
 			if (response?.data !== undefined) {
 				const data = response.data[0];
@@ -77,10 +82,10 @@ export const PleaseLogin: React.FunctionComponent<IPleaseLoginProps> = (props: I
 			}
 		}).catch((reason: any) => {
             console.log(reason);
-			// dispatch({
-			// 	type: AppActionEnum.LOGIN_FAIL,
-			// 	LoginStatus: LoginEnum.Fail,
-			// });
+			dispatch({
+				type: AppActionEnum.LOGIN_FAIL,
+				LoginStatus: LoginEnum.Fail,
+			});
 		});
 	}
     
@@ -108,12 +113,10 @@ export const PleaseLogin: React.FunctionComponent<IPleaseLoginProps> = (props: I
                 ) : (
                     <div>
                         {state.AppStore.LoginStatus === LoginEnum.LoggingIn ? (
-                        <Card style={{padding: '10px'}}>
-                            <Card.Title className='card-title'>Please wait while we log you in...</Card.Title>
-                            <Card.Body>
-                                <Loading />
-                            </Card.Body>
-                        </Card>
+                        <div>
+                            <p>Please wait while we log you in...</p>
+                            <Loading />
+                        </div>
                         ) : (
                             <div>
                                 {/* {state.AppStore.LoginStatus === LoginEnum.Fail ? (
