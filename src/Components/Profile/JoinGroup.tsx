@@ -2,11 +2,12 @@ import React from 'react';
 import { Button, Dropdown } from 'react-bootstrap';
 import { IGroupData, IGroupDataArrayResponse } from '../../Pages/Profile';
 import { JoinGroupAction } from '../../services/actions/PostRequests';
-import { AppActionEnum } from '../../services/Stores/AppReducer';
+import { AppActionEnum, LoginEnum } from '../../services/Stores/AppReducer';
 import { RootContext } from '../../services/Stores/RootStore';
-import { SOMETHING_WENT_WRONG } from '../../Utils/AppConstants';
+import { CURRENT_YEAR, SOMETHING_WENT_WRONG } from '../../Utils/AppConstants';
 import { Loading } from '../Shared/Loading';
-import { GetAllGroups } from '../../services/data/GetRequests';
+import { PleaseLogin } from '../Shared/PleaseLogin';
+import { GetAllGroupsByYear } from '../../services/data/GetRequests';
 
 // Join a group that someone else has created for this season
 
@@ -46,7 +47,7 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	}, [state]);
     
     const loadGroups = () => {
-		GetAllGroups(true, state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
+		GetAllGroupsByYear(CURRENT_YEAR).then((response: IGroupDataArrayResponse) => {
 			if (response?.data) {
 				const data = response.data;
 				SetGroups(data.filter((group: IGroupData) => group.name && group.name !== ""));
@@ -89,44 +90,49 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	return (
 		<div style={{ padding: "10px", display:"block" }}>
 			{dataLoaded ? (
-				//groups.length !== 0 ? (
-					<div id="join-a-group-collapse-text">
-						<Dropdown>
-							<Dropdown.Toggle id="groups-dropdown">
-								{dropdownText}
-							</Dropdown.Toggle>
-							<Dropdown.Menu>
-								{groups.filter((val) => val?.name !== "").map(group => (
-									<Dropdown.Item
-										key={group.id.toString()}
-										value={group.name}
-										onClick={() => selectAGroup(group.id.toString(), group.name)}>
-										{group.name}
-									</Dropdown.Item>
-								))}
-							</Dropdown.Menu>
-						</Dropdown>
-						<br />
+				<>
+					{state.AppStore.LoginStatus === LoginEnum.Success ? (
+						<div id="join-a-group-collapse-text">
+							<Dropdown>
+								<Dropdown.Toggle id="groups-dropdown">
+									{dropdownText}
+								</Dropdown.Toggle>
+								<Dropdown.Menu>
+									{groups.filter((val) => val?.name !== "").map(group => (
+										<Dropdown.Item
+											key={group.id.toString()}
+											value={group.name}
+											onClick={() => selectAGroup(group.id.toString(), group.name)}>
+											{group.name}
+										</Dropdown.Item>
+									))}
+								</Dropdown.Menu>
+							</Dropdown>
+							<br />
 
-						{selectedGroupId !== "" &&
-							<>
-								<Button
-									onClick={() => {
-										SetRequesting(true);
-										SetJoinRequestResult("Requesting...");
-										requestToJoinGroup();
-										SetRequesting(false);
-									}}
-									disabled={requesting}
-									aria-controls="join-a-group-request"
-									variant={"dark"}>
-									{"Request To Join Group"}
-								</Button>
-								<br />
-								<span>{joinRequestResult}</span>
-							</>
-						}
-					</div>
+							{selectedGroupId !== "" &&
+								<>
+									<Button
+										onClick={() => {
+											SetRequesting(true);
+											SetJoinRequestResult("Requesting...");
+											requestToJoinGroup();
+											SetRequesting(false);
+										}}
+										disabled={requesting}
+										aria-controls="join-a-group-request"
+										variant={"dark"}>
+										{"Request To Join Group"}
+									</Button>
+									<br />
+									<span>{joinRequestResult}</span>
+								</>
+							}
+						</div>
+					) : (
+						<PleaseLogin />
+					)}
+				</>
 				) : (
 				<div>
 					<Loading />

@@ -8,10 +8,10 @@ import { RootContext } from '../services/Stores/RootStore';
 import { Container, Row, Col } from 'react-bootstrap';
 import { UserInformation } from '../Components/Profile/UserInformation';
 import { GroupManagement } from '../Components/Groups/GroupManagement';
-import { GetAllGroups } from '../services/data/GetRequests';
 import { ArchiveSummary } from '../Components/Profile/ArchiveSummary';
-import { ADMIN_EMAIL } from '../Utils/AppConstants';
 import { PleaseLogin } from '../Components/Shared/PleaseLogin';
+import { CreateGroup } from '../Components/Profile/CreateGroup';
+import { JoinGroup } from '../Components/Profile/JoinGroup';
 
 interface ITeamPageProps {}
 
@@ -32,37 +32,8 @@ export interface IGroupDataResponse {
 
 export const Profile: React.FC = (props: ITeamPageProps) => {
 	const [refresh, SetRefresh] = React.useState<number>(0);
-	const [ownedGroups, SetOwnedGroups] = React.useState<IGroupData[]>([]);
-	const [groups, SetGroups] = React.useState<IGroupData[]>([]);
-	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
 
 	const { state } = React.useContext(RootContext);
-
-	React.useEffect(() => {
-		if (state.AppStore.Email !== "") {
-			loadGroups();
-
-		} else {
-			// user not logged in
-		}
-	}, [state]);
-
-
-	const loadGroups = () => {
-		GetAllGroups(true, state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
-			if (response?.data) {
-				const data = response.data;
-				SetGroups(response.data.filter((group: IGroupData) => group.name && group.name !== ""));
-				SetOwnedGroups(data.filter((group: IGroupData) => group.name && group.name !== "" && (group.owner === state.AppStore.Email || state.AppStore.Email === ADMIN_EMAIL)));
-			} else {
-				// something went wrong
-			}
-
-			SetDataLoaded(true);
-		}).catch((reason: any) => {
-			SetDataLoaded(true);
-		});
-	};
 
 	return (
 		<div>
@@ -100,12 +71,30 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 									<Card.Body style={{overflow: 'auto'}}>
 										<Row style={{padding: '10px'}}>
 											<Col>
-												<YourGroups {...{refresh, SetRefresh}} />
+												<YourGroups 
+													refresh={refresh} 
+													SetRefresh={SetRefresh}
+												/>
 											</Col>
 										</Row>
 										<Row>
 											<Col>
-												<GroupManagement {...{ownedGroups, dataLoaded}}/>
+												<GroupManagement />
+											</Col>
+										</Row>
+										<Row>
+											<Col>
+												<JoinGroup 
+													refresh={refresh}
+												/>
+											</Col>
+										</Row>
+										<Row>
+											<Col>
+												<CreateGroup 
+													refresh={refresh} 
+													SetRefresh={SetRefresh} 
+												/>
 											</Col>
 										</Row>
 									</Card.Body>

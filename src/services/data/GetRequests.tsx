@@ -98,16 +98,24 @@ export const GetAllGroupsUserIsInByYear = (email: string) => {
 	});
 }
 
-export const GetAllGroups = (includeUser: boolean, email: string) => {
+export const GetAllGroups = () => {
+	const httpService = HttpService();
+
+	return httpService.get({
+		url: "/api/Group/GetAllGroups",
+		token: null,
+		params: {}
+	});
+}
+
+export const GetAllGroupsByYear = (year: number) => {
 	const httpService = HttpService();
 
 	return httpService.get({
 		url: "/api/Group/AllGroupsByYear",
 		token: null,
 		params: { 
-			year: CURRENT_YEAR,
-			includeUser: includeUser,
-			email: email,
+			year: year,
 		}
 	});
 }
