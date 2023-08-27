@@ -22,7 +22,7 @@ export const GroupManagement: React.FunctionComponent<IGroupManagementProps> = (
 		} else {
 			// user not logged in
 		}
-	}, [state]);
+	}, []);
 
 
 	const loadGroups = () => {
