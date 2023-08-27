@@ -44,7 +44,7 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 		} else {
 			// user not logged in
 		}
-	}, [state]);
+	}, []);
     
     const loadGroups = () => {
 		GetAllGroupsByYear(CURRENT_YEAR).then((response: IGroupDataArrayResponse) => {

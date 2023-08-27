@@ -41,7 +41,7 @@ export const UsersInGroupTable: React.FunctionComponent<IUsersInGroupTableProps>
 				SetDataFailedToLoad(true);
 			});
 		}
-    }, [state]);
+    }, []);
 
     const columns: ColumnDescription[] = [
 		{
