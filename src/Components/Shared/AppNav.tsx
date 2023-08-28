@@ -13,13 +13,16 @@ interface INavProps {};
 export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => {
 	const [expanded, SetExpanded] = React.useState(false);
 	const [profileLinkText, SetProfileLinkText] = React.useState<string>("");
+	const [showAllNav, SetShowAllNav] = React.useState<boolean>(false);
 	const { state, dispatch } = React.useContext(RootContext);
 	const navigate = useNavigate();
 
 	React.useEffect(() => {
 		if (state.AppStore.LoginStatus === LoginEnum.Success) {
+			SetShowAllNav(true);
 			SetProfileLinkText(state.AppStore.Name);
 		} else {
+			SetShowAllNav(false);
 			SetProfileLinkText("LOGIN");
 		}
 	}, [state])
@@ -27,10 +30,6 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 	const navigateAndCollapse = (path: string) => {
 		SetExpanded(false);
 		navigate(path);
-	};
-
-	const disabledUntilLoggedIn = () => {
-		return state.AppStore.LoginStatus === LoginEnum.Fail ? 'disabled' : null;
 	};
 
 	return (
@@ -53,17 +52,12 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 				<Navbar.Toggle onClick={() => SetExpanded(!expanded)} aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav>
-						{state.AppStore.LoginStatus === LoginEnum.Success ?? 
-							<>
-							<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/league")}>
-								League
-							</Nav.Link>
-							<Nav.Link className={disabledUntilLoggedIn()} onClick={() => navigateAndCollapse("/draft")}>
-								Draft
-							</Nav.Link>
-							</>
-						}
-
+						<Nav.Link hidden={!showAllNav} onClick={() => navigateAndCollapse("/league")}>
+							League
+						</Nav.Link>
+						<Nav.Link hidden={!showAllNav} onClick={() => navigateAndCollapse("/draft")}>
+							Draft
+						</Nav.Link>
 						<Nav.Link onClick={() => navigateAndCollapse("/teams")}>
 							Teams
 						</Nav.Link>

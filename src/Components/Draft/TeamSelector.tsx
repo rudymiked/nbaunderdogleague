@@ -54,7 +54,7 @@ export const TeamSelector: React.FunctionComponent<ITeamSelectorProps> = (props:
 		if (state.AppStore.GroupId !== "") {
 			getAvailableTeams();
 		}
-	}, [state]);
+	}, []);
 
 	const getAvailableTeams = () => {
 		SetDataLoaded(false);

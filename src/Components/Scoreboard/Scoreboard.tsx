@@ -55,7 +55,7 @@ export const Scoreboard: React.FunctionComponent<IScoreboardProps> = (props: ISc
         }).catch((reason: any) =>{
             SetScores([]);
         });
-    }, [state])
+    }, [])
 
     return (
         <Container style={{ padding: '5px', maxWidth: '95vw'}}>

@@ -71,7 +71,7 @@ const defaultDraft: IDraftProgressData[] = [{
 export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (props: IDraftProgressProps) => {
 	const [draftData, SetDraftData] = React.useState<IDraftData[]>([]);
 	const [userData, SetUsers] = React.useState<IUserData[]>([]);
-	const [draftProgress, SetDraftProgress] = React.useState<IDraftProgressData[]>(defaultDraft);
+	const [draftProgress, SetDraftProgress] = React.useState<IDraftProgressData[]>([]);
 	const [draftDataLoaded, SetDraftDataLoaded] = React.useState<boolean>(false);
 	const [userDataLoaded, SetUserDataLoaded] = React.useState<boolean>(false);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
@@ -84,7 +84,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 			updateGroup();
 			refreshAllDraftData();
 		}
-	}, [state]);
+	}, []);
 
 	React.useEffect(() => {
 		if (props.userDrafted !== undefined && props.userDrafted?.team !== "") {
@@ -313,25 +313,25 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 							(!draftDataLoaded ? (
 								<Loading />
 								) : (!dataFailedToLoad ? (
-										(draftProgress.length > 0 ? (
-											<>
-												<p>{props.currentDate.toLocaleTimeString()}</p>
-												<Button 							
-													variant="warning" 
-													disabled={props.currentDate.getTime() > props.draftEndTime}
-													onClick={() => refreshAllDraftData()}>
-													{"Refresh"}
-												</Button>
-												<br />
-												<br />
-												<BootstrapTable
-													keyField='draftOrder'
-													data={draftProgress}
-													columns={columns} 
-													rowStyle={rowStyle} />
-											</>
-											) : (
+										(draftProgress.length === 0 ? (
 												<p>Draft has not been setup</p>
+											) : (
+												<>
+													<p>{props.currentDate.toLocaleTimeString()}</p>
+													<Button 							
+														variant="warning" 
+														disabled={props.currentDate.getTime() > props.draftEndTime}
+														onClick={() => refreshAllDraftData()}>
+														{"Refresh"}
+													</Button>
+													<br />
+													<br />
+													<BootstrapTable
+														keyField='draftOrder'
+														data={draftProgress}
+														columns={columns} 
+														rowStyle={rowStyle} />
+												</>
 											)
 										)
 									) : (

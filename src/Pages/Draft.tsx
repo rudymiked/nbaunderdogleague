@@ -37,7 +37,7 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 		// this is a hack and needs to be updated XXX
 		const now: Date = new Date();
 
-		if (now.getMonth() < 10 || now > NBA_START_DATE) {
+		if (now.getMonth() < 7 || now > NBA_START_DATE) {
 			SetShowDraft(false);
 		}
 	}, []);
