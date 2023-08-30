@@ -40,6 +40,19 @@ export const JoinGroupAction = (groupId: string, email: string) => {
 	});
 }
 
+export const JoinRequestAction = (groupId: string, email: string) => {
+	const httpService = HttpService();
+
+	return httpService.post({
+		url: '/api/Invitation/JoinRequest',
+		token: null,
+		data: {
+			groupId: groupId,
+			email: email,
+		},
+	});
+}
+
 export const SetupDraftAction = (groupId: string, email: string, clearTeams: boolean, draftStartDateTime: Date, draftWindow: number) => {
 	const httpService = HttpService();
 

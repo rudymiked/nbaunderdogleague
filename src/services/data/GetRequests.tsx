@@ -102,7 +102,7 @@ export const GetAllGroups = () => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/Group/GetAllGroups",
+		url: "/api/Group/AllGroups",
 		token: null,
 		params: {}
 	});
