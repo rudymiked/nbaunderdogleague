@@ -70,9 +70,8 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 
 	React.useEffect(() => {
 		if (state.AppStore.LoginStatus === LoginEnum.Success) {
-			if(updateGroup()) {
-				refreshAllDraftData();
-			}
+			updateGroup()
+			refreshAllDraftData();
 		}
 	}, []);
 
@@ -83,6 +82,8 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	}, [props.userDrafted?.team]);
 
 	React.useEffect(() => {
+		console.log(draftDataLoaded);
+		console.log(userDataLoaded);
 		if (draftDataLoaded && userDataLoaded) {
 			// combine user and draft data
 			combineUserAndDraftData();
@@ -203,6 +204,8 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 					SetDraftDataLoaded(true);
 					SetDraftData(data.sort((a: IDraftData, b: IDraftData) => (a.draftOrder > b.draftOrder) ? 1 : -1));
 				} else {
+					SetDraftData([]);
+					SetDraftDataLoaded(true);
 					// something went wrong
 				}
 			}).catch((reason: any) => {

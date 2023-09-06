@@ -31,7 +31,7 @@ export const JoinGroupRequestsTable: React.FunctionComponent<IJoinGroupRequestsT
     const [joinRequests, SetJoinRequests] = React.useState<IJoinGroupRequestsData[]>([]);
     const [errorText, SetErrorText] = React.useState<string>("");
 	const [dataLoaded, SetDataLoaded] = React.useState<boolean>(false);
-	const [approvalStatus, SetApprovalStatus] = React.useState<ApprovalStatus>(ApprovalStatus.Default);
+	const [approvalStatus, SetApprovalStatus] = React.useState<Map<string, ApprovalStatus>>();
     
     const { state, dispatch } = React.useContext(RootContext);
 
@@ -39,12 +39,21 @@ export const JoinGroupRequestsTable: React.FunctionComponent<IJoinGroupRequestsT
 		if (state.AppStore.GroupId !== "") {
 			SetDataLoaded(false);
 			GetJoinGroupRequests(state.AppStore.GroupId).then((response: IJoinGroupRequestsDataResponse) => {
-				if (response?.data) {
-					const data = response?.data;
+				if (response?.data && response?.data.length > 0) {
+						const data = response?.data;
+						SetJoinRequests(data);
+
+						const initialApprovalStatus: Map<string, ApprovalStatus> = new Map();
+
+						for (let d of data) {
+							initialApprovalStatus[d.email] = ApprovalStatus.Default;
+						}
+
+						SetApprovalStatus(initialApprovalStatus);
+					}
+
 					SetDataLoaded(true);
-					SetJoinRequests(data);
-				}
-			}).catch((reason: any) => {
+				}).catch((reason: any) => {
 				SetDataLoaded(true);
                 SetErrorText(SOMETHING_WENT_WRONG);
 			});
@@ -52,12 +61,20 @@ export const JoinGroupRequestsTable: React.FunctionComponent<IJoinGroupRequestsT
     }, []);
 
 	const approveGroupRequest = (email: string) => {
-		SetApprovalStatus(ApprovalStatus.Approving);
+		const currentApprovalStatus = approvalStatus;
+		currentApprovalStatus[email] = ApprovalStatus.Approving;
+
+		SetApprovalStatus(currentApprovalStatus);
 
 		ApproveNewGroupMemberAction(state.AppStore.GroupId, email, state.AppStore.Email).then((response: any) => {
-			SetApprovalStatus(ApprovalStatus.Approved);
+			const currentApprovalStatus = approvalStatus;
+			currentApprovalStatus[email] = ApprovalStatus.Approved;
+	
+			SetApprovalStatus(currentApprovalStatus);
 		}).catch((reason: any) => {
-			SetApprovalStatus(ApprovalStatus.DidNotApprove);
+			const currentApprovalStatus = approvalStatus;
+			currentApprovalStatus[email] = ApprovalStatus.DidNotApprove;
+			SetApprovalStatus(currentApprovalStatus);
 			console.log(reason);
 		})
 	}
@@ -74,7 +91,11 @@ export const JoinGroupRequestsTable: React.FunctionComponent<IJoinGroupRequestsT
             text: "Approve",
             isDummyField: true,
             formatter: (cell, row) => {
-				switch (approvalStatus) {
+				if (approvalStatus[row.email] === undefined) {
+					return <SomethingWentWrong/>;
+				}
+
+				switch (approvalStatus[row.email]) {
 					case ApprovalStatus.Default:
 						return (				
 							<Button
