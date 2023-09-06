@@ -41,18 +41,21 @@ export const ArchiveSummary: React.FunctionComponent<IArchiveProps> = (props: IA
 				if (response?.data) {
 					const data = response?.data;
 
-					const sortedData = data.sort((a: IArchiveSummaryData, b: IArchiveSummaryData) => (a.year > b.year) ? 1 : -1);
-					
-					// remove current season from archive results
-					// do not show archive until final day of NBA season XXX TODO
-					if (sortedData.at(-1).year === CURRENT_YEAR) {
-						sortedData.pop();
+					if (data!.length > 0) {
+						const sortedData = data!.sort((a: IArchiveSummaryData, b: IArchiveSummaryData) => (a.year > b.year) ? 1 : -1);
+						
+						// remove current season from archive results
+						// do not show archive until final day of NBA season XXX TODO
+						if (sortedData.at(-1).year === CURRENT_YEAR) {
+							sortedData.pop();
+						}
 					}
 
 					SetArchiveSummaryDataLoaded(true);
 					SetArchiveSummaryData(data);
 				}
 			}).catch((reason: any) => {
+				console.log(reason);
 				SetArchiveSummaryDataLoaded(true);
 				SetDataFailedToLoad(true);
 			});

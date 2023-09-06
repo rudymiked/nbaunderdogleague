@@ -191,16 +191,16 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 					<div hidden={noGroups}>
 						<div hidden={data.length === 0}>
 						<BootstrapTable 
-						keyField='teamName'
-						defaultSorted={[
-							{
-								dataField: 'name',
-								order: 'desc' 
-							}]}
-						data={ data } 
-						columns={ columns }
-						rowStyle={rowStyle} 
-					/>
+							keyField='email'
+							defaultSorted={[
+								{
+									dataField: 'name',
+									order: 'desc' 
+								}]}
+							data={ data } 
+							columns={ columns }
+							rowStyle={rowStyle} 
+						/>
 						</div>
 					</div>
 				) : (

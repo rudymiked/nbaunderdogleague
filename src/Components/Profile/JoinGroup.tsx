@@ -4,10 +4,12 @@ import { IGroupData, IGroupDataArrayResponse } from '../../Pages/Profile';
 import { JoinGroupAction } from '../../services/actions/PostRequests';
 import { AppActionEnum, LoginEnum } from '../../services/Stores/AppReducer';
 import { RootContext } from '../../services/Stores/RootStore';
-import { CURRENT_YEAR, SOMETHING_WENT_WRONG } from '../../Utils/AppConstants';
+import { CURRENT_YEAR, SOMETHING_WENT_WRONG, SUCCESS } from '../../Utils/AppConstants';
 import { Loading } from '../Shared/Loading';
 import { PleaseLogin } from '../Shared/PleaseLogin';
-import { GetAllGroupsByYear } from '../../services/data/GetRequests';
+import { GetAllGroupsByYear, GetUserData } from '../../services/data/GetRequests';
+import { IUserData, IUserDataResponse } from './UserInformation';
+import { Guid } from 'guid-typescript';
 
 // Join a group that someone else has created for this season
 
@@ -40,17 +42,28 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	React.useEffect(() => {
 		if (state.AppStore.Email !== "") {
 			loadGroups();
-
 		} else {
 			// user not logged in
 		}
 	}, []);
     
     const loadGroups = () => {
+		let groupsUsersIsIn: Guid[];
+		
+		GetUserData(state.AppStore.GroupId).then((response: IUserDataResponse) => {
+			if (response?.data) {
+				const userInfo: IUserData[] = response.data?.filter((u: IUserData) => u.email === state.AppStore.Email);
+				
+				groupsUsersIsIn = userInfo.map(x => x.groupId);
+			}
+		}).catch((reason: any) => {
+			console.log(reason);
+		});
+		
 		GetAllGroupsByYear(CURRENT_YEAR).then((response: IGroupDataArrayResponse) => {
 			if (response?.data) {
 				const data = response.data;
-				SetGroups(data.filter((group: IGroupData) => group.name && group.name !== ""));
+				SetGroups(data.filter((group: IGroupData) => group.name && group.name.trim() !== "" && !groupsUsersIsIn.includes(group.id)));
 			} else {
 				// something went wrong
 			}
@@ -68,13 +81,19 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	};
 
 	const requestToJoinGroup = () => {
+		SetRequesting(true);
+		SetJoinRequestResult("Requesting...");
+
 		JoinGroupAction(selectedGroupId, state.AppStore.Email).then((response: IJoinGroupResponse) => {
 			if (response?.data !== undefined) {
 				if (response?.data === "") {
 					SetJoinRequestResult(SOMETHING_WENT_WRONG);
 				} else {
-					SetJoinRequestResult(response.data + " Please navigate to the Draft to see your draft start time.");
-
+					if (response?.data === SUCCESS) {
+						SetJoinRequestResult("Successfully requested! Your admin will alert you when you've been approved.");
+					} else {
+						SetJoinRequestResult(response.data);
+					}
 					dispatch({
 						type: AppActionEnum.UPDATE_GROUP,
 						GroupId: selectedGroupId,
@@ -84,6 +103,9 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 			}
 		}).catch((reason: any) => {
 			SetJoinRequestResult(SOMETHING_WENT_WRONG);
+		}).finally(() => {
+			SetRequesting(false);
+			SetDropdownText(joinGroupText);
 		});
 	};
 
@@ -114,10 +136,7 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 								<>
 									<Button
 										onClick={() => {
-											SetRequesting(true);
-											SetJoinRequestResult("Requesting...");
 											requestToJoinGroup();
-											SetRequesting(false);
 										}}
 										disabled={requesting}
 										aria-controls="join-a-group-request"

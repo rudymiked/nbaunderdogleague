@@ -11,6 +11,16 @@ export const GetAuthInformation = () => {
 	});
 }
 
+export const GetMeFromAPI = () => {
+	const httpService = HttpService();
+
+	return httpService.get({
+		url: '/api/User/Me',
+		token: null,
+		params: {},
+	});
+}
+
 export const GetTeamsTable = () => {
 	const httpService = HttpService();
 
@@ -163,5 +173,17 @@ export const GetPlayerStats = () => {
 		url: "/api/Player/Statistics",
 		token: null,
 		params: {}
+	});
+}
+
+export const GetJoinGroupRequests = (groupId: string) => {
+	const httpService = HttpService();
+
+	return httpService.get({
+		url: "/api/Group/JoinGroupRequests",
+		token: null,
+		params: {
+			groupId: groupId
+		}
 	});
 }

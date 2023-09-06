@@ -26,7 +26,7 @@ export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYo
 
 	React.useEffect(() => {
 		loadGroups();
-	}, [state]);
+	}, []);
 
 	React.useEffect(() => {
 		loadGroups();

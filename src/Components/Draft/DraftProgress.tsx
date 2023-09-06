@@ -10,6 +10,7 @@ import { LoginEnum, AppActionEnum } from '../../services/Stores/AppReducer';
 import { IGroupDataArrayResponse, IGroupData } from '../../Pages/Profile';
 import { GetAllGroupsUserIsInByYear, GetDraftData, GetUserData } from '../../services/data/GetRequests';
 import { PleaseLogin } from '../Shared/PleaseLogin';
+import { IUserData, IUserDataResponse } from '../Profile/UserInformation';
 
 export interface IDraftProgressProps {
 	userDrafted: IUserData;
@@ -32,14 +33,6 @@ export interface IDraftData  extends IEntity {
 export interface IDraftDataResponse {
 	data: IDraftData[];
 }
-
-export interface IUserData extends IEntity {
-	email: string;
-	team: string;
-	groupId: Guid;
-	username: string;
-}
-
 export interface IDraftProgressData {
 	user: string;
 	teamName: string;
@@ -50,10 +43,6 @@ export interface IDraftProgressData {
 	userEndTime: string;
 	userStartTimeMS: number;
 	userEndTimeMS: number;
-}
-
-export interface IUserDataResponse {
-	data: IUserData[];
 }
 
 const defaultDraft: IDraftProgressData[] = [{
@@ -81,8 +70,9 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 
 	React.useEffect(() => {
 		if (state.AppStore.LoginStatus === LoginEnum.Success) {
-			updateGroup();
-			refreshAllDraftData();
+			if(updateGroup()) {
+				refreshAllDraftData();
+			}
 		}
 	}, []);
 
@@ -168,7 +158,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 		SetDraftProgress(combinedData);
 	}
 
-	const updateGroup = () => {
+	const updateGroup = (): boolean => {
 		if (state.AppStore.GroupId === "" && state.AppStore.Email !== "") {
 			// group ID has not been set
 			// need to load groups and set first index for standings
@@ -186,16 +176,21 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 								GroupId: firstGroup.id!,
 								GroupName: firstGroup.name!,
 							});
+							
+							return true;
 						}
 					} else {
+						return false;
 						// user is not in any groups
 					}
 				}
 			}).catch((reason) => {
+				console.log(reason);
 				SetDataFailedToLoad(true);
 			});
 		} else {
 			// if group has already been loaded, but user chooses to change the group.
+			return false;
 		}
 	}
 
@@ -225,16 +220,6 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 					const data = response?.data;
 					SetUserDataLoaded(true);
 					SetUsers(data);
-
-					const userInfo: IUserData[] =  data?.filter((u: IUserData) => u.email === state.AppStore.Email);
-                    const username: string = userInfo.length > 0 ? userInfo[0].username : state.AppStore.Email.split["@"][0];
-
-                    if (state.AppStore.Username === "") {
-                        dispatch({
-                            type: AppActionEnum.UPDATE_USERNAME,
-                            Username: username!,
-                        });
-                    }
 				}
 			}).catch((reason: any) => {
 				SetUserDataLoaded(true);

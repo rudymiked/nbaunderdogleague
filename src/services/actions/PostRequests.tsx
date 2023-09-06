@@ -100,3 +100,17 @@ export const UpsertUser = (email: string, team: string, group: string, username:
 		},
 	});
 }
+
+export const ApproveNewGroupMemberAction = (groupId: string, email: string, ownerEmail: string) => {
+	const httpService = HttpService();
+
+	return httpService.post({
+		url: '/api/Group/ApproveNewGroupMember',
+		token: null,
+		data: {
+			groupId: groupId,
+			email: email,
+			adminEmail: ownerEmail
+		},
+	});
+}

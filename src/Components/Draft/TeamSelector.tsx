@@ -7,9 +7,9 @@ import { IEntity } from '../../App';
 import { sortCaretFunc } from '../../Utils/Utils';
 import { RootContext } from '../../services/Stores/RootStore';
 import { Guid } from 'guid-typescript';
-import { IUserData } from './DraftProgress';
 import { GetAvailableTeamsToDraft } from '../../services/data/GetRequests';
 import { DraftTeamAction } from '../../services/actions/PostRequests';
+import { IUserData } from '../Profile/UserInformation';
 
 export interface ITeamSelectorProps {
 	SetUserDrafted: React.Dispatch<React.SetStateAction<IUserData>>;

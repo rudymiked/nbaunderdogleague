@@ -9,6 +9,7 @@ import { PlayerStatsTable } from "../Components/Stats/PlayerStatsTable";
 import { LinkButton } from "../Components/Shared/LinkButton";
 import { PleaseLogin } from "../Components/Shared/PleaseLogin";
 import { LoginEnum } from "../services/Stores/AppReducer";
+import { GetMeFromAPI } from "../services/data/GetRequests";
 
 interface IHomePageProps {}
 
@@ -19,6 +20,16 @@ const PlayFantasyTitle: string = "Play Fantasy";
 
 export const Home: React.FunctionComponent = (props: IHomePageProps) => {
     const { state, dispatch } = React.useContext(RootContext);
+
+    // React.useEffect(() => {
+    //     if (state.AppStore.LoginStatus === LoginEnum.Success) {
+    //         GetMeFromAPI().then((response: any) => {
+    //             console.log(response);
+    //         }).catch((reason: any) => {
+    //             console.log(reason);
+    //         });
+    //     }
+	// }, [state.AppStore.LoginStatus]);
     
     return (
         <Container style={{maxWidth: '90vw'}}>
