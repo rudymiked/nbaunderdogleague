@@ -7,7 +7,7 @@ import { RootContext } from '../../services/Stores/RootStore';
 import { CURRENT_YEAR, SOMETHING_WENT_WRONG, SUCCESS } from '../../Utils/AppConstants';
 import { Loading } from '../Shared/Loading';
 import { PleaseLogin } from '../Shared/PleaseLogin';
-import { GetAllGroupsByYear, GetUserData } from '../../services/data/GetRequests';
+import { GetAllGroupsByYear, GetAllGroupsUserIsInByYear, GetUserData } from '../../services/data/GetRequests';
 import { IUserData, IUserDataResponse } from './UserInformation';
 import { Guid } from 'guid-typescript';
 
@@ -50,27 +50,27 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
     const loadGroups = () => {
 		let groupsUsersIsIn: Guid[];
 		
-		GetUserData(state.AppStore.GroupId).then((response: IUserDataResponse) => {
+		GetAllGroupsUserIsInByYear(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 			if (response?.data) {
-				const userInfo: IUserData[] = response.data?.filter((u: IUserData) => u.email === state.AppStore.Email);
-				
-				groupsUsersIsIn = userInfo.map(x => x.groupId);
+				const usersGroups: IGroupData[] = response?.data;
+				groupsUsersIsIn = usersGroups.map(x => x.id);
 			}
 		}).catch((reason: any) => {
 			console.log(reason);
-		});
-		
-		GetAllGroupsByYear(CURRENT_YEAR).then((response: IGroupDataArrayResponse) => {
-			if (response?.data) {
-				const data = response.data;
-				SetGroups(data.filter((group: IGroupData) => group.name && group.name.trim() !== "" && !groupsUsersIsIn.includes(group.id)));
-			} else {
-				// something went wrong
-			}
+		}).finally(() => {
+			GetAllGroupsByYear(CURRENT_YEAR).then((response: IGroupDataArrayResponse) => {
+				if (response?.data) {
+					const data = response.data;
+					const groupsUsersIsNotIn: IGroupData[] = data.filter((group: IGroupData) => group.name && group.name.trim() !== "" && !groupsUsersIsIn.includes(group.id));
+					SetGroups(groupsUsersIsNotIn);
+				} else {
+					// something went wrong
+				}
 
-			SetDataLoaded(true);
-		}).catch((reason: any) => {
-			SetDataLoaded(true);
+				SetDataLoaded(true);
+			}).catch((reason: any) => {
+				SetDataLoaded(true);
+			});
 		});
 	};
 

@@ -26,6 +26,9 @@ interface ITeamStatsResponse {
 	data: ITeamStats[];
 }
 
+// data:	east: https://www.espn.com.au/nba/insider/insider/story/_/id/38236536/nba-predictions-2023-24-win-loss-records-boston-celtics-new-york-knicks-every-eastern-conference-team
+// 			west: https://www.espn.com/nba/insider/story/_/id/38242869/win-loss-records-denver-nuggets-los-angeles-lakers-every-western-conference-team
+
 export const TeamsTable: React.FC = (props: ITeamsTableProps) => {
 	const [teams, SetTeams] = React.useState<ITeamStats[]>([]);
 	const [dataFailedToLoad, SetDataFailedToLoad] = React.useState<boolean>(false);
