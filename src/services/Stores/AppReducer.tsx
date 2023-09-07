@@ -32,6 +32,7 @@ export enum AppActionEnum {
     UPDATE_TOKEN = "UPDATE_TOKEN",
     UPDATE_GROUP = "UPDATE_GROUP",
     UPDATE_USERNAME = "UPDATE_USERNAME",
+    RESET_CONTEXT = "RESET_CONTEXT",
 }
 
 export type AppActions = |
@@ -54,6 +55,15 @@ export type AppActions = |
 } | {
     type: AppActionEnum.UPDATE_USERNAME,
     Username: string,
+} | {
+    type: AppActionEnum.RESET_CONTEXT,
+    Name: string,
+    Email: string,
+    Token: string,
+    GroupId: string,
+    GroupName: string,
+    Username: string,
+    LoginStatus: LoginEnum,
 };
 
 export const AppReducer = (state: IAppState, action: AppActions): IAppState => {
@@ -68,6 +78,8 @@ export const AppReducer = (state: IAppState, action: AppActions): IAppState => {
             return {...state, LoginStatus: action.LoginStatus};
         case AppActionEnum.UPDATE_USERNAME:
             return {...state, Username: action.Username};
+        case AppActionEnum.RESET_CONTEXT:
+            return {Name: "", Email: "", Token: "", GroupId: "", GroupName: "", Username: "", LoginStatus: LoginEnum.NotLoggedIn};
         default:
             return state;
     }

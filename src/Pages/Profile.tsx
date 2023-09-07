@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { IEntity } from '../App';
 import { YourGroups } from '../Components/Profile/YourGroups';
-import { LoginEnum } from '../services/Stores/AppReducer';
+import { AppActionEnum, LoginEnum } from '../services/Stores/AppReducer';
 import { RootContext } from '../services/Stores/RootStore';
 import { Container, Row, Col } from 'react-bootstrap';
 import { UserInformation } from '../Components/Profile/UserInformation';
@@ -33,7 +33,13 @@ export interface IGroupDataResponse {
 export const Profile: React.FC = (props: ITeamPageProps) => {
 	const [refresh, SetRefresh] = React.useState<number>(0);
 
-	const { state } = React.useContext(RootContext);
+	const { state, dispatch } = React.useContext(RootContext);
+
+	const resetContext = () => {
+		dispatch({
+			type: AppActionEnum.RESET_CONTEXT,
+		});
+	}
 
 	return (
 		<div>
@@ -48,6 +54,7 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 										<Button
 											href={"/.auth/logout?post_logout_redirect_uri=/"}
 											aria-controls="logout"
+											onClick={() => {resetContext()}}
 											variant={"dark"}>
 											{"Logout"}
 										</Button>

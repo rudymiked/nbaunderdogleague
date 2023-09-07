@@ -21,7 +21,6 @@ export const UsersInGroupTable: React.FunctionComponent<IUsersInGroupTableProps>
 			GetUserData(state.AppStore.GroupId).then((response: IUserDataResponse) => {
 				if (response?.data) {
 					const data = response?.data;
-					console.log(data);
 					SetUserDataLoaded(true);
 					SetUsers(data);
 				}

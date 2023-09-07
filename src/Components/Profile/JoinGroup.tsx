@@ -69,6 +69,7 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 
 				SetDataLoaded(true);
 			}).catch((reason: any) => {
+				console.log(reason);
 				SetDataLoaded(true);
 			});
 		});
