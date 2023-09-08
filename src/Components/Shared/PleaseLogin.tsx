@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Loading } from "./Loading";
 import { AppActionEnum, LoginEnum } from "../../services/Stores/AppReducer";
 import { RootContext } from "../../services/Stores/RootStore";

@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { CURRENT_YEAR, NBA_END_DATE, NBA_START_DATE } from "../Utils/AppConstants";
 import { JoinGroup } from "../Components/Profile/JoinGroup";
-import { RootContext } from "../services/Stores/RootStore";
 
 interface IJoinPageProps {
     groupId?: string;
@@ -10,7 +9,6 @@ interface IJoinPageProps {
 
 export const Join: React.FunctionComponent<IJoinPageProps> = (props: IJoinPageProps) => {
 	const [refresh, SetRefresh] = React.useState<number>(0);
-	const { state } = React.useContext(RootContext);
 
     return (
         <Container style={{maxWidth: '100%'}}>

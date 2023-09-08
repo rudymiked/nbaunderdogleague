@@ -7,8 +7,7 @@ import { RootContext } from '../../services/Stores/RootStore';
 import { CURRENT_YEAR, SOMETHING_WENT_WRONG, SUCCESS } from '../../Utils/AppConstants';
 import { Loading } from '../Shared/Loading';
 import { PleaseLogin } from '../Shared/PleaseLogin';
-import { GetAllGroupsByYear, GetAllGroupsUserIsInByYear, GetUserData } from '../../services/data/GetRequests';
-import { IUserData, IUserDataResponse } from './UserInformation';
+import { GetAllGroupsByYear, GetAllGroupsUserIsInByYear } from '../../services/data/GetRequests';
 import { Guid } from 'guid-typescript';
 
 // Join a group that someone else has created for this season
@@ -36,20 +35,30 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	const { state, dispatch } = React.useContext(RootContext);
 
 	React.useEffect(() => {
-		loadGroups();
+		if (state.AppStore.Email !== "") {
+			loadGroups();
+			console.log(props.refresh);
+		} else {
+			// user not logged in
+		}
 	}, [props.refresh]);
 
 	React.useEffect(() => {
+		console.log(state.AppStore.Email);
+		console.log(LoginEnum[state.AppStore.LoginStatus]);
+		console.log(dataLoaded);
 		if (state.AppStore.Email !== "") {
 			loadGroups();
 		} else {
 			// user not logged in
 		}
-	}, []);
+	}, [state.AppStore]);
     
     const loadGroups = () => {
-		let groupsUsersIsIn: Guid[];
+		let groupsUsersIsIn: Guid[] = [];
 		
+		console.log(state.AppStore.Email);
+
 		GetAllGroupsUserIsInByYear(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 			if (response?.data) {
 				const usersGroups: IGroupData[] = response?.data;
@@ -112,9 +121,9 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 
 	return (
 		<div style={{ padding: "10px", display:"block" }}>
-			{dataLoaded ? (
+			{state.AppStore.LoginStatus === LoginEnum.Success ? (
 				<>
-					{state.AppStore.LoginStatus === LoginEnum.Success ? (
+					{dataLoaded ? (
 						<div id="join-a-group-collapse-text">
 							<Dropdown>
 								<Dropdown.Toggle id="groups-dropdown">
@@ -149,16 +158,16 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 								</>
 							}
 						</div>
-					) : (
-						<PleaseLogin />
-					)}
+						) : (
+							<div>
+								<Loading />
+							</div>
+						)
+					}
 				</>
-				) : (
-				<div>
-					<Loading />
-				</div>
-				)
-			}
+			) : (
+				<PleaseLogin />
+			)}
 			<span>{requestResult}</span>
 		</div>
 	);

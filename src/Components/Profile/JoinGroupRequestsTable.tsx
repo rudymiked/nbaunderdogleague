@@ -49,6 +49,7 @@ export const JoinGroupRequestsTable: React.FunctionComponent<IJoinGroupRequestsT
 					SetJoinRequests(data);
 				}
 			}).catch((reason: any) => {
+				console.log(reason);
                 SetErrorText(SOMETHING_WENT_WRONG);
 			});
 		}
