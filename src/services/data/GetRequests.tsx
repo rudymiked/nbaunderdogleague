@@ -176,14 +176,15 @@ export const GetPlayerStats = () => {
 	});
 }
 
-export const GetJoinGroupRequests = (groupId: string) => {
+export const GetJoinGroupRequests = (groupId: string, email: string) => {
 	const httpService = HttpService();
 
 	return httpService.get({
 		url: "/api/Group/JoinGroupRequests",
 		token: null,
 		params: {
-			groupId: groupId
+			groupId: groupId,
+			ownerEmail: email
 		}
 	});
 }

@@ -37,7 +37,7 @@ export const JoinGroupRequestsTable: React.FunctionComponent<IJoinGroupRequestsT
 
     React.useEffect(() => {
 		if (state.AppStore.GroupId !== "") {
-			GetJoinGroupRequests(state.AppStore.GroupId).then((response: IJoinGroupRequestsDataResponse) => {
+			GetJoinGroupRequests(state.AppStore.GroupId, state.AppStore.Email).then((response: IJoinGroupRequestsDataResponse) => {
 				if (response?.data && response?.data.length > 0) {
 						const data = response?.data;
 						SetJoinRequests(data);
