@@ -44,9 +44,6 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	}, [props.refresh]);
 
 	React.useEffect(() => {
-		console.log(state.AppStore.Email);
-		console.log(LoginEnum[state.AppStore.LoginStatus]);
-		console.log(dataLoaded);
 		if (state.AppStore.Email !== "") {
 			loadGroups();
 		} else {
@@ -56,8 +53,6 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
     
     const loadGroups = () => {
 		let groupsUsersIsIn: Guid[] = [];
-		
-		console.log(state.AppStore.Email);
 
 		GetAllGroupsUserIsInByYear(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 			if (response?.data) {
