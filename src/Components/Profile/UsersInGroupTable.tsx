@@ -6,6 +6,7 @@ import { SOMETHING_WENT_WRONG } from "../../Utils/AppConstants";
 import { IUserData, IUserDataResponse } from "./UserInformation";
 
 interface IUsersInGroupTableProps {
+	refresh: number;
 }
 
 export const UsersInGroupTable: React.FunctionComponent<IUsersInGroupTableProps> = (props: IUsersInGroupTableProps) => {
@@ -29,7 +30,7 @@ export const UsersInGroupTable: React.FunctionComponent<IUsersInGroupTableProps>
                 SetErrorText(SOMETHING_WENT_WRONG);
 			});
 		}
-    }, []);
+    }, [props.refresh]);
 
     const columns: ColumnDescription[] = [
 		{

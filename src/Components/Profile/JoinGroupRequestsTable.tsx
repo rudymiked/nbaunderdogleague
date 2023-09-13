@@ -9,7 +9,10 @@ import { ApproveNewGroupMemberAction } from "../../services/actions/PostRequests
 import { SomethingWentWrong } from "../Error/SomethingWentWrong";
 import { sortCaretFunc } from "../../Utils/Utils";
 
-interface IJoinGroupRequestsTableProps {}
+interface IJoinGroupRequestsTableProps {
+	refresh: number;
+	SetRefresh: React.Dispatch<React.SetStateAction<number>>
+}
 
 interface IJoinGroupRequestsData extends IEntity {
 	groupId: string;
@@ -87,6 +90,8 @@ export const JoinGroupRequestsTable: React.FunctionComponent<IJoinGroupRequestsT
 			SetUpdateData(Date.now().toLocaleString());
 
 			console.log(reason);
+		}).finally(() => {
+			props.SetRefresh((refresh) => refresh + 1);
 		})
 	}
 

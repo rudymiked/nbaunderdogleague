@@ -7,17 +7,19 @@ import { JoinGroupRequestsTable } from "../Profile/JoinGroupRequestsTable";
 interface IGroupManagementProps {}
 
 export const GroupManagement: React.FunctionComponent<IGroupManagementProps> = (props: IGroupManagementProps) => {
+    const [refresh, SetRefresh] = React.useState<number>(0);
+    
     return (
         <>
             <Container>
                 <Row>
                     <Col>
-                        <UsersInGroupTable />
+                        <UsersInGroupTable refresh={refresh} />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <JoinGroupRequestsTable />
+                        <JoinGroupRequestsTable refresh={refresh} SetRefresh={SetRefresh} />
                     </Col>
                 </Row>
                 <Row>
