@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { Scoreboard } from "../Components/Scoreboard/Scoreboard";
 import { TeamsTable } from "../Components/Stats/TeamsTable";
 import { GroupStandingsTable } from "../Components/Standings/GroupStandingsTable";
@@ -10,6 +10,7 @@ import { LinkButton } from "../Components/Shared/LinkButton";
 import { PleaseLogin } from "../Components/Shared/PleaseLogin";
 import { LoginEnum } from "../services/Stores/AppReducer";
 import { GetMeFromAPI } from "../services/data/GetRequests";
+import { useNavigate } from "react-router-dom";
 
 interface IHomePageProps {}
 
@@ -20,6 +21,8 @@ const PlayFantasyTitle: string = "Play Fantasy";
 
 export const Home: React.FunctionComponent = (props: IHomePageProps) => {
     const { state, dispatch } = React.useContext(RootContext);
+
+    const navigate = useNavigate();
 
     // React.useEffect(() => {
     //     if (state.AppStore.LoginStatus === LoginEnum.Success) {
@@ -32,27 +35,35 @@ export const Home: React.FunctionComponent = (props: IHomePageProps) => {
 	// }, [state.AppStore.LoginStatus]);
     
     return (
-        <Container style={{maxWidth: '90vw'}}>
+        <Container style={{maxWidth: '100vw'}}>
             <Row className="justify-content-md-center">
-                <Col md="auto">
+                <Col style={{padding: '5px'}} md="auto">
                     <Scoreboard />
                 </Col>
             </Row>
-            <Row style={{padding: '10px'}} className="justify-content-md-center"> 
+            <Row style={{padding: '5px'}} className="justify-content-md-center"> 
                 {state.AppStore.LoginStatus === LoginEnum.Success ? (
-                    <Col style={{padding: '10px'}} md="auto">
-                        <Card style={{padding: '10px', maxWidth: '95vw'}}>
+                    <Col style={{padding: '5px'}} md="auto">
+                        <Card style={{padding: '5px', maxWidth: '100vw'}}>
                             <Card.Title className='card-title'>{state.AppStore.GroupName ? `${state.AppStore.GroupName} ${GroupStandingsTitle}` : GroupStandingsTitle}</Card.Title>
                             <Card.Body style={{overflow: 'auto'}}>
-                                <GroupStandingsTable />
+                                <GroupStandingsTable abbreviated={true} />
+                            </Card.Body>
+                            <Card.Footer>
+                                <Button
+                                    onClick={() => navigate("/league")}
+                                    aria-controls="league"
+                                    variant={"dark"}>
+                                    {state.AppStore.GroupName}
+                                </Button>
                                 <hr />
                                 <JoinOrSwitchGroupsButton />
-                            </Card.Body>
+                            </Card.Footer>
                         </Card>
                     </Col>
                 ) : (
-                    <Col style={{padding: '10px'}} md="auto">
-                        <Card style={{padding: '10px', maxWidth: '95vw'}}>
+                    <Col style={{padding: '5px'}} md="auto">
+                        <Card style={{padding: '5px', maxWidth: '100vw'}}>
                             <Card.Title className='card-title'>{PlayFantasyTitle}</Card.Title>
                             <Card.Body style={{overflow: 'auto'}}>
                                 <PleaseLogin />
@@ -60,24 +71,26 @@ export const Home: React.FunctionComponent = (props: IHomePageProps) => {
                         </Card>
                     </Col>
                 )}
-                <Col style={{padding: '10px'}} md="auto">
-                    <Card style={{padding: '10px', maxWidth: '95vw'}}>
+                <Col style={{padding: '5px'}} md="auto">
+                    <Card style={{padding: '5px', maxWidth: '100vw'}}>
                         <Card.Title className='card-title'>{TeamStandingsTitle}</Card.Title>
                         <Card.Body style={{overflow: 'auto'}}>
-                            <TeamsTable />
-                            <hr />
-                            <LinkButton text={"See More"} url={"/teams"} />
+                            <TeamsTable rowsDisplayed={10} />
                         </Card.Body>
+                        <Card.Footer>
+                            <LinkButton text={"See More"} url={"/teams"} />
+                        </Card.Footer>
                     </Card>
                 </Col>
-                <Col style={{padding: '10px'}} md="auto">
-                    <Card style={{padding: '10px', maxWidth: '95vw'}}>
+                <Col style={{padding: '5px'}} md="auto">
+                    <Card style={{padding: '5px', maxWidth: '100vw'}}>
                         <Card.Title className='card-title'>{PLayerStatsTitle}</Card.Title>
                         <Card.Body style={{overflow: 'auto'}}>
-                            <PlayerStatsTable rowsDisplayed={30} />
-                            <hr />
-                            <LinkButton text={"See More"} url={"/players"} />
+                            <PlayerStatsTable rowsDisplayed={10} />
                         </Card.Body>
+                        <Card.Footer>
+                            <LinkButton text={"See More"} url={"/players"} />
+                        </Card.Footer>
                     </Card>
                 </Col>
             </Row>

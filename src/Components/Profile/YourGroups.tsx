@@ -58,6 +58,8 @@ export const YourGroups: React.FunctionComponent<IYourGroupsProps> = (props: IYo
 			GroupId: key,
 			GroupName: name,
 		});
+
+		props.SetRefresh((refresh) => refresh + 1);
 	};
 
 	return (

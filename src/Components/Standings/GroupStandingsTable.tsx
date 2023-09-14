@@ -26,7 +26,9 @@ export interface IGroupStandingsDataResponse {
 	data: IGroupStandingsData[];
 }
 
-export interface IGroupStandingsTableProps {}
+export interface IGroupStandingsTableProps {
+	abbreviated?: boolean;
+}
 
 export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTableProps> = (props: IGroupStandingsTableProps) => {
 	const [groupId, SetGroupId] = React.useState<string>("");
@@ -173,6 +175,47 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 		}
 	];
 
+	const abbreviatedColumns: ColumnDescription[] = [
+		{
+			dataField: 'score',
+			text: 'Score',
+			sort: true,
+			sortCaret: sortCaretFunc,
+			style: (cell, row, rowIndex, colIndex) => {
+				// color scale for points
+				const score: number = row.score
+				switch (true) {
+					case score < .5: 
+						return { backgroundColor: '#D92828' }
+					case score < .75: 
+						return { backgroundColor: '#D94628' }
+					case score < 1: 
+						return { backgroundColor: '#F67B43' }
+					case score < 1.25: 
+						return { backgroundColor: '#F6E743' }
+					case score < 1.5: 
+						return { backgroundColor: '#D9F643' }
+					case score < 2: 
+						return { backgroundColor: '#77F643' }					
+					default: 
+						return { backgroundColor: '#43F657' }
+				}
+			}
+		},
+		{
+			dataField: 'governor',
+			text: 'Governor',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'teamName',
+			text: 'Team',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+	];
+
 	const rowStyle = (row: IGroupStandingsData, rowIndex: number) => {
 		const style: React.CSSProperties = {};
 		
@@ -198,7 +241,7 @@ export const GroupStandingsTable: React.FunctionComponent<IGroupStandingsTablePr
 									order: 'desc' 
 								}]}
 							data={ data } 
-							columns={ columns }
+							columns={ props.abbreviated ? abbreviatedColumns : columns }
 							rowStyle={rowStyle} 
 						/>
 						</div>

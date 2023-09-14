@@ -58,7 +58,7 @@ export const Scoreboard: React.FunctionComponent<IScoreboardProps> = (props: ISc
     }, [])
 
     return (
-        <Container style={{ padding: '5px', maxWidth: '95vw'}}>
+        <Container>
             <Row className="scoreboardRow" style={{ flexWrap: 'nowrap' }}>
                 {scores.map((score: IScoreCardData, index) => (
                     <Col key={index}>

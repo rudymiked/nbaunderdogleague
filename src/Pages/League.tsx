@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { Scoreboard } from "../Components/Scoreboard/Scoreboard";
 import { GroupStandingsTable } from "../Components/Standings/GroupStandingsTable";
 import { RootContext } from "../services/Stores/RootStore";
@@ -25,9 +25,10 @@ export const League: React.FunctionComponent = (props: ILeaguePageProps) => {
                         <Card.Title className='card-title'><b>{state.AppStore.GroupName}</b> Standings</Card.Title>
                         <Card.Body style={{overflow: 'auto'}}>
                             <GroupStandingsTable />
-                            <hr />
-                            <JoinOrSwitchGroupsButton />
                         </Card.Body>
+                        <Card.Footer>
+                            <JoinOrSwitchGroupsButton />
+                        </Card.Footer>
                     </Card>
                 </Col>
             </Row> 

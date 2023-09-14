@@ -76,14 +76,6 @@ export const Profile: React.FC = (props: ITeamPageProps) => {
 								<Card style={{padding: '10px'}}>
 									<Card.Title className='card-title'>Group Management</Card.Title>
 									<Card.Body style={{overflow: 'auto'}}>
-										<Row style={{padding: '10px'}}>
-											<Col>
-												<YourGroups 
-													refresh={refresh} 
-													SetRefresh={SetRefresh}
-												/>
-											</Col>
-										</Row>
 										<Row>
 											<Col>
 												<GroupManagement />

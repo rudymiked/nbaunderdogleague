@@ -48,12 +48,12 @@ export const Draft: React.FunctionComponent = (props: IDraftPageProps) => {
 			{state.AppStore.GroupId !== "" ? (
 				<>
 				{showDraft ? (
-					<Container>
-						<Row>
-							<Col>
+					<Container style={{maxWidth: '100vw'}}>
+						<Row style={{padding: '5px'}} className="justify-content-md-center">
+							<Col style={{padding: '5px'}} md="auto">
 								<DraftProgress {...{userDrafted, currentDate, draftStartTime, draftEndTime, SetDraftStartTime, SetDraftEndTime}} />
 							</Col>
-							<Col>
+							<Col style={{padding: '5px'}} md="auto">
 								<TeamSelector {...{SetUserDrafted, currentDate, draftStartTime, draftEndTime}}/>
 							</Col>
 						</Row>

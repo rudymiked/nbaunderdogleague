@@ -75,7 +75,7 @@ export const DraftResults: React.FunctionComponent<IDraftResultsProps> = (props:
 	};
 
 	return (
-		<Card style={{padding: '10px'}}>
+		<Card style={{padding: '5px', maxWidth: '100vw'}}>
 			<Card.Title className='card-title'>{cardTitle}</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
 				{state.AppStore.LoginStatus !== LoginEnum.Success ? (

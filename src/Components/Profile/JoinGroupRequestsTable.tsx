@@ -11,7 +11,7 @@ import { sortCaretFunc } from "../../Utils/Utils";
 
 interface IJoinGroupRequestsTableProps {
 	refresh: number;
-	SetRefresh: React.Dispatch<React.SetStateAction<number>>
+	SetRefresh: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface IJoinGroupRequestsData extends IEntity {

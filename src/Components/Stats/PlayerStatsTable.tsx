@@ -7,7 +7,8 @@ import { SomethingWentWrong } from '../Error/SomethingWentWrong';
 import { IPlayerStats } from './PlayerStats';
 
 interface IPlayerStatsTableProps {
-	rowsDisplayed?: number
+	rowsDisplayed?: number;
+	abbreviated?: boolean;
 }
 
 interface IIPlayerStatsResponse {

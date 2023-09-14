@@ -290,7 +290,7 @@ export const DraftProgress: React.FunctionComponent<IDraftProgressProps> = (prop
 	};
 
 	return (
-		<Card>
+		<Card style={{padding: '5px', maxWidth: '100vw'}}>
 			<Card.Title className='card-title'>Draft Progress</Card.Title>
 			<Card.Body style={{overflow: 'auto'}}>
 				{state.AppStore.LoginStatus !== LoginEnum.Success ? (

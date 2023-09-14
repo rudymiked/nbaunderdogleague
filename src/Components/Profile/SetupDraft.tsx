@@ -13,7 +13,9 @@ import { GetAllGroupsUserIsInByYear } from '../../services/data/GetRequests';
 
 // Join a group that someone else has created for this season
 
-interface ISetupDraftProps {}
+interface ISetupDraftProps {
+    refresh: number;
+}
 
 export interface ISetupDraftResults {
 	email: string;
@@ -62,13 +64,13 @@ export const SetupDraft: React.FunctionComponent<ISetupDraftProps> = (props: ISe
         windowOptions.length = 0;
         windowOptions.push(5);
         windowOptions.push(10);
-    }, []);
+    }, [props.refresh]);
 
 	const loadGroups = () => {
 		GetAllGroupsUserIsInByYear(state.AppStore.Email).then((response: IGroupDataArrayResponse) => {
 			if (response?.data) {
 				const data = response.data;
-				SetOwnedGroups(data.filter((group: IGroupData) => group.name && group.name !== "" && (group.owner === state.AppStore.Email)));
+				SetOwnedGroups(data.filter((group: IGroupData) => group.name && group.name !== "" && (group.owner === state.AppStore.Email) && group.id.toString() === state.AppStore.GroupId));
 			} else {
 				// something went wrong
 			}
