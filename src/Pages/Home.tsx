@@ -75,7 +75,7 @@ export const Home: React.FunctionComponent = (props: IHomePageProps) => {
                     <Card style={{padding: '5px', maxWidth: '100vw'}}>
                         <Card.Title className='card-title'>{TeamStandingsTitle}</Card.Title>
                         <Card.Body style={{overflow: 'auto'}}>
-                            <TeamsTable rowsDisplayed={10} />
+                            <TeamsTable abbreviated={true} rowsDisplayed={10} />
                         </Card.Body>
                         <Card.Footer>
                             <LinkButton text={"See More"} url={"/teams"} />
