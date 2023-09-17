@@ -20,7 +20,12 @@ const GroupStandingsTitle: string = "Standings";
 const PlayFantasyTitle: string = "Play Fantasy";
 
 export const Home: React.FunctionComponent = (props: IHomePageProps) => {
+    const [groupName, SetGroupName] = React.useState<string>("");
     const { state, dispatch } = React.useContext(RootContext);
+
+    React.useEffect(() => {
+        SetGroupName(state.AppStore.GroupName);
+    },[state])
 
     const navigate = useNavigate();
 
@@ -45,17 +50,19 @@ export const Home: React.FunctionComponent = (props: IHomePageProps) => {
                 {state.AppStore.LoginStatus === LoginEnum.Success ? (
                     <Col style={{padding: '5px'}} md="auto">
                         <Card style={{padding: '5px', maxWidth: '100vw'}}>
-                            <Card.Title className='card-title'>{state.AppStore.GroupName ? `${state.AppStore.GroupName} ${GroupStandingsTitle}` : GroupStandingsTitle}</Card.Title>
+                            <Card.Title className='card-title'>{groupName ? `${groupName} ${GroupStandingsTitle}` : GroupStandingsTitle}</Card.Title>
                             <Card.Body style={{overflow: 'auto'}}>
                                 <GroupStandingsTable abbreviated={true} />
                             </Card.Body>
                             <Card.Footer>
-                                <Button
-                                    onClick={() => navigate("/league")}
-                                    aria-controls="league"
-                                    variant={"dark"}>
-                                    {state.AppStore.GroupName}
-                                </Button>
+                                {groupName !== "" &&
+                                    <Button
+                                        onClick={() => navigate("/league")}
+                                        aria-controls="league"
+                                        variant={"dark"}>
+                                        {groupName}
+                                    </Button>
+                                }
                                 <hr />
                                 <JoinOrSwitchGroupsButton />
                             </Card.Footer>
