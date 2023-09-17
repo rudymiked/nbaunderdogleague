@@ -11,12 +11,12 @@ export const GetAuthInformation = () => {
 	});
 }
 
-export const GetMeFromAPI = () => {
+export const GetMeFromAPI = (token: string) => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: '/api/User/Me',
-		token: null,
+		url: '/api/User/Name',
+		token: token,
 		params: {},
 	});
 }

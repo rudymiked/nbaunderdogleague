@@ -29,15 +29,15 @@ export const Home: React.FunctionComponent = (props: IHomePageProps) => {
 
     const navigate = useNavigate();
 
-    // React.useEffect(() => {
-    //     if (state.AppStore.LoginStatus === LoginEnum.Success) {
-    //         GetMeFromAPI().then((response: any) => {
-    //             console.log(response);
-    //         }).catch((reason: any) => {
-    //             console.log(reason);
-    //         });
-    //     }
-	// }, [state.AppStore.LoginStatus]);
+    React.useEffect(() => {
+        if (state.AppStore.LoginStatus === LoginEnum.Success) {
+            GetMeFromAPI(state.AppStore.Token).then((response: any) => {
+                console.log(response);
+            }).catch((reason: any) => {
+                console.log(reason);
+            });
+        }
+	}, [state.AppStore.LoginStatus]);
     
     return (
         <Container style={{maxWidth: '100vw'}}>

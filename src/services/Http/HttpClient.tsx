@@ -34,7 +34,7 @@ export default class HttpClient implements IHttpClient {
 			}
 
 			const options: AxiosRequestConfig = {
-				headers: token ?? axiosHeaders,
+				headers: axiosHeaders,
 				params,
 				withCredentials: true,
 			}
@@ -59,7 +59,7 @@ export default class HttpClient implements IHttpClient {
 			}
 
 			const options: AxiosRequestConfig = {
-				headers: token ?? axiosHeaders,
+				headers: axiosHeaders,
 				params,
 				withCredentials: true,
 			}
@@ -84,7 +84,7 @@ export default class HttpClient implements IHttpClient {
 			}
 
 			const options: AxiosRequestConfig = {
-				headers: token ?? axiosHeaders,
+				headers: axiosHeaders,
 				params,
 				withCredentials: true,
 			}
@@ -110,7 +110,7 @@ export default class HttpClient implements IHttpClient {
 			};
 
 			const options: AxiosRequestConfig = {
-				headers: token ?? axiosHeaders,
+				headers: axiosHeaders,
 				withCredentials: true,
 			};
 
@@ -134,7 +134,7 @@ export default class HttpClient implements IHttpClient {
 			};
 
 			const options: AxiosRequestConfig = {
-				headers: token ?? axiosHeaders,
+				headers: axiosHeaders,
 				withCredentials: true,
 			};
 
@@ -158,7 +158,7 @@ export default class HttpClient implements IHttpClient {
 			};
 
 			const options: AxiosRequestConfig = {
-				headers: token ?? axiosHeaders,
+				headers: axiosHeaders,
 				params: data,
 				withCredentials: true,
 			};
