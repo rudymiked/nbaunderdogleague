@@ -32,7 +32,7 @@ export const PlayerStatsTable: React.FC<IPlayerStatsTableProps> = (props: IPlaye
 		});
 	}, []);
 
-	const columns: ColumnDescription[] = [
+	const abbreviatedColumns: ColumnDescription[] = [
 		{
 			dataField: 'playerName',
 			text: 'Name',
@@ -47,6 +47,51 @@ export const PlayerStatsTable: React.FC<IPlayerStatsTableProps> = (props: IPlaye
 		}
 	];
 
+	const allColumns: ColumnDescription[] = [
+		{
+			dataField: 'playerName',
+			text: 'Name',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'seasonPlusMinus',
+			text: '+/-',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'gamesPlayed',
+			text: 'Games Played',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'averagePoints',
+			text: 'Avg. Points',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'averageMinutes',
+			text: 'Avg. Mins',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'averageRebounds',
+			text: 'Avg. Rebounds',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'averageAssists',
+			text: 'Avg. Assists',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+	];
+
 	return (
 		<>
 			{!dataLoaded ? (
@@ -55,7 +100,7 @@ export const PlayerStatsTable: React.FC<IPlayerStatsTableProps> = (props: IPlaye
 					<BootstrapTable 
 						keyField='playerName' 
 						data={ props.rowsDisplayed && props.rowsDisplayed !== 0 ? players.slice(0, props.rowsDisplayed) : players }
-						columns={ columns }
+						columns={ props.abbreviated ? abbreviatedColumns : allColumns }
 					/>
 				) : (
 					<SomethingWentWrong />
