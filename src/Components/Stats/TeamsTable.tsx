@@ -21,6 +21,8 @@ export interface ITeamStats {
 	ratio: number;
 	streak: number;
     clinchedPlayoffBirth: string;
+	projectedWin: number;
+	projectedLoss: number;
 }
 
 interface ITeamStatsResponse {
@@ -87,6 +89,18 @@ export const TeamsTable: React.FC<ITeamsTableProps> = (props: ITeamsTableProps) 
 		{
 			dataField: 'score',
 			text: 'Score',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'projectedWin',
+			text: 'Projected W',
+			sort: true,
+			sortCaret: sortCaretFunc,
+		},
+		{
+			dataField: 'projectedLoss',
+			text: 'projected L',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		}
