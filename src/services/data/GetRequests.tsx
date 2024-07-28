@@ -35,7 +35,7 @@ export const GetTeamStats = () => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/Team/TeamStatsV2",
+		url: "/api/Team/TeamStatsListFromStorage",
 		token: null,
 		params: {}
 	});
