@@ -100,7 +100,7 @@ export const TeamsTable: React.FC<ITeamsTableProps> = (props: ITeamsTableProps) 
 		},
 		{
 			dataField: 'projectedLoss',
-			text: 'projected L',
+			text: 'Projected L',
 			sort: true,
 			sortCaret: sortCaretFunc,
 		}
