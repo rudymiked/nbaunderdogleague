@@ -27,7 +27,7 @@ export const GetTeamsTable = () => {
 	return httpService.get({
 		url: "/api/Team/TeamsTable",
 		token: null,
-		params: {}
+		params: { year: CURRENT_YEAR }
 	});
 }
 
@@ -55,7 +55,7 @@ export const GetGroupStandingsData = (groupId: string) => {
 	const httpService = HttpService();
 
 	return httpService.get({
-		url: "/api/Group/GroupStandingsV2",
+		url: "/api/Group/GroupStandings",
 		token: null,
 		params: { 
 			groupId: groupId 

@@ -6,7 +6,7 @@ import { Loading } from "../Shared/Loading";
 import { SomethingWentWrong } from "../Error/SomethingWentWrong";
 import { sortCaretFunc } from "../../Utils/Utils";
 import { Link, useNavigate } from "react-router-dom";
-import { CURRENT_YEAR } from "../../Utils/AppConstants";
+import { CURRENT_YEAR, NBA_END_DATE } from "../../Utils/AppConstants";
 
 interface IArchiveProps {}
 
@@ -45,8 +45,8 @@ export const ArchiveSummary: React.FunctionComponent<IArchiveProps> = (props: IA
 						const sortedData = data!.sort((a: IArchiveSummaryData, b: IArchiveSummaryData) => (a.year > b.year) ? 1 : -1);
 						
 						// remove current season from archive results
-						// do not show archive until final day of NBA season XXX TODO
-						if (sortedData.at(-1).year === CURRENT_YEAR) {
+						const currentDate = new Date(Date.now());
+						if (currentDate.getTime() < NBA_END_DATE.getTime()) {
 							sortedData.pop();
 						}
 					}

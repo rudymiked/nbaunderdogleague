@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, Collapse, Form } from 'react-bootstrap';
-import { IGroupData, IGroupDataResponse } from '../../Pages/Profile';
+import { ICreateGroupDataResponse, IGroupData, IGroupDataResponse } from '../../Pages/Profile';
 import { CreateGroupAction } from '../../services/actions/PostRequests';
 import { RootContext } from '../../services/Stores/RootStore';
-import { SOMETHING_WENT_WRONG } from '../../Utils/AppConstants';
+import { SOMETHING_WENT_WRONG, SUCCESS } from '../../Utils/AppConstants';
 
 interface ICreateGroupProps {
 	refresh: number;
@@ -24,20 +24,25 @@ export const CreateGroup: React.FunctionComponent<ICreateGroupProps> = (props: I
 
 	const requestANewGroup = () => {
 		if (groupName !== "") {
-			CreateGroupAction(groupName, state.AppStore.Email).then((response: IGroupDataResponse) => {
-				if (response?.data && response.data?.name !== null && response.data?.name !== "") {
-					SetNewGroup(response.data);
-					
-					const groupSuccessMessage: string = "Group: " + response.data.name + " successfully created!";
-					
-					props.SetRefresh((refresh: number) => refresh + 1);
-					
-					SetRequestResult(groupSuccessMessage);
-					SetCreateGroupDisabled(true);
+			CreateGroupAction(groupName, state.AppStore.Email).then((response: ICreateGroupDataResponse) => {
+				if (response?.data.groupEntity && response.data.groupEntity?.name !== null && response.data.groupEntity?.name !== "") {
+						SetNewGroup(response.data.groupEntity);
+						
+						const groupSuccessMessage: string = "Group: " + response.data.groupEntity.name + " successfully created!";
+						
+						props.SetRefresh((refresh: number) => refresh + 1);
+											
+						SetCreateGroupDisabled(true);
+					if (response?.data.status === SUCCESS) {
+						SetRequestResult(groupSuccessMessage);
+					} else {
+						SetRequestResult(response.data.status);
+					}
 				} else {
 					SetRequestResult(SOMETHING_WENT_WRONG);
 				}
 			}).catch((reason: any) => {
+				console.log(reason);
 				SetRequestResult(SOMETHING_WENT_WRONG);
 			});
 		} else {

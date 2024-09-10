@@ -37,7 +37,6 @@ export const JoinGroup: React.FunctionComponent<IJoinGroupProps> = (props: IJoin
 	React.useEffect(() => {
 		if (state.AppStore.Email !== "") {
 			loadGroups();
-			console.log(props.refresh);
 		} else {
 			// user not logged in
 		}

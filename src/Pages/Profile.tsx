@@ -30,6 +30,14 @@ export interface IGroupDataResponse {
 	data: IGroupData;
 }
 
+export interface ICreateGroupResult {
+	groupEntity: IGroupData;
+	status: string;
+}
+export interface ICreateGroupDataResponse {
+	data: ICreateGroupResult;
+}
+
 export const Profile: React.FC = (props: ITeamPageProps) => {
 	const [refresh, SetRefresh] = React.useState<number>(0);
 
