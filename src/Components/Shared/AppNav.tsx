@@ -64,6 +64,12 @@ export const AppNav: React.FunctionComponent<INavProps> = (props: INavProps) => 
 						<Nav.Link onClick={() => navigateAndCollapse("/players")}>
 							Players
 						</Nav.Link>
+						<Nav.Link onClick={() => navigateAndCollapse("/privacy")}>
+							Privacy
+						</Nav.Link>
+						<Nav.Link onClick={() => navigateAndCollapse("/terms")}>
+							Terms
+						</Nav.Link>
 						<Nav.Link onClick={() => navigateAndCollapse("/profile")}>
 							{<b>{profileLinkText}</b>}
 						</Nav.Link>

@@ -6,6 +6,7 @@ import { Draft } from './Pages/Draft';
 import { Home } from './Pages/Home';
 import { IGroupData, IGroupDataArrayResponse, Profile } from './Pages/Profile';
 import { PublicPolicy } from './Pages/PublicPolicy';
+import { PrivacyPolicy } from './Pages/PrivacyPolicy';
 import { Teams } from './Pages/Teams';
 import { GetAllGroupsUserIsInByYear, GetAuthInformation } from './services/data/GetRequests';
 import { AppActionEnum, LoginEnum } from './services/Stores/AppReducer';
@@ -15,6 +16,7 @@ import { Join } from './Pages/Join';
 import { League } from './Pages/League';
 import { GetStarted } from './Pages/GetStarted';
 import { Players } from './Pages/Players';
+import { TermsOfService } from './Pages/TermsOfService';
 
 interface IAuthProps {};
 
@@ -72,6 +74,8 @@ export const AppAuthWrapper: React.FunctionComponent<IAuthProps> = (props: IAuth
 					<Route path="/players" element={<Players />} />
 					<Route path="/draft" element={<Draft />} />
 					<Route path="/profile" element={<Profile />} />
+					<Route path="/privacy" element={<PrivacyPolicy />} />
+					<Route path="/terms" element={<TermsOfService />} />
 					<Route path="/publicPolicy" element={<PublicPolicy />} />
 					<Route path="/archive" element={<ArchiveStandings />} />
 					<Route path="/join" element={<Join />} />
